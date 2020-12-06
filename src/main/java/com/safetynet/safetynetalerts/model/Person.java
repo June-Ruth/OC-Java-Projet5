@@ -1,9 +1,22 @@
 package com.safetynet.safetynetalerts.model;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 @Data
+@Entity
 public class Person {
+    /**
+     * Id of person concerned.
+     */
+    @JacksonInject
+    @Id
+    @GeneratedValue
+    private int id;
     /**
      * First name.
      */
@@ -13,10 +26,17 @@ public class Person {
      */
     private String lastName;
     /**
-     * Complete address with fire station associated.
-     * @see Address
+     * Number and Street information.
      */
-    private Address address;
+    private String address;
+    /**
+     * City information.
+     */
+    private String city;
+    /**
+     * Zip information.
+     */
+    private int zip;
     /**
      * Phone number.
      */
@@ -24,5 +44,5 @@ public class Person {
     /**
      * E-mail address.
      */
-    private String mail;
+    private String email;
 }
