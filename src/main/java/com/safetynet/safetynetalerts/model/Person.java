@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Data
 @Entity
+@Data(staticConstructor = "of")
 public class Person {
     /**
      * Id of person concerned.
