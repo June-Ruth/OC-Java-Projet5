@@ -1,6 +1,9 @@
 package com.safetynet.safetynetalerts.model;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName(value = "firestations")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -14,26 +17,47 @@ public class FireStation {
      */
     private int station;
 
+    /**
+     * Constructor for FireStation with JSonCreator for serialization.
+     * @param pAddress .
+     * @param pStation .
+     */
     @JsonCreator
-    public FireStation(@JsonProperty("address") String address,
-                       @JsonProperty("station") int station) {
-        this.address = address;
-        this.station = station;
+    public FireStation(@JsonProperty("address") final String pAddress,
+                       @JsonProperty("station") final int pStation) {
+        address = pAddress;
+        station = pStation;
     }
 
+    /**
+     * Getter.
+     * @return adress
+     */
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    /**
+     * Setter.
+     * @param pAddress .
+     */
+    public void setAddress(final String pAddress) {
+        this.address = pAddress;
     }
 
+    /**
+     * Getter.
+     * @return station number
+     */
     public int getStation() {
         return station;
     }
 
-    public void setStation(int station) {
-        this.station = station;
+    /**
+     * Setter.
+     * @param pStation .
+     */
+    public void setStation(final int pStation) {
+        this.station = pStation;
     }
 }

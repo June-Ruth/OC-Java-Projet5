@@ -1,6 +1,10 @@
 package com.safetynet.safetynetalerts.model;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -25,8 +29,6 @@ public class MedicalRecord {
     /**
      * BirthDate.
      */
-    //@JsonDeserialize(using = CustomDateDeserializer.class) à créer.
-    // @JsonFormat pour définir le format lors de la sérialisation.
     private LocalDate birthdate;
     /**
      * List of medications with value of dosage.
@@ -40,62 +42,118 @@ public class MedicalRecord {
     @Nullable
     private List<String> allergies;
 
+    /**
+     * Public constructor for One Medical Record.
+     * with JsonCreator for serialization.
+     * @param pFirstName of person concerned
+     * @param pLastName of person concerned
+     * @param pBirthdate of person concerned
+     * @param pMedications as list with medication name and dosage
+     * @param pAllergies as list
+     */
     @JsonCreator
-    public MedicalRecord(@JsonProperty("firstName") String firstName,
-                         @JsonProperty("lastName") String lastName,
-                         @JsonDeserialize(using = LocalDateDeserializer.class)
-                         @JsonSerialize(using = LocalDateSerializer.class)
-                         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
-                         @JsonProperty("birthdate") LocalDate birthdate,
-                         @JsonProperty("medications") @Nullable List<String> medications,
-                         @JsonProperty("allergies") @Nullable List<String> allergies) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthdate = birthdate;
-        this.medications = medications;
-        this.allergies = allergies;
+    public MedicalRecord(@JsonProperty("firstName") final String pFirstName,
+                         @JsonProperty("lastName") final String pLastName,
+                         @JsonDeserialize(using =
+                                 LocalDateDeserializer.class)
+                         @JsonSerialize(using =
+                                 LocalDateSerializer.class)
+                         @JsonFormat(shape =
+                                 JsonFormat.Shape.STRING,
+                                 pattern = "MM/dd/yyyy")
+                         @JsonProperty("birthdate")
+                             final LocalDate pBirthdate,
+                         @JsonProperty("medications")
+                             @Nullable final List<String> pMedications,
+                         @JsonProperty("allergies")
+                             @Nullable final List<String> pAllergies) {
+        firstName = pFirstName;
+        lastName = pLastName;
+        birthdate = pBirthdate;
+        medications = pMedications;
+        allergies = pAllergies;
     }
 
+    /**
+     * Getter.
+     * @return firstName
+     */
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    /**
+     * Setter.
+     * @param pFirstName .
+     */
+    public void setFirstName(final String pFirstName) {
+        this.firstName = pFirstName;
     }
 
+    /**
+     * Getter.
+     * @return lastName
+     */
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    /**
+     * Setter.
+     * @param pLastName .
+     */
+    public void setLastName(final String pLastName) {
+        this.lastName = pLastName;
     }
 
+    /**
+     * Getter.
+     * @return birthdate
+     */
     public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
+    /**
+     * Setter.
+     * @param pBirthdate .
+     */
+    public void setBirthdate(final LocalDate pBirthdate) {
+        this.birthdate = pBirthdate;
     }
 
+    /**
+     * Getter Nullable.
+     * @return medications as List.
+     */
     @Nullable
     public List<String> getMedications() {
         return medications;
     }
 
-    public void setMedications(@Nullable List<String> medications) {
-        this.medications = medications;
+    /**
+     * Setter Nullable.
+     * @param pMedications as List.
+     */
+    public void setMedications(@Nullable final List<String> pMedications) {
+        this.medications = pMedications;
     }
 
+    /**
+     * Getter Nullable.
+     * @return allergies as List.
+     */
     @Nullable
     public List<String> getAllergies() {
         return allergies;
     }
 
-    public void setAllergies(@Nullable List<String> allergies) {
-        this.allergies = allergies;
+    /**
+     * Setter Nullable.
+     * @param pAllergies .
+     */
+    public void setAllergies(@Nullable final List<String> pAllergies) {
+        this.allergies = pAllergies;
     }
 
     /*

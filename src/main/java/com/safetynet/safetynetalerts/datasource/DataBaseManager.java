@@ -1,10 +1,6 @@
 package com.safetynet.safetynetalerts.datasource;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.safetynet.safetynetalerts.model.FireStation;
-import com.safetynet.safetynetalerts.model.MedicalRecord;
-import com.safetynet.safetynetalerts.model.Person;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,16 +8,21 @@ import java.net.URL;
 
 public enum DataBaseManager {
 
+    /**
+     * Use enum for pattern singloton and allow only one DataBase object.
+     */
     INSTANCE;
 
-    private static DataBase dataBase;
+    /**
+     * @see DataBase
+     */
+    private DataBase dataBase;
 
 
+    /**
+     * Constructor with initialization of DataBase.
+     */
     DataBaseManager() {
-        init();
-    }
-
-    public void init() {
         ObjectMapper objectMapper = new ObjectMapper();
         URL url = getClass().getClassLoader().getResource("data.json");
         assert url != null;
@@ -33,6 +34,10 @@ public enum DataBaseManager {
         }
     }
 
+    /**
+     * Getter DataBase.
+     * @return instance of database created by DataBaseManager
+     */
     public DataBase getDataBase() {
         return dataBase;
     }

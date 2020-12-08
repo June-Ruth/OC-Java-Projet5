@@ -9,41 +9,85 @@ import com.safetynet.safetynetalerts.model.Person;
 import java.util.List;
 
 public class DataBase {
+    /**
+     * List to use as a DB Table with all Persons inside.
+     * @see Person
+     */
+    private List<Person> persons;
+    /**
+     * List to use as a DB Table with all medical records inside.
+     * @see MedicalRecord
+     */
+    private List<MedicalRecord> medicalRecords;
+    /**
+     * List to use as a DB Table with all FireStations inside.
+     * @see FireStation
+     */
+    private List<FireStation> fireStations;
 
-    List<Person> persons;
-    List<MedicalRecord> medicalRecords;
-    List<FireStation> fireStations;
-
+    /**
+     * Constructor with JsonCreator to deserialize Json information.
+     * @param pPersons as List
+     * @param pMedicalRecords as List
+     * @param pFireStations as List
+     */
     @JsonCreator
-    public DataBase(@JsonProperty("persons") List<Person> persons,
-                    @JsonProperty("medicalrecords") List<MedicalRecord> medicalRecords,
-                    @JsonProperty("firestations") List<FireStation> fireStations) {
-        this.persons = persons;
-        this.medicalRecords = medicalRecords;
-        this.fireStations = fireStations;
+    DataBase(@JsonProperty("persons")
+             final List<Person> pPersons,
+             @JsonProperty("medicalrecords")
+             final List<MedicalRecord> pMedicalRecords,
+             @JsonProperty("firestations")
+             final List<FireStation> pFireStations) {
+        persons = pPersons;
+        medicalRecords = pMedicalRecords;
+        fireStations = pFireStations;
     }
 
+    /**
+     * Getter.
+     * @return persons as List
+     */
     public List<Person> getPersons() {
         return persons;
     }
 
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
+    /**
+     * Setter.
+     * @param pPersons as List
+     */
+    public void setPersons(final List<Person> pPersons) {
+        persons = pPersons;
     }
 
+    /**
+     * Getter.
+     * @return medicalrecords as List.
+     */
     public List<MedicalRecord> getMedicalRecords() {
         return medicalRecords;
     }
 
-    public void setMedicalRecords(List<MedicalRecord> medicalRecords) {
-        this.medicalRecords = medicalRecords;
+    /**
+     * Setter.
+     * @param pMedicalRecords as List
+     */
+    public void setMedicalRecords(final List<MedicalRecord> pMedicalRecords) {
+        medicalRecords = pMedicalRecords;
     }
 
+    /**
+     * Getter.
+     * @return fireStations as List
+     */
     public List<FireStation> getFireStations() {
         return fireStations;
     }
 
-    public void setFireStations(List<FireStation> fireStations) {
-        this.fireStations = fireStations;
+    /**
+     * Setter.
+     * @param pFireStations as List
+     */
+    public void setFireStations(final List<FireStation> pFireStations) {
+        fireStations = pFireStations;
     }
 }
