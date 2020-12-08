@@ -1,8 +1,10 @@
 package com.safetynet.safetynetalerts.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Person {
     /**
      * First name.
@@ -13,16 +15,162 @@ public class Person {
      */
     private String lastName;
     /**
-     * Complete address with fire station associated.
-     * @see Address
+     * Number and Street information.
      */
-    private Address address;
+    private String address;
+    /**
+     * City information.
+     */
+    private String city;
+    /**
+     * Zip information.
+     */
+    private int zip;
     /**
      * Phone number.
      */
-    private long phone;
+    private String phone;
     /**
      * E-mail address.
      */
-    private String mail;
+    private String email;
+
+    /**
+     * Constructor for one Person with JsonCreator for deserialization.
+     * @param pFirstName of person concerned
+     * @param pLastName of person concerned
+     * @param pAddress of person concerned
+     * @param pCity of person concerned
+     * @param pZip of person concerned
+     * @param pPhone of person concerned
+     * @param pEmail of person concerned
+     */
+    @JsonCreator
+    public Person(@JsonProperty("firstName") final String pFirstName,
+                  @JsonProperty("lastName") final String pLastName,
+                  @JsonProperty("address") final String pAddress,
+                  @JsonProperty("city") final String pCity,
+                  @JsonProperty("zip") final int pZip,
+                  @JsonProperty("phone") final String pPhone,
+                  @JsonProperty("email") final String pEmail) {
+        firstName = pFirstName;
+        lastName = pLastName;
+        address = pAddress;
+        city = pCity;
+        zip = pZip;
+        phone = pPhone;
+        email = pEmail;
+    }
+
+    /**
+     * Getter.
+     * @return firstname
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Setter.
+     * @param pFirstName .
+     */
+    public void setFirstName(final String pFirstName) {
+        this.firstName = pFirstName;
+    }
+
+    /**
+     * Getter.
+     * @return lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Setter.
+     * @param pLastName .
+     */
+    public void setLastName(final String pLastName) {
+        this.lastName = pLastName;
+    }
+
+    /**
+     * Getter.
+     * @return address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * Setter.
+     * @param pAdress .
+     */
+    public void setAddress(final String pAdress) {
+        this.address = pAdress;
+    }
+
+    /**
+     * Getter.
+     * @return city
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * Setter.
+     * @param pCity .
+     */
+    public void setCity(final String pCity) {
+        this.city = pCity;
+    }
+
+    /**
+     * Getter.
+     * @return zip
+     */
+    public int getZip() {
+        return zip;
+    }
+
+    /**
+     * Setter.
+     * @param pZip .
+     */
+    public void setZip(final int pZip) {
+        this.zip = pZip;
+    }
+
+    /**
+     * Getter.
+     * @return phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * Setter.
+     * @param pPhone .
+     */
+    public void setPhone(final String pPhone) {
+        this.phone = pPhone;
+    }
+
+    /**
+     * Getter.
+     * @return email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Setter.
+     * @param pEmail .
+     */
+    public void setEmail(final String pEmail) {
+        this.email = pEmail;
+    }
 }
