@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 class DataBaseManagerTest {
 
-    DataBase dataBase;
+    private DataBase dataBase;
 
     @Test
     void getDataBaseTest() {

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import java.util.Objects;
+
 @JsonTypeName(value = "firestations")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FireStation {
@@ -59,5 +61,18 @@ public class FireStation {
      */
     public void setStation(final int pStation) {
         this.station = pStation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FireStation that = (FireStation) o;
+        return address.equals(that.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(address);
     }
 }

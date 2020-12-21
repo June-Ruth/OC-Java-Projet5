@@ -1,0 +1,35 @@
+package com.safetynet.safetynetalerts.repository.impl.json;
+
+import com.safetynet.safetynetalerts.model.MedicalRecord;
+import com.safetynet.safetynetalerts.repository.MedicalRecordRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
+
+    //TODO
+    @Override
+    public List<MedicalRecord> findAll() {
+        return null;
+    }
+
+    //TODO
+    @Override
+    public void save(MedicalRecord medicalRecord) {
+
+    }
+
+    //TODO
+    @Override
+    public void update(MedicalRecord medicalRecord) {
+
+    }
+
+    //TODO
+    @Override
+    public void delete(MedicalRecord medicalRecord) {
+
+    }
+}
