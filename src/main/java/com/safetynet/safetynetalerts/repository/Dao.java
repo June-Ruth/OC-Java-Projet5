@@ -13,8 +13,9 @@ public interface Dao<T> {
     /**
      * Create and save an Object T.
      * @param t depends of equals() method of T
+     * @return
      */
-    void save(T t);
+    T save(T t);
 
     /**
      * Change parameters of T.

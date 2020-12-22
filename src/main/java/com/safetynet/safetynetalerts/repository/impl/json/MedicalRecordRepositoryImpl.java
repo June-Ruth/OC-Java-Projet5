@@ -17,8 +17,8 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
 
     //TODO
     @Override
-    public void save(MedicalRecord medicalRecord) {
-
+    public MedicalRecord save(MedicalRecord medicalRecord) {
+        return medicalRecord;
     }
 
     //TODO

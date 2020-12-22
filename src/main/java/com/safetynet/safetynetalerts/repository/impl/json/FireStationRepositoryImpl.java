@@ -17,8 +17,8 @@ public class FireStationRepositoryImpl implements FireStationRepository {
 
     //TODO
     @Override
-    public void save(FireStation fireStation) {
-
+    public FireStation save(FireStation fireStation) {
+        return fireStation;
     }
 
     //TODO
