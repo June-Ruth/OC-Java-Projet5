@@ -52,6 +52,7 @@ class FireStationServiceTest {
     @Test
     void updateFireStationExistingTest() {
         when(fireStationRepositoryImpl.update(fireStation)).thenReturn(true);
+        fireStationService.updateFireStation(fireStation);
         verify(fireStationRepositoryImpl, times(1)).update(fireStation);
     }
 
