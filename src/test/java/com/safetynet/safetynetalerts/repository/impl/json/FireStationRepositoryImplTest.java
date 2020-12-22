@@ -2,7 +2,9 @@ package com.safetynet.safetynetalerts.repository.impl.json;
 
 import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
+import com.safetynet.safetynetalerts.datasource.DataBaseTestService;
 import com.safetynet.safetynetalerts.model.FireStation;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class FireStationRepositoryImplTest {
 
     private static DataBase dataBase;
+    private static DataBaseTestService dataBaseTestService = new DataBaseTestService();
     private static List<FireStation> fireStations;
 
     private FireStationRepositoryImpl fireStationRepositoryImpl;
@@ -31,6 +34,12 @@ class FireStationRepositoryImplTest {
         fireStationRepositoryImpl = new FireStationRepositoryImpl();
     }
 
+    @AfterEach
+    void tearDown() {
+        dataBaseTestService.clearDBTest();
+        dataBaseTestService.restoreDBTest();
+    }
+
     @Test
     void findAllFireStationsTest() {
         assertEquals(2, fireStationRepositoryImpl.findAll().size());
@@ -41,7 +50,6 @@ class FireStationRepositoryImplTest {
         FireStation fireStation = new FireStation("address3", 3);
         fireStationRepositoryImpl.save(fireStation);
         assertEquals(3, fireStations.size());
-        fireStations.remove(2);
     }
 
     //TODO

@@ -2,34 +2,38 @@ package com.safetynet.safetynetalerts.repository.impl.json;
 
 import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
+import com.safetynet.safetynetalerts.datasource.DataBaseTestService;
 import com.safetynet.safetynetalerts.model.Person;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PersonRepositoryImplTest {
 
-
+    private static DataBaseTestService dataBaseTestService = new DataBaseTestService();
     private static DataBase dataBase;
-    private static List<Person> persons;
 
     private PersonRepositoryImpl personRepositoryImpl;
 
     @BeforeAll
     static void setUpBeforeAll() {
         dataBase =  DataBaseManager.INSTANCE.getDataBase();
-        persons = dataBase.getPersons();
     }
 
     @BeforeEach
     void setUpBeforeEach() {
         personRepositoryImpl = new PersonRepositoryImpl();
+    }
+
+    @AfterEach
+    void tearDown() {
+        dataBaseTestService.clearDBTest();
+        dataBaseTestService.restoreDBTest();
     }
 
     @Test
@@ -41,39 +45,54 @@ class PersonRepositoryImplTest {
     void savePersonNewTest() {
         Person person = new Person("test", "test", "test", "test", 123, "456", "email");
         personRepositoryImpl.save(person);
-        assertEquals(3, persons.size());
-        persons.remove(2);
+        assertEquals(3, dataBase.getPersons().size());
     }
 
     @Test
-    void savePersonAlreadyExistingTest() {}
+    void savePersonAlreadyExistingTest() {
+        Person person = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", "mail@email.com");
+        assertThrows(Exception.class, () -> personRepositoryImpl.save(person));
+    }
 
     @Test
     void savePersonWithInvalidArgumentsTest() {
-        //TODO ; voir en cas d'entrée inconrrecte
+        Person person = new Person(null, null, "address", "city", 123, "123-456-7890", "mail@email.com");
+        assertThrows(Exception.class, () -> personRepositoryImpl.save(person));
     }
 
     @Test
     void updatePersonWithExistingFirstNameAndLastNameTest() {
-        //TODO : si update une personne existante dans la base, alors fonctionne
+        String expected = "test@test.com";
+        Person person = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", expected);
+        personRepositoryImpl.update(person);
+        assertTrue(dataBase.getPersons().contains(person));
     }
 
     @Test
     void updatePersonWithUnknownFirstNameAndLastNameTest() {
-        //TODO : si update une personne qui n'est pas dans la base de donnée : alors cheminement
+        String expected = "test@test.com";
+        Person person = new Person("test", "test", "test", "test", 123, "456", expected);
+        assertThrows(Exception.class, () -> personRepositoryImpl.update(person));
     }
 
     @Test
-    void updatePersonWithInvalidArgumentsTest() {}
+    void updatePersonWithInvalidArgumentsTest() {
+        String expected = "test@test.com";
+        Person person = new Person(null, null, "address", "city", 123, "123-456-7890", expected);
+        assertThrows(Exception.class, () -> personRepositoryImpl.update(person));
+    }
 
     @Test
     void deletePersonWithExistingFirstNameAndLastNameTest() {
-        //TODO : si delete une personne qui est dans la BDD, alors fonctionne
+        Person person = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", "mail@email.com");
+        personRepositoryImpl.delete(person);
+        assertEquals(1, dataBase.getPersons().size());
     }
 
     @Test
     void deletePersonWithUnknownFirstNameAndLastNameTest() {
-        //TODO : si delete avec une personne qui n'existe pas, alors cheminement
+        Person person = new Person("test", "test", "test", "test", 123, "456", "email");
+        assertThrows(Exception.class, () -> personRepositoryImpl.delete(person));
     }
 
 }

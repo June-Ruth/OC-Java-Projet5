@@ -2,7 +2,9 @@ package com.safetynet.safetynetalerts.repository.impl.json;
 
 import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
+import com.safetynet.safetynetalerts.datasource.DataBaseTestService;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class MedicalRecordImplTest {
+
     private static DataBase dataBase;
+    private static DataBaseTestService dataBaseTestService = new DataBaseTestService();
     private static List<MedicalRecord> medicalRecords;
 
     private MedicalRecordRepositoryImpl medicalRecordRepositoryImpl;
@@ -31,6 +35,12 @@ class MedicalRecordImplTest {
         medicalRecordRepositoryImpl = new MedicalRecordRepositoryImpl();
     }
 
+    @AfterEach
+    void tearDown() {
+        dataBaseTestService.clearDBTest();
+        dataBaseTestService.restoreDBTest();
+    }
+
     @Test
     void findAllMedicalRecordsTest() {
         assertEquals(2, medicalRecordRepositoryImpl.findAll().size());
@@ -42,7 +52,6 @@ class MedicalRecordImplTest {
         MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
         medicalRecordRepositoryImpl.save(medicalRecord);
         assertEquals(3, medicalRecords.size());
-        medicalRecords.remove(2);
     }
 
     @Test
