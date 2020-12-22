@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class MedicalRecordImplTest {
@@ -48,7 +48,7 @@ class MedicalRecordImplTest {
 
     @Test
     void saveMedicalRecordNewTest() {
-        LocalDate birthdate = LocalDate.now();
+        LocalDate birthdate = LocalDate.of(2010, 5, 12);
         MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
         medicalRecordRepositoryImpl.save(medicalRecord);
         assertEquals(3, medicalRecords.size());
@@ -56,33 +56,50 @@ class MedicalRecordImplTest {
 
     @Test
     void saveMedicalRecordAlreadyExisitingTest() {
-        //TODO ; voir en cas d'entrée existant déjà
+        LocalDate birthdate = LocalDate.of(2012, 6, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", birthdate, null, null);
+        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.save(medicalRecord));
     }
 
     @Test
-    void saveMedicalRecordWithInvalidArgumentsTest() {}
+    void saveMedicalRecordWithInvalidArgumentsTest() {
+        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", null, null, null);
+        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.save(medicalRecord));
+    }
 
     @Test
     void updateMedicalRecordWithExistingFirstNameAndLastNameTest() {
-        //TODO : si update une personne existante dans la base, alors fonctionne
+        LocalDate newBirthdate = LocalDate.of(2012, 7, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", newBirthdate, null, null);
+        assertTrue(dataBase.getMedicalRecords().contains(medicalRecord));
     }
 
     @Test
     void updateMedicalRecordWithUnknownFirstNameAndLastNameTest() {
-        //TODO : si update une personne qui n'est pas dans la base de donnée : alors cheminement
+        LocalDate birthdate = LocalDate.of(2010, 5, 12);
+        MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
+        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.save(medicalRecord));
     }
 
     @Test
-    void updateMedicalRecordWithInvalidArgumentsTest() {}
+    void updateMedicalRecordWithInvalidArgumentsTest() {
+        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", null, null, null);
+        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.save(medicalRecord));
+    }
 
     @Test
     void deleteMedicalRecordWithExistingFirstNameAndLastNameTest() {
-        //TODO : si delete une personne qui est dans la BDD, alors fonctionne
+        LocalDate birthdate = LocalDate.of(2012, 6, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", birthdate, null, null);
+        medicalRecordRepositoryImpl.delete(medicalRecord);
+        assertEquals(1, dataBase.getMedicalRecords().size());
     }
 
     @Test
     void deleteMedicalRecordWithUnknownFirstNameAndLastNameTest() {
-        //TODO : si delete avec une personne qui n'existe pas, alors cheminement
+        LocalDate birthdate = LocalDate.of(2010, 5, 12);
+        MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
+        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.delete(medicalRecord));
     }
 
 }

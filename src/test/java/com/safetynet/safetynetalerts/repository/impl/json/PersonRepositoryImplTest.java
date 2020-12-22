@@ -56,7 +56,7 @@ class PersonRepositoryImplTest {
 
     @Test
     void savePersonWithInvalidArgumentsTest() {
-        Person person = new Person(null, null, "address", "city", 123, "123-456-7890", "mail@email.com");
+        Person person = new Person("firstName", "lastName", null, "city", 123, "123-456-7890", "mail@email.com");
         assertThrows(Exception.class, () -> personRepositoryImpl.save(person));
     }
 
@@ -78,7 +78,7 @@ class PersonRepositoryImplTest {
     @Test
     void updatePersonWithInvalidArgumentsTest() {
         String expected = "test@test.com";
-        Person person = new Person(null, null, "address", "city", 123, "123-456-7890", expected);
+        Person person = new Person("firstName", "lastName", null, "city", 123, "123-456-7890", expected);
         assertThrows(Exception.class, () -> personRepositoryImpl.update(person));
     }
 
