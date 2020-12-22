@@ -23,13 +23,13 @@ public class FireStationRepositoryImpl implements FireStationRepository {
 
     //TODO
     @Override
-    public void update(FireStation fireStation) {
-
+    public boolean update(FireStation fireStation) {
+        return false;
     }
 
     //TODO
     @Override
-    public void delete(FireStation fireStation) {
-
+    public boolean delete(FireStation fireStation) {
+        return false;
     }
 }

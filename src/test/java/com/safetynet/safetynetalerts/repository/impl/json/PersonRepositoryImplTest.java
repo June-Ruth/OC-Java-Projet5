@@ -64,8 +64,7 @@ class PersonRepositoryImplTest {
     void updatePersonWithExistingFirstNameAndLastNameTest() {
         String expected = "test@test.com";
         Person person = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", expected);
-        personRepositoryImpl.update(person);
-        assertTrue(dataBase.getPersons().contains(person));
+        assertTrue(personRepositoryImpl.update(person));
     }
 
     @Test
@@ -85,7 +84,7 @@ class PersonRepositoryImplTest {
     @Test
     void deletePersonWithExistingFirstNameAndLastNameTest() {
         Person person = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", "mail@email.com");
-        personRepositoryImpl.delete(person);
+        assertTrue(personRepositoryImpl.delete(person));
         assertEquals(1, dataBase.getPersons().size());
     }
 

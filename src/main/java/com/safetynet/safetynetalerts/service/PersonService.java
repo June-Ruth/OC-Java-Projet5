@@ -2,7 +2,6 @@ package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.impl.json.PersonRepositoryImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class PersonService {
      */
     //TODO
     public List<Person> getPersons() {
-        return null;
+        return personRepositoryImpl.findAll();
     }
 
     /**
@@ -33,7 +32,7 @@ public class PersonService {
      */
     //TODO
     public Person savePerson(Person person) {
-        return null;
+        return personRepositoryImpl.save(person);
     }
 
     /**
@@ -42,8 +41,8 @@ public class PersonService {
      * @return //TODO
      */
     //TODO
-    public Person updatePerson(Person person) {
-        return null;
+    public boolean updatePerson(Person person) {
+        return personRepositoryImpl.update(person);
     }
 
     /**
@@ -51,7 +50,9 @@ public class PersonService {
      * @param person to delete
      */
     //TODO
-    public void deletePerson(Person person) {}
+    public boolean deletePerson(Person person) {
+        return personRepositoryImpl.delete(person);
+    }
 
 
 }

@@ -23,13 +23,13 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
 
     //TODO
     @Override
-    public void update(MedicalRecord medicalRecord) {
-
+    public boolean update(MedicalRecord medicalRecord) {
+        return false;
     }
 
     //TODO
     @Override
-    public void delete(MedicalRecord medicalRecord) {
-
+    public boolean delete(MedicalRecord medicalRecord) {
+        return false;
     }
 }

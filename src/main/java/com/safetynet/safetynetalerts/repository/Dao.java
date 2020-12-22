@@ -12,21 +12,23 @@ public interface Dao<T> {
 
     /**
      * Create and save an Object T.
-     * @param t depends of equals() method of T
+     * @param t object concerned
      * @return
      */
     T save(T t);
 
     /**
      * Change parameters of T.
-     * @param t depends of equals() method of T
+     * @param t object concerned
+     * @return
      */
-    void update(T t);
+    boolean update(T t);
 
     /**
      * Delete an object T.
-     * @param t depends of equals() method of T
+     * @param t object concerned
+     * @return
      */
-    void delete(T t);
+    boolean delete(T t);
 
 }

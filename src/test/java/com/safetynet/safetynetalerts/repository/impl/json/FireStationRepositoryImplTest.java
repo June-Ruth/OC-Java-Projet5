@@ -66,10 +66,10 @@ class FireStationRepositoryImplTest {
     }
 
     @Test
-    void updateStationNumberWithExistingAddressSuccessTest() {
+    void updateStationNumberWithExistingAddressTest() {
         int newStationNumber = 3;
         FireStation fireStation = new FireStation("address", newStationNumber);
-        assertTrue(dataBase.getFireStations().contains(fireStation));
+        assertTrue(fireStationRepositoryImpl.update(fireStation));
     }
 
     @Test
@@ -89,7 +89,7 @@ class FireStationRepositoryImplTest {
     @Test
     void deleteFireStationExistingTest() {
         FireStation fireStation = new FireStation("address", 1);
-        fireStationRepositoryImpl.delete(fireStation);
+        assertTrue(fireStationRepositoryImpl.delete(fireStation));
         assertEquals(1, dataBase.getFireStations().size());
     }
 

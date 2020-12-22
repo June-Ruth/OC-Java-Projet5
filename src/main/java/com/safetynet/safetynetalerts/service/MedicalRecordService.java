@@ -2,10 +2,12 @@ package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.repository.impl.json.MedicalRecordRepositoryImpl;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
+@Service
 public class MedicalRecordService {
 
     private MedicalRecordRepositoryImpl medicalRecordRepositoryImpl;
@@ -21,7 +23,7 @@ public class MedicalRecordService {
      */
     //TODO
     public List<MedicalRecord> getMedicalsRecords() {
-        return null;
+        return medicalRecordRepositoryImpl.findAll();
     }
 
     /**
@@ -30,7 +32,7 @@ public class MedicalRecordService {
      */
     //TODO
     public MedicalRecord saveMedicalRecord(MedicalRecord medicalRecord) {
-        return null;
+        return medicalRecordRepositoryImpl.save(medicalRecord);
     }
 
     /**
@@ -39,8 +41,8 @@ public class MedicalRecordService {
      * @return //TODO
      */
     //TODO
-    public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
-        return null;
+    public boolean updateMedicalRecord(MedicalRecord medicalRecord) {
+        return medicalRecordRepositoryImpl.update(medicalRecord);
     }
 
     /**
@@ -48,5 +50,8 @@ public class MedicalRecordService {
      * @param medicalRecord to delete
      */
     //TODO
-    public void deleteMedicalRecord(MedicalRecord medicalRecord) {}
+    public boolean deleteMedicalRecord(MedicalRecord medicalRecord) {
+
+        return medicalRecordRepositoryImpl.delete(medicalRecord);
+    }
 }

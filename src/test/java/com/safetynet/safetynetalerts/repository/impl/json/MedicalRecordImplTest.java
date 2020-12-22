@@ -71,27 +71,28 @@ class MedicalRecordImplTest {
     void updateMedicalRecordWithExistingFirstNameAndLastNameTest() {
         LocalDate newBirthdate = LocalDate.of(2012, 7, 15);
         MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", newBirthdate, null, null);
-        assertTrue(dataBase.getMedicalRecords().contains(medicalRecord));
+        assertTrue(medicalRecordRepositoryImpl.update(medicalRecord));
     }
 
     @Test
     void updateMedicalRecordWithUnknownFirstNameAndLastNameTest() {
-        LocalDate birthdate = LocalDate.of(2010, 5, 12);
-        MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.save(medicalRecord));
+        LocalDate newBirthdate = LocalDate.of(2012, 7, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("test", "test", newBirthdate, null, null);
+        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.update(medicalRecord));
     }
 
     @Test
     void updateMedicalRecordWithInvalidArgumentsTest() {
-        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", null, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.save(medicalRecord));
+        LocalDate newBirthdate = null;
+        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", newBirthdate, null, null);
+        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.update(medicalRecord));
     }
 
     @Test
     void deleteMedicalRecordWithExistingFirstNameAndLastNameTest() {
         LocalDate birthdate = LocalDate.of(2012, 6, 15);
         MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", birthdate, null, null);
-        medicalRecordRepositoryImpl.delete(medicalRecord);
+        assertTrue(medicalRecordRepositoryImpl.delete(medicalRecord));
         assertEquals(1, dataBase.getMedicalRecords().size());
     }
 

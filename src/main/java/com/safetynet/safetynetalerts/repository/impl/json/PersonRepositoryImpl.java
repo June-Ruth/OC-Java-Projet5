@@ -23,13 +23,13 @@ public class PersonRepositoryImpl implements Dao<Person> {
 
     //TODO
     @Override
-    public void update(Person person) {
-
+    public boolean update(Person person) {
+        return false;
     }
 
     //TODO
     @Override
-    public void delete(Person person) {
-
+    public boolean delete(Person person) {
+        return false;
     }
 }

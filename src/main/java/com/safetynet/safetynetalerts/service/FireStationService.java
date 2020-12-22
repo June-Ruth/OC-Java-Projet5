@@ -2,10 +2,12 @@ package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.repository.impl.json.FireStationRepositoryImpl;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
+@Service
 public class FireStationService {
 
     private FireStationRepositoryImpl fireStationRepositoryImpl;
@@ -21,16 +23,17 @@ public class FireStationService {
      */
     //TODO
     public List<FireStation> getFireStations() {
-        return null;
+        return fireStationRepositoryImpl.findAll();
     }
 
     /**
-     * Save a new FireStation mappinf
+     * Save a new FireStation mapping
+     * @param fireStation to create
      * @return //TODO
      */
     //TODO
     public FireStation saveFireStation(FireStation fireStation) {
-        return null;
+        return fireStationRepositoryImpl.save(fireStation);
     }
 
     /**
@@ -39,15 +42,28 @@ public class FireStationService {
      * @return //TODO
      */
     //TODO
-    public FireStation updateFireStation(FireStation fireStation) {
-        return null;
+    public boolean updateFireStation(FireStation fireStation) {
+        return fireStationRepositoryImpl.update(fireStation);
     }
 
     /**
-     * Delete an existing FireStation.
-     * @param fireStation to delete
+     * Delete an existing FireStation by its address
+     * @param address to delete
      */
     //TODO
-    public void deleteFireStation(FireStation fireStation) {}
+    public boolean deleteFireStationbyAddress(String address) {
+        FireStation fireStation = null;
+        return fireStationRepositoryImpl.delete(fireStation);
+    }
+
+    /**
+     * Delete an existing FireStation by its number and all address associated.
+     * @param stationNumber to delete
+     */
+    //TODO
+    public boolean deleteFireStationbyNumber(int stationNumber) {
+        FireStation fireStation = null;
+        return  fireStationRepositoryImpl.delete(fireStation);
+    }
 
 }
