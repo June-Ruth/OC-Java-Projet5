@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class FireStationRepositoryImplTest {
@@ -52,41 +52,50 @@ class FireStationRepositoryImplTest {
         assertEquals(3, fireStations.size());
     }
 
-    //TODO
     @Test
-    void saveFireStationMappingAlreadyExistingTest() { }
+    void saveFireStationMappingAlreadyExistingTest() {
+        FireStation fireStation = new FireStation("address", 1);
+        assertThrows(Exception.class, () -> fireStationRepositoryImpl.save(fireStation));
+
+    }
 
     @Test
     void saveFireStationMappingWithInvalidArgumentsTest() {
-        //TODO : vérifier que si rentre un mapping incorect : voir cheminement et si possible et test cohérent
+        FireStation fireStation = new FireStation(null, 3);
+        assertThrows(Exception.class, () -> fireStationRepositoryImpl.save(fireStation));
     }
 
     @Test
     void updateStationNumberWithExistingAddressSuccessTest() {
-        FireStation fireStation = fireStations.get(1);
-        fireStation.setStation(3);
-        fireStationRepositoryImpl.update(fireStation);
-        assertEquals(3, fireStations.get(1).getStation());
-        fireStation.setStation(1);
+        int newStationNumber = 3;
+        FireStation fireStation = new FireStation("address", newStationNumber);
+        assertTrue(dataBase.getFireStations().contains(fireStation));
     }
 
     @Test
     void updateStationNumberWithUnknownAddressTest() {
-        //TODO : vérifier qu'en entrant une adresse inconnue dans la base ... Voir cheminement à avoir
+        int newStationNumber = 3;
+        FireStation fireStation = new FireStation("test", newStationNumber);
+        assertThrows(Exception.class, () -> fireStationRepositoryImpl.update(fireStation));
     }
 
     @Test
     void updateStationNumberWithInvalidArgumentsTest() {
-        //TODO : vérifier qu'en entrant une adresse inconnue dans la base ... Voir cheminement à avoir
+        int newStationNumber = 3;
+        FireStation fireStation = new FireStation(null, newStationNumber);
+        assertThrows(Exception.class, () -> fireStationRepositoryImpl.update(fireStation));
     }
 
     @Test
     void deleteFireStationExistingTest() {
-        //TODO : vérifier qu'en entrant une adresse, l'adresse et sa station sont supprimées
+        FireStation fireStation = new FireStation("address", 1);
+        fireStationRepositoryImpl.delete(fireStation);
+        assertEquals(1, dataBase.getFireStations().size());
     }
 
     @Test
     void deleteFireStationUnknownTest() {
-        //TODO : vérifier qu'en entrant une station inconnue dans la base ... Voir cheminement à avoir
+        FireStation fireStation = new FireStation("test", 1);
+        assertThrows(Exception.class, () -> fireStationRepositoryImpl.delete(fireStation));
     }
 }
