@@ -37,7 +37,7 @@ class MedicalRecordImplTest {
     }
 
     @Test
-    void saveNewMedicalRecordTest() {
+    void saveMedicalRecordNewTest() {
         LocalDate birthdate = LocalDate.now();
         MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
         medicalRecordRepositoryImpl.save(medicalRecord);
@@ -46,9 +46,12 @@ class MedicalRecordImplTest {
     }
 
     @Test
-    void saveInvalidMedicalRecordTest() {
-        //TODO ; voir en cas d'entrée inconrrecte
+    void saveMedicalRecordAlreadyExisitingTest() {
+        //TODO ; voir en cas d'entrée existant déjà
     }
+
+    @Test
+    void saveMedicalRecordWithInvalidArgumentsTest() {}
 
     @Test
     void updateMedicalRecordWithExistingFirstNameAndLastNameTest() {
@@ -59,6 +62,9 @@ class MedicalRecordImplTest {
     void updateMedicalRecordWithUnknownFirstNameAndLastNameTest() {
         //TODO : si update une personne qui n'est pas dans la base de donnée : alors cheminement
     }
+
+    @Test
+    void updateMedicalRecordWithInvalidArgumentsTest() {}
 
     @Test
     void deleteMedicalRecordWithExistingFirstNameAndLastNameTest() {

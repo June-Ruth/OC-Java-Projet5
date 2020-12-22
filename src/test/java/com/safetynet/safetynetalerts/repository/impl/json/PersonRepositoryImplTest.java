@@ -38,7 +38,7 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void saveNewPersonTest() {
+    void savePersonNewTest() {
         Person person = new Person("test", "test", "test", "test", 123, "456", "email");
         personRepositoryImpl.save(person);
         assertEquals(3, persons.size());
@@ -46,7 +46,10 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void saveInvalidPersonTest() {
+    void savePersonAlreadyExistingTest() {}
+
+    @Test
+    void savePersonWithInvalidArgumentsTest() {
         //TODO ; voir en cas d'entrée inconrrecte
     }
 
@@ -59,6 +62,9 @@ class PersonRepositoryImplTest {
     void updatePersonWithUnknownFirstNameAndLastNameTest() {
         //TODO : si update une personne qui n'est pas dans la base de donnée : alors cheminement
     }
+
+    @Test
+    void updatePersonWithInvalidArgumentsTest() {}
 
     @Test
     void deletePersonWithExistingFirstNameAndLastNameTest() {

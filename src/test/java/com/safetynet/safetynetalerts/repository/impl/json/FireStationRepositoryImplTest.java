@@ -37,20 +37,24 @@ class FireStationRepositoryImplTest {
     }
 
     @Test
-    void saveNewFireStationMappingTest() {
+    void saveFireStationMappingNewTest() {
         FireStation fireStation = new FireStation("address3", 3);
         fireStationRepositoryImpl.save(fireStation);
         assertEquals(3, fireStations.size());
         fireStations.remove(2);
     }
 
+    //TODO
     @Test
-    void saveInvalidFireStationMappingTest() {
+    void saveFireStationMappingAlreadyExistingTest() { }
+
+    @Test
+    void saveFireStationMappingWithInvalidArgumentsTest() {
         //TODO : vérifier que si rentre un mapping incorect : voir cheminement et si possible et test cohérent
     }
 
     @Test
-    void updateStationNumberWithAddressSuccessTest() {
+    void updateStationNumberWithExistingAddressSuccessTest() {
         FireStation fireStation = fireStations.get(1);
         fireStation.setStation(3);
         fireStationRepositoryImpl.update(fireStation);
@@ -64,22 +68,17 @@ class FireStationRepositoryImplTest {
     }
 
     @Test
-    void deleteFireStationsWithExistingAddressTest() {
-        //TODO : vérifier qu'en entrant une adresse, l'adresse et sa station sont supprimées
-    }
-
-    @Test
-    void deleteFireStationsWithExistingStationNumberTest() {
-        //TODO : vérifier qu'en entrant une station, toutes les adresses associées et la station sont supprimées
-    }
-
-    @Test
-    void deleteFireStationsWithUnknownAddressTest() {
+    void updateStationNumberWithInvalidArgumentsTest() {
         //TODO : vérifier qu'en entrant une adresse inconnue dans la base ... Voir cheminement à avoir
     }
 
     @Test
-    void deleteFireStationsWithUnknownStationNumberTest() {
+    void deleteFireStationExistingTest() {
+        //TODO : vérifier qu'en entrant une adresse, l'adresse et sa station sont supprimées
+    }
+
+    @Test
+    void deleteFireStationUnknownTest() {
         //TODO : vérifier qu'en entrant une station inconnue dans la base ... Voir cheminement à avoir
     }
 }
