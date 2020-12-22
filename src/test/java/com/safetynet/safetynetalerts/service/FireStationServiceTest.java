@@ -9,10 +9,10 @@ import org.mockito.Mock;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-//TODO
 class FireStationServiceTest {
 
     private static FireStationService fireStationService;
+    private FireStation fireStation;
 
     @Mock
     private FireStationRepositoryImpl fireStationRepositoryImpl;
@@ -20,6 +20,7 @@ class FireStationServiceTest {
     @BeforeAll
     void beforeAll() {
         fireStationService = new FireStationService(fireStationRepositoryImpl);
+        fireStation = new FireStation("address", 1);
     }
 
     @Test
@@ -31,76 +32,64 @@ class FireStationServiceTest {
 
     @Test
     void saveFireStationNewTest() {
-        FireStation fireStation = new FireStation("address3", 3);
-        doNothing().when(fireStationRepositoryImpl.save(fireStation));
+        when(fireStationRepositoryImpl.save(fireStation)).thenReturn(fireStation);
         fireStationService.saveFireStation(fireStation);
         verify(fireStationRepositoryImpl, times(1)).save(fireStation);
     }
 
     @Test
     void saveFireStationAlreadyExistingTest() {
-        FireStation fireStation = new FireStation("address", 1);
-        doNothing().when(fireStationRepositoryImpl.save(fireStation));
+        when(fireStationRepositoryImpl.save(fireStation)).thenThrow(Exception.class);
         assertThrows(Exception.class, () ->  fireStationService.saveFireStation(fireStation));
     }
 
     @Test
     void saveFireStationWithInvalidArgumentsTest() {
-        FireStation fireStation = new FireStation(null, 3);
-        doNothing().when(fireStationRepositoryImpl.save(fireStation));
+        when(fireStationRepositoryImpl.save(fireStation)).thenThrow(Exception.class);
         assertThrows(Exception.class, () ->  fireStationService.saveFireStation(fireStation));
     }
 
     @Test
     void updateFireStationExistingTest() {
-        int newStationNumber = 3;
-        FireStation fireStation = new FireStation("address", newStationNumber);
-        doNothing().when(fireStationRepositoryImpl.update(fireStation));
+        when(fireStationRepositoryImpl.update(fireStation)).thenReturn(true);
         verify(fireStationRepositoryImpl, times(1)).update(fireStation);
     }
 
     @Test
     void updateFireStationUnknownTest() {
-        int newStationNumber = 3;
-        FireStation fireStation = new FireStation("test", newStationNumber);
-        doNothing().when(fireStationRepositoryImpl.update(fireStation));
+        when(fireStationRepositoryImpl.update(fireStation)).thenThrow(Exception.class);
         assertThrows(Exception.class, () ->  fireStationService.saveFireStation(fireStation));
     }
 
     @Test
     void updateFireStationWithInvalidArgumentsTest() {
-        int newStationNumber = 3;
-        FireStation fireStation = new FireStation(null, newStationNumber);
+        when(fireStationRepositoryImpl.update(fireStation)).thenThrow(Exception.class);;
         assertThrows(Exception.class, () ->  fireStationService.saveFireStation(fireStation));
     }
 
     @Test
     void deleteFireStationByAddressExistingTest() {
-        FireStation fireStation = new FireStation("address", 1);
-        doNothing().when(fireStationRepositoryImpl.delete(fireStation));
+        when(fireStationRepositoryImpl.delete(fireStation)).thenReturn(true);
         fireStationService.deleteFireStationbyAddress(fireStation.getAddress());
         verify(fireStationRepositoryImpl, times(1)).delete(fireStation);
     }
 
     @Test
     void deleteFireStationByAddressUnknownTest() {
-        FireStation fireStation = new FireStation("test", 1);
-        doNothing().when(fireStationRepositoryImpl.delete(fireStation));
+        when(fireStationRepositoryImpl.delete(fireStation)).thenThrow(Exception.class);
         assertThrows(Exception.class, () -> fireStationService.deleteFireStationbyAddress(fireStation.getAddress()));
     }
 
     @Test
     void deleteFireStationByNumberExistingTest() {
-        FireStation fireStation = new FireStation("address", 1);
-        doNothing().when(fireStationRepositoryImpl.delete(fireStation));
+        when(fireStationRepositoryImpl.delete(fireStation)).thenReturn(true);
         fireStationService.deleteFireStationbyNumber(fireStation.getStation());
         verify(fireStationRepositoryImpl, times(1)).delete(fireStation);
     }
 
     @Test
     void deleteFireStationByNumberUnknownTest() {
-        FireStation fireStation = new FireStation("address", 3);
-        doNothing().when(fireStationRepositoryImpl.delete(fireStation));
+        when(fireStationRepositoryImpl.delete(fireStation)).thenThrow(Exception.class);
         assertThrows(Exception.class, () -> fireStationService.deleteFireStationbyNumber(fireStation.getStation()));
     }
 
