@@ -4,7 +4,7 @@
     { "firstName":"firstName2", "lastName":"lastName2", "address":"address2", "city":"city", "zip":"123", "phone":"098-765-4321", "email":"mail2@email.com" }
   ],
   "firestations": [
-    { "address":"address", "station":"3" },
+    { "address":"address", "station":"1" },
     { "address":"address2", "station":"2" }
   ],
   "medicalrecords": [

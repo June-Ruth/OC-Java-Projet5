@@ -9,7 +9,7 @@ import java.net.URL;
 public enum DataBaseManager {
 
     /**
-     * Use enum for pattern singloton and allow only one DataBase object.
+     * Use enum for pattern singleton and allow only one DataBase object.
      */
     INSTANCE;
 
@@ -17,7 +17,6 @@ public enum DataBaseManager {
      * @see DataBase
      */
     private DataBase dataBase;
-
 
     /**
      * Constructor with initialization of DataBase.

@@ -13,6 +13,7 @@ import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @JsonTypeName("medicalrecords")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -156,24 +157,21 @@ public class MedicalRecord {
         this.allergies = pAllergies;
     }
 
-    /*
-     * Set the list of medications and the dosage.
-     * @param medicationName concerned.
-     * @param value for the medication concerned.
-     *
-    @JsonSetter
-    public void setMedications (String medicationName, String value) {
-        if (medications == null) medications = new HashMap<>();
-        medications.put(medicationName, value);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MedicalRecord that = (MedicalRecord) o;
+        return firstName.equals(that.firstName)
+                && lastName.equals(that.lastName);
     }
 
-    /**
-     * Set the list of allergies.
-     * @param allergieName concerned.
-     *
-    @JsonSetter
-    public void setAllergies (String allergieName) {
-        if(allergies == null) allergies = new ArrayList<>();
-        allergies.add(allergieName);
-    }*/
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName);
+    }
 }
