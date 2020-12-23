@@ -21,39 +21,33 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
 
     @Override
     public boolean save(MedicalRecord medicalRecord) {
-        boolean isSaved;
         if (medicalRecords.contains(medicalRecord)) {
-            isSaved = false;
+            return false;
         } else {
             medicalRecords.add(medicalRecord);
-            isSaved = true;
+            return true;
         }
-        return isSaved;
     }
 
     @Override
     public boolean update(MedicalRecord medicalRecord) {
-        boolean isUpdated;
         int idToUpdate = medicalRecords.indexOf(medicalRecord);
         if (idToUpdate != -1) {
             medicalRecords.set(idToUpdate, medicalRecord);
-            isUpdated = true;
+            return true;
         } else {
-            isUpdated = false;
+            return false;
         }
-        return isUpdated;
     }
 
     @Override
     public boolean delete(MedicalRecord medicalRecord) {
-        boolean isDeleted;
         int idToDelete = medicalRecords.indexOf(medicalRecord);
         if (idToDelete != -1) {
             medicalRecords.remove(idToDelete);
-            isDeleted = true;
+            return true;
         } else {
-            isDeleted = false;
+            return false;
         }
-        return isDeleted;
     }
 }

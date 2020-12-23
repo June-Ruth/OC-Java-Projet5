@@ -43,14 +43,14 @@ class PersonRepositoryImplTest {
     @Test
     void savePersonNewTest() {
         Person person = new Person("test", "test", "test", "test", 123, "456", "email");
-        personRepositoryImpl.save(person);
+        assertTrue(personRepositoryImpl.save(person));
         assertEquals(3, dataBase.getPersons().size());
     }
 
     @Test
     void savePersonAlreadyExistingTest() {
         Person person = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", "mail@email.com");
-        assertThrows(Exception.class, () -> personRepositoryImpl.save(person));
+        assertFalse(personRepositoryImpl.save(person));
     }
 
     @Test
@@ -58,13 +58,15 @@ class PersonRepositoryImplTest {
         String expected = "test@test.com";
         Person person = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", expected);
         assertTrue(personRepositoryImpl.update(person));
+        int index = dataBase.getPersons().indexOf(person);
+        assertEquals(expected, dataBase.getPersons().get(index).getEmail());
     }
 
     @Test
     void updatePersonWithUnknownFirstNameAndLastNameTest() {
         String expected = "test@test.com";
         Person person = new Person("test", "test", "test", "test", 123, "456", expected);
-        assertThrows(Exception.class, () -> personRepositoryImpl.update(person));
+        assertFalse(personRepositoryImpl.update(person));
     }
 
     @Test
@@ -77,7 +79,7 @@ class PersonRepositoryImplTest {
     @Test
     void deletePersonWithUnknownFirstNameAndLastNameTest() {
         Person person = new Person("test", "test", "test", "test", 123, "456", "email");
-        assertThrows(Exception.class, () -> personRepositoryImpl.delete(person));
+        assertFalse(personRepositoryImpl.delete(person));
     }
 
 }

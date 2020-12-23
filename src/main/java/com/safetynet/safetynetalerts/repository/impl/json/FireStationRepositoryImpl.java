@@ -21,39 +21,33 @@ public class FireStationRepositoryImpl implements FireStationRepository {
 
     @Override
     public boolean save(FireStation fireStation) {
-        boolean isSaved;
         if (fireStations.contains(fireStation)) {
-            isSaved = false;
+            return false;
         } else {
             fireStations.add(fireStation);
-            isSaved = true;
+            return true;
         }
-        return isSaved;
     }
 
     @Override
     public boolean update(FireStation fireStation) {
-        boolean isUpdated;
         int idToUpdate = fireStations.indexOf(fireStation);
         if (idToUpdate != -1) {
             fireStations.set(idToUpdate, fireStation);
-            isUpdated = true;
+            return true;
         } else {
-            isUpdated = false;
+            return false;
         }
-        return isUpdated;
     }
 
     @Override
     public boolean delete(FireStation fireStation) {
-        boolean isDeleted;
         int idToDelete = fireStations.indexOf(fireStation);
         if (idToDelete != -1) {
             fireStations.remove(idToDelete);
-            isDeleted = true;
+            return true;
         } else {
-            isDeleted = false;
+            return false;
         }
-        return isDeleted;
     }
 }

@@ -1,5 +1,7 @@
 package com.safetynet.safetynetalerts.repository.impl.json;
 
+import com.safetynet.safetynetalerts.datasource.DataBase;
+import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.Dao;
 import org.springframework.stereotype.Repository;
@@ -9,26 +11,43 @@ import java.util.List;
 @Repository
 public class PersonRepositoryImpl implements Dao<Person> {
 
+    private DataBase dataBase = DataBaseManager.INSTANCE.getDataBase();
+    private List<Person> persons = dataBase.getPersons();
+
     @Override
     public List<Person> findAll() {
-        return null;
+        return persons;
     }
 
-    //TODO
     @Override
     public boolean save(Person person) {
-        return false;
+        if (persons.contains(person)) {
+            return false;
+        } else {
+            persons.add(person);
+            return true;
+        }
     }
 
-    //TODO
     @Override
     public boolean update(Person person) {
-        return false;
+        int idToUpdate = persons.indexOf(person);
+        if (idToUpdate != -1) {
+            persons.set(idToUpdate, person);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    //TODO
     @Override
     public boolean delete(Person person) {
-        return false;
+        int idToDelete = persons.indexOf(person);
+        if (idToDelete != -1) {
+            persons.remove(idToDelete);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
