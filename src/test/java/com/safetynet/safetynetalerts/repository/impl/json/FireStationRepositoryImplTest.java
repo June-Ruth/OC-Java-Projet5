@@ -47,7 +47,7 @@ class FireStationRepositoryImplTest {
     @Test
     void saveFireStationMappingNewTest() {
         FireStation fireStation = new FireStation("address3", 3);
-        fireStationRepositoryImpl.save(fireStation);
+        assertTrue(fireStationRepositoryImpl.save(fireStation));
         assertEquals(3, fireStations.size());
     }
 
@@ -62,6 +62,8 @@ class FireStationRepositoryImplTest {
         int newStationNumber = 3;
         FireStation fireStation = new FireStation("address", newStationNumber);
         assertTrue(fireStationRepositoryImpl.update(fireStation));
+        int index = dataBase.getFireStations().indexOf(fireStation);
+        assertEquals(newStationNumber, dataBase.getFireStations().get(index).getStation());
     }
 
     @Test

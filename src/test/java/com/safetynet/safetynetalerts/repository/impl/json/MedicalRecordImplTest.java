@@ -49,7 +49,7 @@ class MedicalRecordImplTest {
     void saveMedicalRecordNewTest() {
         LocalDate birthdate = LocalDate.of(2010, 5, 12);
         MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
-        medicalRecordRepositoryImpl.save(medicalRecord);
+        assertTrue(medicalRecordRepositoryImpl.save(medicalRecord));
         assertEquals(3, medicalRecords.size());
     }
 
@@ -57,7 +57,7 @@ class MedicalRecordImplTest {
     void saveMedicalRecordAlreadyExisitingTest() {
         LocalDate birthdate = LocalDate.of(2012, 6, 15);
         MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", birthdate, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.save(medicalRecord));
+        assertFalse(medicalRecordRepositoryImpl.save(medicalRecord));
     }
 
     @Test
@@ -65,13 +65,15 @@ class MedicalRecordImplTest {
         LocalDate newBirthdate = LocalDate.of(2012, 7, 15);
         MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", newBirthdate, null, null);
         assertTrue(medicalRecordRepositoryImpl.update(medicalRecord));
+        int index = dataBase.getMedicalRecords().indexOf(medicalRecord);
+        assertEquals(newBirthdate, dataBase.getMedicalRecords().get(index).getBirthdate());
     }
 
     @Test
     void updateMedicalRecordWithUnknownFirstNameAndLastNameTest() {
         LocalDate newBirthdate = LocalDate.of(2012, 7, 15);
         MedicalRecord medicalRecord = new MedicalRecord("test", "test", newBirthdate, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.update(medicalRecord));
+        assertFalse(medicalRecordRepositoryImpl.update(medicalRecord));
     }
 
 
@@ -87,7 +89,7 @@ class MedicalRecordImplTest {
     void deleteMedicalRecordWithUnknownFirstNameAndLastNameTest() {
         LocalDate birthdate = LocalDate.of(2010, 5, 12);
         MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.delete(medicalRecord));
+        assertFalse(medicalRecordRepositoryImpl.delete(medicalRecord));
     }
 
 }

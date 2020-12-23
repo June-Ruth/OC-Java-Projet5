@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public class PersonRepositoryImpl implements Dao<Person> {
 
-    //TODO
     @Override
     public List<Person> findAll() {
         return null;
