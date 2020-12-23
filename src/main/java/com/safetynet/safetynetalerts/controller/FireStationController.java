@@ -14,6 +14,7 @@ public class FireStationController {
      */
     //TODO : visualiser toutes les données de FireStation List
     public List<FireStation> getFireStations() {
+        //GET mapping, HTTP status si réussit : 200 OK
         return null;
     }
 
@@ -24,6 +25,9 @@ public class FireStationController {
      */
     //TODO : ajout d'un mapping caserne / adresse
     public FireStation createFireStation(FireStation fireStation) {
+        //POST mapping, HTTP status si réussi : 201 created
+        //409 Conflict si crée un mapping déjà existant
+        //400 Bad Resquest si param invalide
         return null;
     }
 
@@ -36,6 +40,9 @@ public class FireStationController {
 
     //TODO : mettre à jour le numéro de la caserne des pompiers d'une adresse
     public FireStation updateFireStation(String address, FireStation fireStation) {
+        //PUT mapping, HTTP status si réussi : 200 OK
+        //404 Not Found si n'existe pas
+        //400 Bad Resquest si param invalide
         return null;
     }
 
@@ -45,7 +52,8 @@ public class FireStationController {
      */
     //TODO ; supprimer le mapping d'une caserne
     public void deleteFireStationNumberMapping(int fireStationNumber) {
-
+        //DELETE mapping, HTTP status si réussi : 200 OK si action confirmée et que le message de réponse inclut une représentation décrivant le status
+        //404 Not Found si n'existe pas
     }
 
     /**
@@ -54,7 +62,8 @@ public class FireStationController {
      */
     //TODO ; supprimer le mapping d'une adresse
     public void deleteFireStationAddressMapping(String address) {
-
+        //DELETE mapping, HTTP status si réussi : 200 OK si action confirmée et que le message de réponse inclut une représentation décrivant le status
+        //404 Not Found si n'existe pas
     }
 
 }

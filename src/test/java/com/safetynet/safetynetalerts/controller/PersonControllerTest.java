@@ -1,37 +1,75 @@
 package com.safetynet.safetynetalerts.controller;
 
+import com.safetynet.safetynetalerts.service.PersonService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(controllers = PersonController.class)
 class PersonControllerTest {
 
-    //TODO : Test(s) visualisation de la liste d'entité
-    @Test
-    void getPersonsTest() {}
+    @Autowired
+    private MockMvc mockMvc;
 
-    //TODO : Test(s) ajout d'une personne
-    @Test
-    void createPersonNewTest() {}
+    @MockBean
+    private PersonService personService;
 
     @Test
-    void createPersonAlreadyExistingTest() {}
+    void getPersonsTest() throws Exception {
+        mockMvc.perform(get("/person"))
+                .andExpect(status().isOk());
+    }
 
     @Test
-    void createPersonWithInvalidArgumentsTest() {}
-
-    //TODO : Test(s) maj d'une personne
-    @Test
-    void updatePersonExistingTest(){}
-
-    @Test
-    void updatePersonUnknownTest() {}
+    void createPersonNewTest() throws Exception {
+        mockMvc.perform(post("person"))
+                .andExpect(status().isCreated());
+    }
 
     @Test
-    void updatePersonWithInvalidArgumentsTest() {}
+    void createPersonAlreadyExistingTest() throws Exception {
+        mockMvc.perform(post("person"))
+                .andExpect(status().isConflict());
+    }
 
-    //TODO : Test(s) supprimer une personne
     @Test
-    void deletePersonExistingTest() {}
+    void createPersonWithInvalidArgumentsTest() throws Exception {
+        mockMvc.perform(post("person"))
+                .andExpect(status().isBadRequest());
+    }
 
     @Test
-    void deletePersonUnknownTest() {}
+    void updatePersonExistingTest() throws Exception {
+        mockMvc.perform(put("person"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updatePersonUnknownTest() throws Exception {
+        mockMvc.perform(put("person"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updatePersonWithInvalidArgumentsTest() throws Exception {
+        mockMvc.perform(put("person"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void deletePersonExistingTest() throws Exception {
+        mockMvc.perform(delete("person"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deletePersonUnknownTest() throws Exception {
+        mockMvc.perform(delete("person"))
+                .andExpect(status().isNotFound());
+    }
 }

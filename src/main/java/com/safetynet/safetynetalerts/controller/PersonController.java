@@ -18,6 +18,7 @@ public class PersonController {
      */
     //TODO ; visualiser toutes les données
     public List<Person> getPersons() {
+        //GET mapping, HTTP status si réussit : 200 OK
         return null;
     }
 
@@ -28,6 +29,9 @@ public class PersonController {
      */
     //TODO : ajouter une nouvelle personne
     public Person createPerson(Person person) {
+        //POST mapping, HTTP status si réussi : 201 created
+        //409 Conflict si crée un mapping déjà existant
+        //400 Bad Resquest si param invalide
         return null;
     }
 
@@ -41,6 +45,9 @@ public class PersonController {
      */
     //TODO : mettre à jour une personne : supposer que le nom et prénom ne change pas
     public Person updatePerson(String firstName, String lastName, Person person) {
+        //PUT mapping, HTTP status si réussi : 200 OK
+        //404 Not Found si n'existe pas
+        //400 Bad Resquest si param invalide
         return null;
     }
 
@@ -51,7 +58,8 @@ public class PersonController {
      */
     //TODO ; supprimer une personne : utiliser le nom et prénom comme identifiant unique
     public void deletePerson(String firstName, String lastName) {
-
+        //DELETE mapping, HTTP status si réussi : 200 OK si action confirmée et que le message de réponse inclut une représentation décrivant le status
+        //404 Not Found si n'existe pas
     }
 
 }

@@ -13,6 +13,8 @@ public class MedicalRecordController {
      */
     //TODO : visualiser toutes les données de MedicaLRecord List
     public List<MedicalRecord> getMedicalRecords(){
+        //GET mapping, HTTP status si réussit : 200 OK
+
         return null;
     }
 
@@ -23,6 +25,9 @@ public class MedicalRecordController {
      */
     //TODO : ajouter un dossier médical
     public MedicalRecord createMedicalRecord(MedicalRecord medicalRecord) {
+        //POST mapping, HTTP status si réussi : 201 created
+        //409 Conflict si crée un mapping déjà existant
+        //400 Bad Resquest si param invalide
         return null;
     }
 
@@ -36,6 +41,9 @@ public class MedicalRecordController {
      */
     //TODO ; mettre à jour un dossier médical existant : supposer que le nom & prénom ne change pas
     public MedicalRecord updateMedicalRecord(String firstName, String lastName, MedicalRecord medicalRecord) {
+        //PUT mapping, HTTP status si réussi : 200 OK
+        //404 Not Found si n'existe pas
+        //400 Bad Resquest si param invalide
         return null;
     }
 
@@ -46,6 +54,8 @@ public class MedicalRecordController {
      */
     //TODO : supprimer un dossier médical : utiliser le nom / prénom comme identifiant unique
     public void deleteMedicalRecord(String firstName, String lastName) {
+        //DELETE mapping, HTTP status si réussi : 200 OK si action confirmée et que le message de réponse inclut une représentation décrivant le status
+        //404 Not Found si n'existe pas
 
     }
 }

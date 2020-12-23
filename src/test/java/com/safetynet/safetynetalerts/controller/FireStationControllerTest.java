@@ -1,44 +1,87 @@
 package com.safetynet.safetynetalerts.controller;
 
+import com.safetynet.safetynetalerts.service.FireStationService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
-public class FireStationControllerTest {
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-    //TODO : Test(s) visualisation de la liste d'entité
-    @Test
-    void getFireStationsTest() {}
+@WebMvcTest(controllers = FireStationController.class)
+class FireStationControllerTest {
 
-    //TODO : Test(s) ajout d'un mapping caserne / adresse
-    @Test
-    void createFireStationNewTest() {}
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Test
-    void createFireStationAlreadyExistingTest() {}
-
-    @Test
-    void createFireStationWithInvalidArgumentsTest() {}
-
-    //TODO : Test(s) Maj d'un numéro de caserne selon adresse
-    @Test
-    void updateFireStationExistingTest() {}
+    @MockBean
+    private FireStationService fireStationService;
 
     @Test
-    void updateFireStationUnknownTest() {}
+    void getFireStationsTest() throws Exception {
+        mockMvc.perform(get("/firestation"))
+                .andExpect(status().isOk());
+    }
 
     @Test
-    void updateFireStationWithInvalidArgumentsTest() {}
-
-    //TODO : Test(s) suppression d'un mapping caserne
-    @Test
-    void deleteFireStationNumberMappingExisitngTest() {}
-
-    @Test
-    void deleteFireStationNumberMappingUnknownTest() {}
-
-    //TODO : Test(s) suppression d'un mapping adresse
-    @Test
-    void deleteFireStationAddressMappingExistingTest() {}
+    void createFireStationNewTest() throws Exception {
+        mockMvc.perform(post("/firestation"))
+                .andExpect(status().isCreated());
+    }
 
     @Test
-    void deleteFireStationAddressMappingUnknownTest() {}
+    void createFireStationAlreadyExistingTest() throws Exception {
+        mockMvc.perform(post("/firestation"))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    void createFireStationWithInvalidArgumentsTest() throws Exception {
+        mockMvc.perform(post("/firestation"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void updateFireStationExistingTest() throws Exception {
+        mockMvc.perform(put("/firestation"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateFireStationUnknownTest() throws Exception {
+        mockMvc.perform(put("/firestation"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updateFireStationWithInvalidArgumentsTest() throws Exception {
+        mockMvc.perform(put("/firestation"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void deleteFireStationNumberMappingExisitngTest() throws Exception {
+        mockMvc.perform(delete("/firestation"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteFireStationNumberMappingUnknownTest() throws Exception {
+        mockMvc.perform(delete("/firestation"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteFireStationAddressMappingExistingTest() throws Exception {
+        mockMvc.perform(delete("/firestation"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteFireStationAddressMappingUnknownTest() throws Exception {
+        mockMvc.perform(delete("/firestation"))
+                .andExpect(status().isNotFound());
+    }
 }
