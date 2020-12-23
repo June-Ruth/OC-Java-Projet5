@@ -32,7 +32,8 @@ public class PersonService {
      */
     //TODO
     public Person savePerson(Person person) {
-        return personRepositoryImpl.save(person);
+        personRepositoryImpl.save(person);
+        return person;
     }
 
     /**

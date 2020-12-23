@@ -32,7 +32,8 @@ public class MedicalRecordService {
      */
     //TODO
     public MedicalRecord saveMedicalRecord(MedicalRecord medicalRecord) {
-        return medicalRecordRepositoryImpl.save(medicalRecord);
+        medicalRecordRepositoryImpl.save(medicalRecord);
+        return medicalRecord;
     }
 
     /**

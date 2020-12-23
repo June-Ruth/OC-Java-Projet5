@@ -32,7 +32,7 @@ class FireStationServiceTest {
 
     @Test
     void saveFireStationNewTest() {
-        when(fireStationRepositoryImpl.save(fireStation)).thenReturn(fireStation);
+        when(fireStationRepositoryImpl.save(fireStation)).thenReturn(true);
         fireStationService.saveFireStation(fireStation);
         verify(fireStationRepositoryImpl, times(1)).save(fireStation);
     }

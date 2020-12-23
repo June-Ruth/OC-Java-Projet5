@@ -32,7 +32,7 @@ class PersonServiceTest {
 
     @Test
     void savePersonNewTest() {
-        when(personRepositoryImpl.save(person)).thenReturn(person);
+        when(personRepositoryImpl.save(person)).thenReturn(true);
         personService.savePerson(person);
         verify(personRepositoryImpl, times(1)).save(person);
     }

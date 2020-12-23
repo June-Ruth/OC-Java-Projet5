@@ -34,7 +34,7 @@ class MedicalRecordServiceTest {
 
     @Test
     void saveMedicalRecordNewTest() {
-        when(medicalRecordRepositoryImpl.save(medicalRecord)).thenReturn(medicalRecord);
+        when(medicalRecordRepositoryImpl.save(medicalRecord)).thenReturn(true);
         medicalRecordService.saveMedicalRecord(medicalRecord);
         verify(medicalRecordRepositoryImpl, times(1)).save(medicalRecord);
     }

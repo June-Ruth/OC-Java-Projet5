@@ -54,14 +54,7 @@ class FireStationRepositoryImplTest {
     @Test
     void saveFireStationMappingAlreadyExistingTest() {
         FireStation fireStation = new FireStation("address", 1);
-        assertThrows(Exception.class, () -> fireStationRepositoryImpl.save(fireStation));
-
-    }
-
-    @Test
-    void saveFireStationMappingWithInvalidArgumentsTest() {
-        FireStation fireStation = new FireStation(null, 3);
-        assertThrows(Exception.class, () -> fireStationRepositoryImpl.save(fireStation));
+        assertFalse(fireStationRepositoryImpl.save(fireStation));
     }
 
     @Test
@@ -75,14 +68,7 @@ class FireStationRepositoryImplTest {
     void updateStationNumberWithUnknownAddressTest() {
         int newStationNumber = 3;
         FireStation fireStation = new FireStation("test", newStationNumber);
-        assertThrows(Exception.class, () -> fireStationRepositoryImpl.update(fireStation));
-    }
-
-    @Test
-    void updateStationNumberWithInvalidArgumentsTest() {
-        int newStationNumber = 3;
-        FireStation fireStation = new FireStation(null, newStationNumber);
-        assertThrows(Exception.class, () -> fireStationRepositoryImpl.update(fireStation));
+        assertFalse(fireStationRepositoryImpl.update(fireStation));
     }
 
     @Test
@@ -95,6 +81,6 @@ class FireStationRepositoryImplTest {
     @Test
     void deleteFireStationUnknownTest() {
         FireStation fireStation = new FireStation("test", 1);
-        assertThrows(Exception.class, () -> fireStationRepositoryImpl.delete(fireStation));
+        assertFalse(fireStationRepositoryImpl.delete(fireStation));
     }
 }

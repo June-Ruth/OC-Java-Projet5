@@ -17,8 +17,8 @@ public class PersonRepositoryImpl implements Dao<Person> {
 
     //TODO
     @Override
-    public Person save(Person person) {
-        return null;
+    public boolean save(Person person) {
+        return false;
     }
 
     //TODO

@@ -61,12 +61,6 @@ class MedicalRecordImplTest {
     }
 
     @Test
-    void saveMedicalRecordWithInvalidArgumentsTest() {
-        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", null, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.save(medicalRecord));
-    }
-
-    @Test
     void updateMedicalRecordWithExistingFirstNameAndLastNameTest() {
         LocalDate newBirthdate = LocalDate.of(2012, 7, 15);
         MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", newBirthdate, null, null);
@@ -80,12 +74,6 @@ class MedicalRecordImplTest {
         assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.update(medicalRecord));
     }
 
-    @Test
-    void updateMedicalRecordWithInvalidArgumentsTest() {
-        LocalDate newBirthdate = null;
-        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", newBirthdate, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.update(medicalRecord));
-    }
 
     @Test
     void deleteMedicalRecordWithExistingFirstNameAndLastNameTest() {

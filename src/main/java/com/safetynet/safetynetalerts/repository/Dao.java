@@ -13,21 +13,21 @@ public interface Dao<T> {
     /**
      * Create and save an Object T.
      * @param t object concerned
-     * @return
+     * @return true if saved
      */
-    T save(T t);
+    boolean save(T t);
 
     /**
      * Change parameters of T.
      * @param t object concerned
-     * @return
+     * @return true if updated
      */
     boolean update(T t);
 
     /**
      * Delete an object T.
      * @param t object concerned
-     * @return
+     * @return true if deleted
      */
     boolean delete(T t);
 

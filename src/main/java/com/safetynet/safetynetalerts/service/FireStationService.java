@@ -33,7 +33,8 @@ public class FireStationService {
      */
     //TODO
     public FireStation saveFireStation(FireStation fireStation) {
-        return fireStationRepositoryImpl.save(fireStation);
+        fireStationRepositoryImpl.save(fireStation);
+        return fireStation;
     }
 
     /**
