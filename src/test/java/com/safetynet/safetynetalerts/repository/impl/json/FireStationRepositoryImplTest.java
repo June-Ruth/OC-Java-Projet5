@@ -4,14 +4,12 @@ import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.datasource.DataBaseTestService;
 import com.safetynet.safetynetalerts.model.FireStation;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -46,6 +44,34 @@ class FireStationRepositoryImplTest {
     @Test
     void findAllFireStationsTest() {
         assertEquals(2, fireStationRepositoryImpl.findAll().size());
+    }
+
+    @Test
+    void findByAddressExistingTest() {
+        FireStation fireStation = new FireStation("address", 1);
+        FireStation toTest = fireStationRepositoryImpl.findByAddress(fireStation.getAddress());
+        assertEquals(fireStation.getStation(), toTest.getStation());
+        assertEquals(fireStation.getAddress(), toTest.getAddress());
+    }
+
+    @Test
+    void findByAddressUnknownTest() {
+        FireStation fireStation = new FireStation("address3", 3);
+        FireStation toTest = fireStationRepositoryImpl.findByAddress(fireStation.getAddress());
+        assertNull(toTest);
+    }
+
+    @Test
+    void findAllByStationNumberExistingTest() {
+        FireStation fireStation = new FireStation("address", 1);
+        Set<FireStation> result = fireStationRepositoryImpl.findAllByStationNumber(1);
+        assertEquals(1, result.size());
+        assertEquals(fireStation.getAddress(), result.iterator().next().getAddress());
+    }
+
+    @Test
+    void findAllByStationNumberUnknownTest() {
+        assertEquals(0, fireStationRepositoryImpl.findAllByStationNumber(3).size());
     }
 
     @Test
@@ -87,4 +113,20 @@ class FireStationRepositoryImplTest {
         FireStation fireStation = new FireStation("test", 1);
         assertFalse(fireStationRepositoryImpl.delete(fireStation));
     }
+
+    @Test
+    void deleteAllExistingTest() {
+        Set<FireStation> fireStationsToDelete = new HashSet<>();
+        FireStation fireStation = new FireStation("address", 1);
+        fireStationsToDelete.add(fireStation);
+        assertTrue(fireStationRepositoryImpl.deleteAll(fireStationsToDelete));
+        assertEquals(1, dataBase.getFireStations().size());
+    }
+
+    @Test
+    void deleteAllWithUnknownTest() {
+        Set<FireStation> fireStationsToDelete = new HashSet<>();
+        FireStation fireStation = new FireStation("address3", 3);
+        fireStationsToDelete.add(fireStation);
+        assertFalse(fireStationRepositoryImpl.deleteAll(fireStationsToDelete));    }
 }

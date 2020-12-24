@@ -2,10 +2,8 @@ package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.repository.impl.json.FireStationRepositoryImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -57,7 +55,7 @@ public class FireStationService {
      * @param stationNumber to delete
      */
     public void deleteFireStationbyNumber(int stationNumber) {
-        Set<FireStation> fireStationsToDelete = fireStationRepositoryImpl.findAllAddressAssociatedWithStationNumber(stationNumber);
+        Set<FireStation> fireStationsToDelete = fireStationRepositoryImpl.findAllByStationNumber(stationNumber);
         //TODO : si fireStationsToDelete = null : envoie message
         fireStationRepositoryImpl.deleteAll(fireStationsToDelete);
 

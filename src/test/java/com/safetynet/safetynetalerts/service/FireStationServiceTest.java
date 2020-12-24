@@ -85,18 +85,18 @@ class FireStationServiceTest {
 
     @Test
     void deleteFireStationByNumberExistingTest() {
-        when(fireStationRepositoryImpl.findAllAddressAssociatedWithStationNumber(1)).thenReturn(fireStations);
+        when(fireStationRepositoryImpl.findAllByStationNumber(1)).thenReturn(fireStations);
         when(fireStationRepositoryImpl.deleteAll(fireStations)).thenReturn(true);
         fireStationService.deleteFireStationbyNumber(fireStation.getStation());
-        verify(fireStationRepositoryImpl, times(1)).findAllAddressAssociatedWithStationNumber(1);
+        verify(fireStationRepositoryImpl, times(1)).findAllByStationNumber(1);
         verify(fireStationRepositoryImpl, times(1)).deleteAll(fireStations);
     }
 
     @Test
     void deleteFireStationByNumberUnknownTest() {
-        when(fireStationRepositoryImpl.findAllAddressAssociatedWithStationNumber(1)).thenReturn(null);
+        when(fireStationRepositoryImpl.findAllByStationNumber(1)).thenReturn(null);
         fireStationService.deleteFireStationbyNumber(fireStation.getStation());
-        verify(fireStationRepositoryImpl, times(1)).findAllAddressAssociatedWithStationNumber(1);
+        verify(fireStationRepositoryImpl, times(1)).findAllByStationNumber(1);
         verify(fireStationRepositoryImpl, times(0)).deleteAll(fireStations);
     }
 

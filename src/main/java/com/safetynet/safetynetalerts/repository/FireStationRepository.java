@@ -11,5 +11,5 @@ public interface FireStationRepository extends Dao<FireStation> {
 
     FireStation findByAddress(String address);
 
-    Set<FireStation> findAllAddressAssociatedWithStationNumber(int stationNumber);
+    Set<FireStation> findAllByStationNumber(int stationNumber);
 }

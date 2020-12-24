@@ -27,11 +27,15 @@ public class FireStationRepositoryImpl implements FireStationRepository {
                 result.add(fireStation);
             }
         });
-        return result.iterator().next();
+        if (result.iterator().hasNext()) {
+            return result.iterator().next();
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Set<FireStation> findAllAddressAssociatedWithStationNumber(int stationNumber) {
+    public Set<FireStation> findAllByStationNumber(int stationNumber) {
         Set<FireStation> result = new HashSet<>();
         fireStations.iterator().forEachRemaining((fireStation) -> {
             if (fireStation.getStation() == stationNumber) {
