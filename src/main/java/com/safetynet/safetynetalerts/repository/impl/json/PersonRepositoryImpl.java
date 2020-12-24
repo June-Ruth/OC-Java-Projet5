@@ -6,35 +6,28 @@ import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.Dao;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Set;
 
 @Repository
 public class PersonRepositoryImpl implements Dao<Person> {
 
     private DataBase dataBase = DataBaseManager.INSTANCE.getDataBase();
-    private List<Person> persons = dataBase.getPersons();
+    private Set<Person> persons = dataBase.getPersons();
 
     @Override
-    public List<Person> findAll() {
+    public Set<Person> findAll() {
         return persons;
     }
 
     @Override
     public boolean save(Person person) {
-        if (persons.contains(person)) {
-            return false;
-        } else {
-            persons.add(person);
-            return true;
-        }
+        return persons.add(person);
     }
 
     @Override
     public boolean update(Person person) {
-        int idToUpdate = persons.indexOf(person);
-        if (idToUpdate != -1) {
-            persons.set(idToUpdate, person);
-            return true;
+        if (persons.remove(person)) {
+            return persons.add(person);
         } else {
             return false;
         }
@@ -42,12 +35,6 @@ public class PersonRepositoryImpl implements Dao<Person> {
 
     @Override
     public boolean delete(Person person) {
-        int idToDelete = persons.indexOf(person);
-        if (idToDelete != -1) {
-            persons.remove(idToDelete);
-            return true;
-        } else {
-            return false;
-        }
+        return persons.remove(person);
     }
 }

@@ -2,49 +2,45 @@ package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.repository.impl.json.FireStationRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class FireStationService {
 
     private FireStationRepositoryImpl fireStationRepositoryImpl;
 
-    FireStationService(FireStationRepositoryImpl pFireStationRepositoryImpl) {
+    public FireStationService(FireStationRepositoryImpl pFireStationRepositoryImpl) {
         Objects.requireNonNull( pFireStationRepositoryImpl);
         fireStationRepositoryImpl =  pFireStationRepositoryImpl;
     }
 
     /**
      * Get all entities for FireStation
-     * @return //TODO
+     * @return list of all FireStation
      */
-    //TODO
-    public List<FireStation> getFireStations() {
+    public Set<FireStation> getFireStations() {
         return fireStationRepositoryImpl.findAll();
     }
 
     /**
      * Save a new FireStation mapping
      * @param fireStation to create
-     * @return //TODO
      */
-    //TODO
-    public FireStation saveFireStation(FireStation fireStation) {
+    public void saveFireStation(FireStation fireStation) {
         fireStationRepositoryImpl.save(fireStation);
-        return fireStation;
     }
 
     /**
      * Update an existing fire station.
      * @param fireStation - FireStation Object updated
-     * @return //TODO
      */
-    //TODO
-    public boolean updateFireStation(FireStation fireStation) {
-        return fireStationRepositoryImpl.update(fireStation);
+    public void updateFireStation(FireStation fireStation) {
+        fireStationRepositoryImpl.update(fireStation);
     }
 
     /**
@@ -52,9 +48,10 @@ public class FireStationService {
      * @param address to delete
      */
     //TODO
-    public boolean deleteFireStationbyAddress(String address) {
+    public void deleteFireStationbyAddress(String address) {
         FireStation fireStation = null;
-        return fireStationRepositoryImpl.delete(fireStation);
+
+        fireStationRepositoryImpl.delete(fireStation);
     }
 
     /**
@@ -62,9 +59,9 @@ public class FireStationService {
      * @param stationNumber to delete
      */
     //TODO
-    public boolean deleteFireStationbyNumber(int stationNumber) {
+    public void deleteFireStationbyNumber(int stationNumber) {
         FireStation fireStation = null;
-        return  fireStationRepositoryImpl.delete(fireStation);
+        fireStationRepositoryImpl.delete(fireStation);
     }
 
 }

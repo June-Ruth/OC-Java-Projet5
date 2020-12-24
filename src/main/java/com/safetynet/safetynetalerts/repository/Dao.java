@@ -1,6 +1,6 @@
 package com.safetynet.safetynetalerts.repository;
 
-import java.util.List;
+import java.util.Set;
 
 public interface Dao<T> {
 
@@ -8,7 +8,7 @@ public interface Dao<T> {
      * Find All Object T that Implements Dao
      * @return List of T object
      */
-    List<T> findAll();
+    Set<T> findAll();
 
     /**
      * Create and save an Object T.

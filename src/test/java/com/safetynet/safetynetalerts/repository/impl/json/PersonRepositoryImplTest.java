@@ -8,10 +8,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class PersonRepositoryImplTest {
 
     private static DataBaseTestService dataBaseTestService = new DataBaseTestService();
@@ -58,8 +60,6 @@ class PersonRepositoryImplTest {
         String expected = "test@test.com";
         Person person = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", expected);
         assertTrue(personRepositoryImpl.update(person));
-        int index = dataBase.getPersons().indexOf(person);
-        assertEquals(expected, dataBase.getPersons().get(index).getEmail());
     }
 
     @Test

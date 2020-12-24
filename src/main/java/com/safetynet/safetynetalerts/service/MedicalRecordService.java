@@ -4,8 +4,8 @@ import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.repository.impl.json.MedicalRecordRepositoryImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class MedicalRecordService {
@@ -22,7 +22,7 @@ public class MedicalRecordService {
      * @return //TODO
      */
     //TODO
-    public List<MedicalRecord> getMedicalsRecords() {
+    public Set<MedicalRecord> getMedicalsRecords() {
         return medicalRecordRepositoryImpl.findAll();
     }
 

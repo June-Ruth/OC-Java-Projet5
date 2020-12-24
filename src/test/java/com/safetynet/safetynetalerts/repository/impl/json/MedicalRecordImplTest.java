@@ -8,18 +8,20 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class MedicalRecordImplTest {
 
     private static DataBase dataBase;
     private static DataBaseTestService dataBaseTestService = new DataBaseTestService();
-    private static List<MedicalRecord> medicalRecords;
+    private static Set<MedicalRecord> medicalRecords;
 
     private MedicalRecordRepositoryImpl medicalRecordRepositoryImpl;
 
@@ -65,8 +67,6 @@ class MedicalRecordImplTest {
         LocalDate newBirthdate = LocalDate.of(2012, 7, 15);
         MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", newBirthdate, null, null);
         assertTrue(medicalRecordRepositoryImpl.update(medicalRecord));
-        int index = dataBase.getMedicalRecords().indexOf(medicalRecord);
-        assertEquals(newBirthdate, dataBase.getMedicalRecords().get(index).getBirthdate());
     }
 
     @Test

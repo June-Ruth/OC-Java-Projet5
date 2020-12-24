@@ -7,34 +7,40 @@ import com.safetynet.safetynetalerts.repository.FireStationRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class FireStationRepositoryImpl implements FireStationRepository {
 
     private DataBase dataBase = DataBaseManager.INSTANCE.getDataBase();
-    private List<FireStation> fireStations = dataBase.getFireStations();
+    private Set<FireStation> fireStations = dataBase.getFireStations();
 
     @Override
-    public List<FireStation> findAll() {
+    public Set<FireStation> findAll() {
         return fireStations;
     }
 
     @Override
+    public FireStation findByAdress(String address) {
+        //TODO
+    return null;
+    }
+
+    @Override
+    public Set<FireStation> findByNumber(int stationNumber) {
+        //TODO
+        return null;
+    }
+
+    @Override
     public boolean save(FireStation fireStation) {
-        if (fireStations.contains(fireStation)) {
-            return false;
-        } else {
-            fireStations.add(fireStation);
-            return true;
-        }
+        return fireStations.add(fireStation);
     }
 
     @Override
     public boolean update(FireStation fireStation) {
-        int idToUpdate = fireStations.indexOf(fireStation);
-        if (idToUpdate != -1) {
-            fireStations.set(idToUpdate, fireStation);
-            return true;
+        if (fireStations.remove(fireStation)) {
+            return fireStations.add(fireStation);
         } else {
             return false;
         }
@@ -42,12 +48,6 @@ public class FireStationRepositoryImpl implements FireStationRepository {
 
     @Override
     public boolean delete(FireStation fireStation) {
-        int idToDelete = fireStations.indexOf(fireStation);
-        if (idToDelete != -1) {
-            fireStations.remove(idToDelete);
-            return true;
-        } else {
-            return false;
-        }
+        return fireStations.remove(fireStation);
     }
 }

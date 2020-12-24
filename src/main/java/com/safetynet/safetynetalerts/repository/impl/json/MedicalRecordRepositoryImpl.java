@@ -6,35 +6,28 @@ import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.repository.MedicalRecordRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Set;
 
 @Repository
 public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
 
     private DataBase dataBase = DataBaseManager.INSTANCE.getDataBase();
-    private List<MedicalRecord> medicalRecords = dataBase.getMedicalRecords();
+    private Set<MedicalRecord> medicalRecords = dataBase.getMedicalRecords();
 
     @Override
-    public List<MedicalRecord> findAll() {
+    public Set<MedicalRecord> findAll() {
         return medicalRecords;
     }
 
     @Override
     public boolean save(MedicalRecord medicalRecord) {
-        if (medicalRecords.contains(medicalRecord)) {
-            return false;
-        } else {
-            medicalRecords.add(medicalRecord);
-            return true;
-        }
+        return medicalRecords.add(medicalRecord);
     }
 
     @Override
     public boolean update(MedicalRecord medicalRecord) {
-        int idToUpdate = medicalRecords.indexOf(medicalRecord);
-        if (idToUpdate != -1) {
-            medicalRecords.set(idToUpdate, medicalRecord);
-            return true;
+        if (medicalRecords.remove(medicalRecord)) {
+            return medicalRecords.add(medicalRecord);
         } else {
             return false;
         }
@@ -42,12 +35,6 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
 
     @Override
     public boolean delete(MedicalRecord medicalRecord) {
-        int idToDelete = medicalRecords.indexOf(medicalRecord);
-        if (idToDelete != -1) {
-            medicalRecords.remove(idToDelete);
-            return true;
-        } else {
-            return false;
-        }
+        return medicalRecords.remove(medicalRecord);
     }
 }

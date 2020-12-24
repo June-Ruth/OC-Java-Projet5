@@ -6,7 +6,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
@@ -14,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @Disabled
+@ExtendWith(MockitoExtension.class)
 class MedicalRecordServiceTest {
 
     private static MedicalRecordService medicalRecordService;
@@ -44,14 +47,14 @@ class MedicalRecordServiceTest {
 
     @Test
     void saveMedicalRecordAlreadyExistingTest() {
-        when(medicalRecordRepositoryImpl.save(medicalRecord)).thenThrow(Exception.class);
-        assertThrows(Exception.class, () -> medicalRecordService.saveMedicalRecord(medicalRecord));
+        when(medicalRecordRepositoryImpl.save(medicalRecord)).thenReturn(false);
+        verify(medicalRecordRepositoryImpl, times(1)).save(medicalRecord);
     }
 
+    @Disabled
     @Test
     void saveMedicalRecordWithInvalidArgumentsTest() {
-        when(medicalRecordRepositoryImpl.save(medicalRecord)).thenThrow(Exception.class);
-        assertThrows(Exception.class, () -> medicalRecordService.saveMedicalRecord(medicalRecord));
+        //TODO
     }
 
     @Test
@@ -63,27 +66,27 @@ class MedicalRecordServiceTest {
 
     @Test
     void updateMedicalRecordUnknownTest() {
-        when(medicalRecordRepositoryImpl.update(medicalRecord)).thenThrow(Exception.class);
-        assertThrows(Exception.class, () -> medicalRecordService.updateMedicalRecord(medicalRecord));
+        when(medicalRecordRepositoryImpl.update(medicalRecord)).thenReturn(false);
+        verify(medicalRecordRepositoryImpl, times(1)).update(medicalRecord);
     }
 
+    @Disabled
     @Test
     void updateMedicalRecordWithInvalidArgumentsTest() {
-        when(medicalRecordRepositoryImpl.update(medicalRecord)).thenThrow(Exception.class);
-        assertThrows(Exception.class, () -> medicalRecordService.updateMedicalRecord(medicalRecord));
+        //TODO
     }
 
     @Test
     void deleteMedicalRecordExistingTest() {
-        when(medicalRecordRepositoryImpl.delete(medicalRecord)).thenReturn(false);
+        when(medicalRecordRepositoryImpl.delete(medicalRecord)).thenReturn(true);
         medicalRecordService.deleteMedicalRecord(medicalRecord);
         verify(medicalRecordRepositoryImpl, times(1)).delete(medicalRecord);
     }
 
     @Test
     void deleteMedicalRecordUnknownTest() {
-        when(medicalRecordRepositoryImpl.delete(medicalRecord)).thenThrow(Exception.class);
-        assertThrows(Exception.class, () -> medicalRecordService.deleteMedicalRecord(medicalRecord));
+        when(medicalRecordRepositoryImpl.delete(medicalRecord)).thenReturn(false);
+        verify(medicalRecordRepositoryImpl, times(1)).delete(medicalRecord);
     }
 
 }

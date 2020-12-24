@@ -4,8 +4,8 @@ import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.impl.json.PersonRepositoryImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class PersonService {
@@ -22,7 +22,7 @@ public class PersonService {
      * @return //TODO
      */
     //TODO
-    public List<Person> getPersons() {
+    public Set<Person> getPersons() {
         return personRepositoryImpl.findAll();
     }
 

@@ -8,17 +8,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class FireStationRepositoryImplTest {
 
     private static DataBase dataBase;
     private static DataBaseTestService dataBaseTestService = new DataBaseTestService();
-    private static List<FireStation> fireStations;
+    private static Set<FireStation> fireStations;
 
     private FireStationRepositoryImpl fireStationRepositoryImpl;
 
@@ -62,8 +66,6 @@ class FireStationRepositoryImplTest {
         int newStationNumber = 3;
         FireStation fireStation = new FireStation("address", newStationNumber);
         assertTrue(fireStationRepositoryImpl.update(fireStation));
-        int index = dataBase.getFireStations().indexOf(fireStation);
-        assertEquals(newStationNumber, dataBase.getFireStations().get(index).getStation());
     }
 
     @Test
