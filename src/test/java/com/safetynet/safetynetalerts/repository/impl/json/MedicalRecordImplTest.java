@@ -48,6 +48,24 @@ class MedicalRecordImplTest {
     }
 
     @Test
+    void findByFirstNameAndLastNameExistingTest() {
+        LocalDate birthdate = LocalDate.of(2012, 6, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", birthdate, null, null);
+        MedicalRecord toTest = medicalRecordRepositoryImpl.findByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName());
+        assertEquals(medicalRecord.getAllergies(), toTest.getAllergies());
+        assertEquals(medicalRecord.getBirthdate(), toTest.getBirthdate());
+        assertEquals(medicalRecord.getMedications(), toTest.getMedications());
+    }
+
+    @Test
+    void findByFirstNameAndLastNameUnknownTest() {
+        LocalDate birthdate = LocalDate.of(2012, 6, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
+        MedicalRecord toTest = medicalRecordRepositoryImpl.findByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName());
+        assertNull(toTest);
+    }
+
+    @Test
     void saveMedicalRecordNewTest() {
         LocalDate birthdate = LocalDate.of(2010, 5, 12);
         MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);

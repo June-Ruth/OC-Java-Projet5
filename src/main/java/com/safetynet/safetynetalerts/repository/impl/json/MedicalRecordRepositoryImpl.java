@@ -7,6 +7,7 @@ import com.safetynet.safetynetalerts.repository.MedicalRecordRepository;
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Repository
@@ -19,6 +20,23 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
     public Set<MedicalRecord> findAll() {
         return medicalRecords;
     }
+
+    @Override
+    public MedicalRecord findByFirstNameAndLastName(String firstName, String lastName) {
+        Set<MedicalRecord> result = new HashSet<>();
+        medicalRecords.iterator().forEachRemaining((medicalRecord) -> {
+            if (medicalRecord.getFirstName().equals(firstName)
+            && medicalRecord.getLastName().equals(lastName)) {
+                result.add(medicalRecord);
+            }
+        });
+        if (result.iterator().hasNext()) {
+            return result.iterator().next();
+        } else {
+            return null;
+        }
+    }
+
 
     @Override
     public boolean save(MedicalRecord medicalRecord) {

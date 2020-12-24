@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,6 +42,22 @@ class PersonRepositoryImplTest {
     @Test
     void findAllPersonsTest() {
         assertEquals(2, personRepositoryImpl.findAll().size());
+    }
+
+    @Test
+    void findByFirstNameAndLastNameExistingTest() {
+        Person person = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", "mail@email.com");
+        Person toTest = personRepositoryImpl.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+        assertEquals(person.getAddress(), toTest.getAddress());
+        assertEquals(person.getEmail(), toTest.getEmail());
+        assertEquals(person.getPhone(), toTest.getPhone());
+    }
+
+    @Test
+    void findByFirstNameAndLastNameUnknownTest() {
+        Person person = new Person("test", "test", "test", "test", 123, "456", "test@test.com");
+        Person toTest = personRepositoryImpl.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+        assertNull(toTest);
     }
 
     @Test

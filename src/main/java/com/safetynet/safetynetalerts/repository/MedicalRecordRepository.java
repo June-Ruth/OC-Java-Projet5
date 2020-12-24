@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MedicalRecordRepository extends Dao<MedicalRecord> {
 
+    MedicalRecord findByFirstNameAndLastName(String firstName, String lastName);
+
 }

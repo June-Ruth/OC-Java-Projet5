@@ -4,12 +4,14 @@ import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.Dao;
+import com.safetynet.safetynetalerts.repository.PersonRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Repository
-public class PersonRepositoryImpl implements Dao<Person> {
+public class PersonRepositoryImpl implements PersonRepository {
 
     private DataBase dataBase = DataBaseManager.INSTANCE.getDataBase();
     private Set<Person> persons = dataBase.getPersons();
@@ -17,6 +19,22 @@ public class PersonRepositoryImpl implements Dao<Person> {
     @Override
     public Set<Person> findAll() {
         return persons;
+    }
+
+    @Override
+    public Person findByFirstNameAndLastName(String firstName, String lastName) {
+        Set<Person> result = new HashSet<>();
+        persons.iterator().forEachRemaining((person) -> {
+            if (person.getFirstName().equals(firstName)
+                    && person.getLastName().equals(lastName)) {
+                result.add(person);
+            }
+        });
+        if (result.iterator().hasNext()) {
+            return result.iterator().next();
+        } else {
+            return null;
+        }
     }
 
     @Override

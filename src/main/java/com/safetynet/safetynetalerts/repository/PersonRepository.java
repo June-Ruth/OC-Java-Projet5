@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PersonRepository extends Dao<Person> {
 
+    Person findByFirstNameAndLastName(String firstName, String lastName);
 }

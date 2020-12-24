@@ -18,32 +18,26 @@ public class MedicalRecordService {
     }
 
     /**
-     * Get all entities for Medical Record
-     * @return //TODO
+     * Get all entities for Medical Record.
+     * @return list of all medical records
      */
-    //TODO
     public Set<MedicalRecord> getMedicalsRecords() {
         return medicalRecordRepositoryImpl.findAll();
     }
 
     /**
      * Save a new MedicalRecord
-     * @return //TODO
      */
-    //TODO
-    public MedicalRecord saveMedicalRecord(MedicalRecord medicalRecord) {
+    public void saveMedicalRecord(MedicalRecord medicalRecord) {
         medicalRecordRepositoryImpl.save(medicalRecord);
-        return medicalRecord;
     }
 
     /**
      * Update an existing medical record.
      * @param medicalRecord - Medical Record Object updated
-     * @return //TODO
      */
-    //TODO
-    public boolean updateMedicalRecord(MedicalRecord medicalRecord) {
-        return medicalRecordRepositoryImpl.update(medicalRecord);
+    public void updateMedicalRecord(MedicalRecord medicalRecord) {
+        medicalRecordRepositoryImpl.update(medicalRecord);
     }
 
     /**
