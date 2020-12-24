@@ -4,6 +4,7 @@ import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.repository.MedicalRecordRepository;
+import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 import org.springframework.stereotype.Repository;
 
 import java.util.Set;
@@ -36,5 +37,10 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
     @Override
     public boolean delete(MedicalRecord medicalRecord) {
         return medicalRecords.remove(medicalRecord);
+    }
+
+    @Override
+    public boolean deleteAll(Set<MedicalRecord> medicalRecordsToDelete) {
+        return medicalRecords.removeAll(medicalRecordsToDelete);
     }
 }

@@ -4,7 +4,6 @@ import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.repository.impl.json.FireStationRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -15,7 +14,6 @@ import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
-@Disabled
 @ExtendWith(MockitoExtension.class)
 class FireStationServiceTest {
 
@@ -70,30 +68,36 @@ class FireStationServiceTest {
 
     @Test
     void deleteFireStationByAddressExistingTest() {
+        when(fireStationRepositoryImpl.findByAddress(fireStation.getAddress())).thenReturn(fireStation);
         when(fireStationRepositoryImpl.delete(fireStation)).thenReturn(true);
         fireStationService.deleteFireStationbyAddress(fireStation.getAddress());
+        verify(fireStationRepositoryImpl, times(1)).findByAddress(fireStation.getAddress());
         verify(fireStationRepositoryImpl, times(1)).delete(fireStation);
     }
 
     @Test
     void deleteFireStationByAddressUnknownTest() {
-        when(fireStationRepositoryImpl.delete(fireStation)).thenReturn(false);
+        when(fireStationRepositoryImpl.findByAddress(fireStation.getAddress())).thenReturn(null);
         fireStationService.deleteFireStationbyAddress(fireStation.getAddress());
-        verify(fireStationRepositoryImpl, times(1)).delete(fireStation);
+        verify(fireStationRepositoryImpl, times(1)).findByAddress(fireStation.getAddress());
+        verify(fireStationRepositoryImpl, times(0)).delete(fireStation);
     }
 
     @Test
     void deleteFireStationByNumberExistingTest() {
-        when(fireStationRepositoryImpl.delete(fireStation)).thenReturn(true);
+        when(fireStationRepositoryImpl.findAllAddressAssociatedWithStationNumber(1)).thenReturn(fireStations);
+        when(fireStationRepositoryImpl.deleteAll(fireStations)).thenReturn(true);
         fireStationService.deleteFireStationbyNumber(fireStation.getStation());
-        verify(fireStationRepositoryImpl, times(1)).delete(fireStation);
+        verify(fireStationRepositoryImpl, times(1)).findAllAddressAssociatedWithStationNumber(1);
+        verify(fireStationRepositoryImpl, times(1)).deleteAll(fireStations);
     }
 
     @Test
     void deleteFireStationByNumberUnknownTest() {
-        when(fireStationRepositoryImpl.delete(fireStation)).thenReturn(false);
+        when(fireStationRepositoryImpl.findAllAddressAssociatedWithStationNumber(1)).thenReturn(null);
         fireStationService.deleteFireStationbyNumber(fireStation.getStation());
-        verify(fireStationRepositoryImpl, times(1)).delete(fireStation);
+        verify(fireStationRepositoryImpl, times(1)).findAllAddressAssociatedWithStationNumber(1);
+        verify(fireStationRepositoryImpl, times(0)).deleteAll(fireStations);
     }
 
 }

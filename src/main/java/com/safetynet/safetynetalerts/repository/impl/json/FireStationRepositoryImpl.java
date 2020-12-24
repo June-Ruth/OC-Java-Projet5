@@ -6,8 +6,7 @@ import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.repository.FireStationRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class FireStationRepositoryImpl implements FireStationRepository {
@@ -21,15 +20,25 @@ public class FireStationRepositoryImpl implements FireStationRepository {
     }
 
     @Override
-    public FireStation findByAdress(String address) {
-        //TODO
-    return null;
+    public FireStation findByAddress(String address) {
+        Set<FireStation> result = new HashSet<>();
+        fireStations.iterator().forEachRemaining((fireStation) -> {
+            if (fireStation.getAddress().equals(address)) {
+                result.add(fireStation);
+            }
+        });
+        return result.iterator().next();
     }
 
     @Override
-    public Set<FireStation> findByNumber(int stationNumber) {
-        //TODO
-        return null;
+    public Set<FireStation> findAllAddressAssociatedWithStationNumber(int stationNumber) {
+        Set<FireStation> result = new HashSet<>();
+        fireStations.iterator().forEachRemaining((fireStation) -> {
+            if (fireStation.getStation() == stationNumber) {
+                result.add(fireStation);
+            }
+        });
+        return result;
     }
 
     @Override
@@ -49,5 +58,10 @@ public class FireStationRepositoryImpl implements FireStationRepository {
     @Override
     public boolean delete(FireStation fireStation) {
         return fireStations.remove(fireStation);
+    }
+
+    @Override
+    public boolean deleteAll(Set<FireStation> fireStationsToDelete) {
+        return fireStations.removeAll(fireStationsToDelete);
     }
 }

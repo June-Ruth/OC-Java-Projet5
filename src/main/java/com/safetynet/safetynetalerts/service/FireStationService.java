@@ -47,10 +47,8 @@ public class FireStationService {
      * Delete an existing FireStation by its address
      * @param address to delete
      */
-    //TODO
     public void deleteFireStationbyAddress(String address) {
-        FireStation fireStation = null;
-
+        FireStation fireStation = fireStationRepositoryImpl.findByAddress(address);
         fireStationRepositoryImpl.delete(fireStation);
     }
 
@@ -58,10 +56,11 @@ public class FireStationService {
      * Delete an existing FireStation by its number and all address associated.
      * @param stationNumber to delete
      */
-    //TODO
     public void deleteFireStationbyNumber(int stationNumber) {
-        FireStation fireStation = null;
-        fireStationRepositoryImpl.delete(fireStation);
+        Set<FireStation> fireStationsToDelete = fireStationRepositoryImpl.findAllAddressAssociatedWithStationNumber(stationNumber);
+        //TODO : si fireStationsToDelete = null : envoie message
+        fireStationRepositoryImpl.deleteAll(fireStationsToDelete);
+
     }
 
 }

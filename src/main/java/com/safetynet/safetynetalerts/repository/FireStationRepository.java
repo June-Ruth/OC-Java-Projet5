@@ -9,7 +9,7 @@ import java.util.Set;
 @Repository
 public interface FireStationRepository extends Dao<FireStation> {
 
-    FireStation findByAdress(String address);
+    FireStation findByAddress(String address);
 
-    Set<FireStation> findByNumber(int stationNumber);
+    Set<FireStation> findAllAddressAssociatedWithStationNumber(int stationNumber);
 }

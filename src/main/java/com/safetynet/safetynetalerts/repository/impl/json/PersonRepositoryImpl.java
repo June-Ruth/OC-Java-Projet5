@@ -37,4 +37,9 @@ public class PersonRepositoryImpl implements Dao<Person> {
     public boolean delete(Person person) {
         return persons.remove(person);
     }
+
+    @Override
+    public boolean deleteAll(Set<Person> personsToDelete) {
+        return persons.removeAll(personsToDelete);
+    }
 }

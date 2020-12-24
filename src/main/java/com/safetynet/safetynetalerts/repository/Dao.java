@@ -1,5 +1,6 @@
 package com.safetynet.safetynetalerts.repository;
 
+import java.util.Collections;
 import java.util.Set;
 
 public interface Dao<T> {
@@ -30,5 +31,12 @@ public interface Dao<T> {
      * @return true if deleted
      */
     boolean delete(T t);
+
+    /**
+     * Delete all object T listed in the set
+     * @param set of all object to delete
+     * @return true if deleted
+     */
+    boolean deleteAll(Set<T> set);
 
 }
