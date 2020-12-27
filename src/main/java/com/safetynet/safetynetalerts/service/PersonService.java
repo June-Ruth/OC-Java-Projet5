@@ -19,40 +19,35 @@ public class PersonService {
 
     /**
      * Get all entities for Person
-     * @return //TODO
+     * @return list of all persons
      */
-    //TODO
     public Set<Person> getPersons() {
         return personRepositoryImpl.findAll();
     }
 
     /**
      * Save a new Person
-     * @return //TODO
      */
-    //TODO
-    public Person savePerson(Person person) {
+    public void savePerson(Person person) {
         personRepositoryImpl.save(person);
-        return person;
     }
 
     /**
      * Update an existing person.
      * @param person - Person Object updated
-     * @return //TODO
      */
-    //TODO
-    public boolean updatePerson(Person person) {
-        return personRepositoryImpl.update(person);
+    public void updatePerson(Person person) {
+        personRepositoryImpl.update(person);
     }
 
     /**
      * Delete an existing person.
-     * @param person to delete
+     * @param firstName to delete
+     * @param lastName to delete
      */
-    //TODO
-    public boolean deletePerson(Person person) {
-        return personRepositoryImpl.delete(person);
+    public void deletePerson(String firstName, String lastName) {
+        Person person = personRepositoryImpl.findByFirstNameAndLastName(firstName, lastName);
+        personRepositoryImpl.delete(person);
     }
 
 
