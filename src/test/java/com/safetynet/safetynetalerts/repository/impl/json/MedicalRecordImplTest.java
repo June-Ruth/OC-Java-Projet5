@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -108,6 +109,25 @@ class MedicalRecordImplTest {
         LocalDate birthdate = LocalDate.of(2010, 5, 12);
         MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
         assertFalse(medicalRecordRepositoryImpl.delete(medicalRecord));
+    }
+
+    @Test
+    void deleteAllExistingTest() {
+        Set<MedicalRecord> medicalRecordsToDelete = new HashSet<>();
+        LocalDate birthdate = LocalDate.of(2012, 6, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", birthdate, null, null);
+        medicalRecordsToDelete.add(medicalRecord);
+        assertTrue(medicalRecordRepositoryImpl.deleteAll(medicalRecordsToDelete));
+        assertEquals(1, dataBase.getMedicalRecords().size());
+    }
+
+    @Test
+    void deleteAllWithUnknownTest() {
+        Set<MedicalRecord> medicalRecordsToDelete = new HashSet<>();
+        LocalDate newBirthdate = LocalDate.of(2012, 7, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("test", "test", newBirthdate, null, null);
+        medicalRecordsToDelete.add(medicalRecord);
+        assertFalse(medicalRecordRepositoryImpl.deleteAll(medicalRecordsToDelete));
     }
 
 }

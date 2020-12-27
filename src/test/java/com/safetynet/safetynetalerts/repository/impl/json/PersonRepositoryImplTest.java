@@ -12,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -98,6 +100,23 @@ class PersonRepositoryImplTest {
     void deletePersonWithUnknownFirstNameAndLastNameTest() {
         Person person = new Person("test", "test", "test", "test", 123, "456", "email");
         assertFalse(personRepositoryImpl.delete(person));
+    }
+
+    @Test
+    void deleteAllExistingTest() {
+        Set<Person> personsToDelete = new HashSet<>();
+        Person person = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", "mail@email.com");
+        personsToDelete.add(person);
+        assertTrue(personRepositoryImpl.deleteAll(personsToDelete));
+        assertEquals(1, dataBase.getPersons().size());
+    }
+
+    @Test
+    void deleteAllWithUnknownTest() {
+        Set<Person> personsToDelete = new HashSet<>();
+        Person person = new Person("test", "test", "test", "test", 123, "456", "email");
+        personsToDelete.add(person);
+        assertFalse(personRepositoryImpl.deleteAll(personsToDelete));
     }
 
 }
