@@ -12,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,28 +43,28 @@ class FireStationServiceTest {
     @Test
     void saveFireStationNewTest() {
         when(fireStationRepositoryImpl.save(fireStation)).thenReturn(true);
-        fireStationService.saveFireStation(fireStation);
+        assertTrue(fireStationService.saveFireStation(fireStation));
         verify(fireStationRepositoryImpl, times(1)).save(fireStation);
     }
 
     @Test
     void saveFireStationAlreadyExistingTest() {
         when(fireStationRepositoryImpl.save(fireStation)).thenReturn(false);
-        fireStationService.saveFireStation(fireStation);
+        assertFalse(fireStationService.saveFireStation(fireStation));
         verify(fireStationRepositoryImpl, times(1)).save(fireStation);
     }
 
     @Test
     void updateFireStationExistingTest() {
         when(fireStationRepositoryImpl.update(fireStation)).thenReturn(true);
-        fireStationService.updateFireStation(fireStation);
+        assertTrue(fireStationService.updateFireStation(fireStation));
         verify(fireStationRepositoryImpl, times(1)).update(fireStation);
     }
 
     @Test
     void updateFireStationUnknownTest() {
         when(fireStationRepositoryImpl.update(fireStation)).thenReturn(false);
-        fireStationService.updateFireStation(fireStation);
+        assertFalse(fireStationService.updateFireStation(fireStation));
         verify(fireStationRepositoryImpl, times(1)).update(fireStation);
     }
 
@@ -70,7 +72,7 @@ class FireStationServiceTest {
     void deleteFireStationByAddressExistingTest() {
         when(fireStationRepositoryImpl.findByAddress(fireStation.getAddress())).thenReturn(fireStation);
         when(fireStationRepositoryImpl.delete(fireStation)).thenReturn(true);
-        fireStationService.deleteFireStationbyAddress(fireStation.getAddress());
+        assertTrue(fireStationService.deleteFireStationbyAddress(fireStation.getAddress()));
         verify(fireStationRepositoryImpl, times(1)).findByAddress(fireStation.getAddress());
         verify(fireStationRepositoryImpl, times(1)).delete(fireStation);
     }
@@ -78,7 +80,7 @@ class FireStationServiceTest {
     @Test
     void deleteFireStationByAddressUnknownTest() {
         when(fireStationRepositoryImpl.findByAddress(fireStation.getAddress())).thenReturn(null);
-        fireStationService.deleteFireStationbyAddress(fireStation.getAddress());
+        assertFalse(fireStationService.deleteFireStationbyAddress(fireStation.getAddress()));
         verify(fireStationRepositoryImpl, times(1)).findByAddress(fireStation.getAddress());
         verify(fireStationRepositoryImpl, times(0)).delete(fireStation);
     }
@@ -87,7 +89,7 @@ class FireStationServiceTest {
     void deleteFireStationByNumberExistingTest() {
         when(fireStationRepositoryImpl.findAllByStationNumber(1)).thenReturn(fireStations);
         when(fireStationRepositoryImpl.deleteAll(fireStations)).thenReturn(true);
-        fireStationService.deleteFireStationbyNumber(fireStation.getStation());
+        assertTrue(fireStationService.deleteFireStationbyNumber(fireStation.getStation()));
         verify(fireStationRepositoryImpl, times(1)).findAllByStationNumber(1);
         verify(fireStationRepositoryImpl, times(1)).deleteAll(fireStations);
     }
@@ -95,7 +97,7 @@ class FireStationServiceTest {
     @Test
     void deleteFireStationByNumberUnknownTest() {
         when(fireStationRepositoryImpl.findAllByStationNumber(1)).thenReturn(null);
-        fireStationService.deleteFireStationbyNumber(fireStation.getStation());
+        assertFalse(fireStationService.deleteFireStationbyNumber(fireStation.getStation()));
         verify(fireStationRepositoryImpl, times(1)).findAllByStationNumber(1);
         verify(fireStationRepositoryImpl, times(0)).deleteAll(fireStations);
     }

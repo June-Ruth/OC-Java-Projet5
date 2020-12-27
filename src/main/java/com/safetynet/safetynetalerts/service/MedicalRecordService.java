@@ -28,16 +28,16 @@ public class MedicalRecordService {
     /**
      * Save a new MedicalRecord
      */
-    public void saveMedicalRecord(MedicalRecord medicalRecord) {
-        medicalRecordRepositoryImpl.save(medicalRecord);
+    public boolean saveMedicalRecord(MedicalRecord medicalRecord) {
+        return medicalRecordRepositoryImpl.save(medicalRecord);
     }
 
     /**
      * Update an existing medical record.
      * @param medicalRecord - Medical Record Object updated
      */
-    public void updateMedicalRecord(MedicalRecord medicalRecord) {
-        medicalRecordRepositoryImpl.update(medicalRecord);
+    public boolean updateMedicalRecord(MedicalRecord medicalRecord) {
+        return medicalRecordRepositoryImpl.update(medicalRecord);
     }
 
     /**
@@ -45,8 +45,12 @@ public class MedicalRecordService {
      * @param firstName to delete
      * @param lastName to delete
      */
-    public void deleteMedicalRecord(String firstName, String lastName) {
+    public boolean deleteMedicalRecord(String firstName, String lastName) {
         MedicalRecord medicalRecord = medicalRecordRepositoryImpl.findByFirstNameAndLastName(firstName, lastName);
-        medicalRecordRepositoryImpl.delete(medicalRecord);
+        if (medicalRecord != null) {
+            return medicalRecordRepositoryImpl.delete(medicalRecord);
+        } else {
+            return false;
+        }
     }
 }

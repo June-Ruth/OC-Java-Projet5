@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Disabled
 @WebMvcTest(controllers = PersonController.class)
 class PersonControllerTest {
 
@@ -29,49 +28,49 @@ class PersonControllerTest {
 
     @Test
     void createPersonNewTest() throws Exception {
-        mockMvc.perform(post("person"))
+        mockMvc.perform(post("/person"))
                 .andExpect(status().isCreated());
     }
 
     @Test
     void createPersonAlreadyExistingTest() throws Exception {
-        mockMvc.perform(post("person"))
+        mockMvc.perform(post("/person"))
                 .andExpect(status().isConflict());
     }
 
     @Test
     void createPersonWithInvalidArgumentsTest() throws Exception {
-        mockMvc.perform(post("person"))
+        mockMvc.perform(post("/person"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void updatePersonExistingTest() throws Exception {
-        mockMvc.perform(put("person"))
+        mockMvc.perform(put("/person"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void updatePersonUnknownTest() throws Exception {
-        mockMvc.perform(put("person"))
+        mockMvc.perform(put("/person"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void updatePersonWithInvalidArgumentsTest() throws Exception {
-        mockMvc.perform(put("person"))
+        mockMvc.perform(put("/person"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void deletePersonExistingTest() throws Exception {
-        mockMvc.perform(delete("person"))
+        mockMvc.perform(delete("/person"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void deletePersonUnknownTest() throws Exception {
-        mockMvc.perform(delete("person"))
+        mockMvc.perform(delete("/person"))
                 .andExpect(status().isNotFound());
     }
 }

@@ -2,22 +2,30 @@ package com.safetynet.safetynetalerts.controller;
 
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.service.PersonService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @RestController
-//@ResquestMapping("/persons")
 public class PersonController {
 
     private PersonService personService;
 
+    public PersonController(PersonService pPersonService) {
+        Objects.requireNonNull(pPersonService);
+        personService = pPersonService;
+    }
+
     /**
      * Read - Get all entities for Person
-     * @return //TODO
+     * @return List of all persons
      */
-    //TODO ; visualiser toutes les données
-    public List<Person> getPersons() {
+    @GetMapping(value = "/person")
+    public Set<Person> getPersons() {
         //GET mapping, HTTP status si réussit : 200 OK
         return null;
     }
@@ -25,14 +33,13 @@ public class PersonController {
     /**
      * Create - save a new Person.
      * @param person full filled
-     * @return //TODO
      */
-    //TODO : ajouter une nouvelle personne
-    public Person createPerson(Person person) {
+    @PostMapping(value = "/person")
+    public void createPerson(Person person) {
         //POST mapping, HTTP status si réussi : 201 created
         //409 Conflict si crée un mapping déjà existant
         //400 Bad Resquest si param invalide
-        return null;
+        personService.savePerson(person);
     }
 
     /**

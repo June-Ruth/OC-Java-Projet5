@@ -1,34 +1,45 @@
 package com.safetynet.safetynetalerts.controller;
 
 import com.safetynet.safetynetalerts.model.MedicalRecord;
+import com.safetynet.safetynetalerts.service.MedicalRecordService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @RestController
 public class MedicalRecordController {
+
+    private MedicalRecordService medicalRecordService;
+
+    public MedicalRecordController(MedicalRecordService pMedicalRecordService) {
+        Objects.requireNonNull(pMedicalRecordService);
+        medicalRecordService = pMedicalRecordService;
+    }
+
     /**
      * Read - Get all Entities for Medical Record
-     * @return //TODO
+     * @return list of all the medical Records
      */
-    //TODO : visualiser toutes les données de MedicaLRecord List
-    public List<MedicalRecord> getMedicalRecords(){
+    @GetMapping(value = "/medicalrecord")
+    public Set<MedicalRecord> getMedicalRecords(){
         //GET mapping, HTTP status si réussit : 200 OK
-
-        return null;
+        return medicalRecordService.getMedicalsRecords();
     }
 
     /**
      * Create - save a new Medical Record.
      * @param medicalRecord full filled.
-     * @return //TODO
      */
-    //TODO : ajouter un dossier médical
-    public MedicalRecord createMedicalRecord(MedicalRecord medicalRecord) {
+    @PostMapping(value = "/medicalrecord")
+    public void createMedicalRecord(MedicalRecord medicalRecord) {
         //POST mapping, HTTP status si réussi : 201 created
         //409 Conflict si crée un mapping déjà existant
         //400 Bad Resquest si param invalide
-        return null;
+        medicalRecordService.saveMedicalRecord(medicalRecord);
     }
 
     /**

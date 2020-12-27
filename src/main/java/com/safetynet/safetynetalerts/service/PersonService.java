@@ -28,16 +28,16 @@ public class PersonService {
     /**
      * Save a new Person
      */
-    public void savePerson(Person person) {
-        personRepositoryImpl.save(person);
+    public boolean savePerson(Person person) {
+        return personRepositoryImpl.save(person);
     }
 
     /**
      * Update an existing person.
      * @param person - Person Object updated
      */
-    public void updatePerson(Person person) {
-        personRepositoryImpl.update(person);
+    public boolean updatePerson(Person person) {
+        return personRepositoryImpl.update(person);
     }
 
     /**
@@ -45,9 +45,13 @@ public class PersonService {
      * @param firstName to delete
      * @param lastName to delete
      */
-    public void deletePerson(String firstName, String lastName) {
+    public boolean deletePerson(String firstName, String lastName) {
         Person person = personRepositoryImpl.findByFirstNameAndLastName(firstName, lastName);
-        personRepositoryImpl.delete(person);
+        if (person != null) {
+            return personRepositoryImpl.delete(person);
+        } else {
+            return false;
+        }
     }
 
 

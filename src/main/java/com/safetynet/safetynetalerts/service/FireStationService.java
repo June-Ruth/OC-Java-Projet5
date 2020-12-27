@@ -13,7 +13,7 @@ public class FireStationService {
     private FireStationRepositoryImpl fireStationRepositoryImpl;
 
     public FireStationService(FireStationRepositoryImpl pFireStationRepositoryImpl) {
-        Objects.requireNonNull( pFireStationRepositoryImpl);
+        Objects.requireNonNull(pFireStationRepositoryImpl);
         fireStationRepositoryImpl =  pFireStationRepositoryImpl;
     }
 
@@ -29,35 +29,42 @@ public class FireStationService {
      * Save a new FireStation mapping
      * @param fireStation to create
      */
-    public void saveFireStation(FireStation fireStation) {
-        fireStationRepositoryImpl.save(fireStation);
+    public boolean saveFireStation(FireStation fireStation) {
+        return fireStationRepositoryImpl.save(fireStation);
     }
 
     /**
      * Update an existing fire station.
      * @param fireStation - FireStation Object updated
      */
-    public void updateFireStation(FireStation fireStation) {
-        fireStationRepositoryImpl.update(fireStation);
+    public boolean updateFireStation(FireStation fireStation) {
+        return fireStationRepositoryImpl.update(fireStation);
     }
 
     /**
      * Delete an existing FireStation by its address
      * @param address to delete
      */
-    public void deleteFireStationbyAddress(String address) {
+    public boolean deleteFireStationbyAddress(String address) {
         FireStation fireStation = fireStationRepositoryImpl.findByAddress(address);
-        fireStationRepositoryImpl.delete(fireStation);
+        if (fireStation != null) {
+            return fireStationRepositoryImpl.delete(fireStation);
+        } else {
+            return false;
+        }
     }
 
     /**
      * Delete an existing FireStation by its number and all address associated.
      * @param stationNumber to delete
      */
-    public void deleteFireStationbyNumber(int stationNumber) {
+    public boolean deleteFireStationbyNumber(int stationNumber) {
         Set<FireStation> fireStationsToDelete = fireStationRepositoryImpl.findAllByStationNumber(stationNumber);
-        //TODO : si fireStationsToDelete = null : envoie message
-        fireStationRepositoryImpl.deleteAll(fireStationsToDelete);
+        if (fireStationsToDelete != null) {
+            return fireStationRepositoryImpl.deleteAll(fireStationsToDelete);
+        } else {
+            return false;
+        }
 
     }
 
