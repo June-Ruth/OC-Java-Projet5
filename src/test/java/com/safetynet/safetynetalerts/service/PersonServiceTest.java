@@ -49,12 +49,6 @@ class PersonServiceTest {
         verify(personRepositoryImpl, times(1)).save(person);
     }
 
-    @Disabled
-    @Test
-    void savePersonWithInvalidArgumentsTest() {
-        //TODO
-    }
-
     @Test
     void updatePersonExistingTest() {
         when(personRepositoryImpl.update(person)).thenReturn(true);
@@ -66,12 +60,6 @@ class PersonServiceTest {
     void updatePersonUnknownTest() {
         when(personRepositoryImpl.update(person)).thenReturn(false);
         verify(personRepositoryImpl, times(1)).update(person);
-    }
-
-    @Disabled
-    @Test
-    void updatePersonWithInvalidArgumentsTest() {
-        //TODO
     }
 
     @Test

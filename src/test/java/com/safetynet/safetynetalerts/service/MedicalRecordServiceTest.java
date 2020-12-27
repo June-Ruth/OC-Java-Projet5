@@ -66,20 +66,25 @@ class MedicalRecordServiceTest {
     @Test
     void updateMedicalRecordUnknownTest() {
         when(medicalRecordRepositoryImpl.update(medicalRecord)).thenReturn(false);
+        medicalRecordService.updateMedicalRecord(medicalRecord);
         verify(medicalRecordRepositoryImpl, times(1)).update(medicalRecord);
     }
 
     @Test
     void deleteMedicalRecordExistingTest() {
+        when(medicalRecordRepositoryImpl.findByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName())).thenReturn(medicalRecord);
         when(medicalRecordRepositoryImpl.delete(medicalRecord)).thenReturn(true);
-        medicalRecordService.deleteMedicalRecord(medicalRecord);
+        medicalRecordService.deleteMedicalRecord(medicalRecord.getFirstName(), medicalRecord.getLastName());
+        verify(medicalRecordRepositoryImpl, times(1)).findByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName());
         verify(medicalRecordRepositoryImpl, times(1)).delete(medicalRecord);
     }
 
     @Test
     void deleteMedicalRecordUnknownTest() {
-        when(medicalRecordRepositoryImpl.delete(medicalRecord)).thenReturn(false);
-        verify(medicalRecordRepositoryImpl, times(1)).delete(medicalRecord);
+        when(medicalRecordRepositoryImpl.findByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName())).thenReturn(null);
+        medicalRecordService.deleteMedicalRecord(medicalRecord.getFirstName(), medicalRecord.getLastName());
+        verify(medicalRecordRepositoryImpl, times(1)).findByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName());
+        verify(medicalRecordRepositoryImpl, times(0)).delete(medicalRecord);
     }
 
 }

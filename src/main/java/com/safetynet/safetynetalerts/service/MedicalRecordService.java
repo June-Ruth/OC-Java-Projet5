@@ -42,11 +42,11 @@ public class MedicalRecordService {
 
     /**
      * Delete an existing MedicalRecord.
-     * @param medicalRecord to delete
+     * @param firstName to delete
+     * @param lastName to delete
      */
-    //TODO
-    public boolean deleteMedicalRecord(MedicalRecord medicalRecord) {
-
-        return medicalRecordRepositoryImpl.delete(medicalRecord);
+    public void deleteMedicalRecord(String firstName, String lastName) {
+        MedicalRecord medicalRecord = medicalRecordRepositoryImpl.findByFirstNameAndLastName(firstName, lastName);
+        medicalRecordRepositoryImpl.delete(medicalRecord);
     }
 }
