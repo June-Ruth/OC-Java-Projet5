@@ -1,12 +1,15 @@
-package com.safetynet.safetynetalerts.controller;
+package com.safetynet.safetynetalerts.web.controller;
 
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.service.MedicalRecordService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.List;
+import java.net.URI;
 import java.util.Objects;
 import java.util.Set;
 
@@ -35,11 +38,26 @@ public class MedicalRecordController {
      * @param medicalRecord full filled.
      */
     @PostMapping(value = "/medicalrecord")
-    public void createMedicalRecord(MedicalRecord medicalRecord) {
+    public ResponseEntity<String> createMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
         //POST mapping, HTTP status si réussi : 201 created
         //409 Conflict si crée un mapping déjà existant
         //400 Bad Resquest si param invalide
-        medicalRecordService.saveMedicalRecord(medicalRecord);
+        if(medicalRecord.getLastName() == null || medicalRecord.getFirstName() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        boolean isCreated = medicalRecordService.saveMedicalRecord(medicalRecord);
+
+        if (!isCreated) {
+            return ResponseEntity.status(409).body("Medical Record Already Exists");
+        } else {
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{firstName}{lastName}")
+                    .buildAndExpand(medicalRecord.getFirstName(), medicalRecord.getLastName())
+                    .toUri();
+            return ResponseEntity.created(location).build();
+        }
     }
 
     /**

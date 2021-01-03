@@ -1,13 +1,17 @@
-package com.safetynet.safetynetalerts.controller;
+package com.safetynet.safetynetalerts.web.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.service.PersonService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,19 +32,30 @@ class PersonControllerTest {
 
     @Test
     void createPersonNewTest() throws Exception {
-        mockMvc.perform(post("/person"))
+        Person person = new Person("test", "test", "test", "test", 123, "test", "test");
+        when(personService.savePerson(any(Person.class))).thenReturn(true);
+        mockMvc.perform(post("/person")
+                .content(new ObjectMapper().writeValueAsString(person))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
     }
 
     @Test
     void createPersonAlreadyExistingTest() throws Exception {
-        mockMvc.perform(post("/person"))
+        Person person = new Person("firstName", "lastName", "address", "city", 123, "test", "test");
+        when(personService.savePerson(any(Person.class))).thenReturn(false);
+        mockMvc.perform(post("/person")
+                .content(new ObjectMapper().writeValueAsString(person))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict());
     }
 
     @Test
     void createPersonWithInvalidArgumentsTest() throws Exception {
-        mockMvc.perform(post("/person"))
+        Person person = new Person(null, null, null, null, 0, null, null);
+        mockMvc.perform(post("/person")
+                .content(new ObjectMapper().writeValueAsString(person))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 

@@ -1,9 +1,8 @@
-package com.safetynet.safetynetalerts.controller;
+package com.safetynet.safetynetalerts.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.service.FireStationService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -62,43 +61,62 @@ class FireStationControllerTest {
 
     @Test
     void updateFireStationExistingTest() throws Exception {
-        mockMvc.perform(put("/firestation"))
+        FireStation fireStation = new FireStation("address", 5);
+        when(fireStationService.updateFireStation(any(FireStation.class))).thenReturn(true);
+        mockMvc.perform(put("/firestation")
+                .content(new ObjectMapper().writeValueAsString(fireStation))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     void updateFireStationUnknownTest() throws Exception {
-        mockMvc.perform(put("/firestation"))
+        FireStation fireStation = new FireStation("test", 6);
+        when(fireStationService.updateFireStation(any(FireStation.class))).thenReturn(false);
+        mockMvc.perform(put("/firestation")
+                .content(new ObjectMapper().writeValueAsString(fireStation))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void updateFireStationWithInvalidArgumentsTest() throws Exception {
-        mockMvc.perform(put("/firestation"))
+        FireStation fireStation = new FireStation(null, 1);
+        mockMvc.perform(put("/firestation")
+                .content(new ObjectMapper().writeValueAsString(fireStation))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void deleteFireStationNumberMappingExisitngTest() throws Exception {
-        mockMvc.perform(delete("/firestation"))
+        int station = 1;
+        when(fireStationService.deleteFireStationbyNumber(any(Integer.class))).thenReturn(true);
+        mockMvc.perform(delete("/firestation/station/{station}", station))
                 .andExpect(status().isOk());
     }
 
     @Test
     void deleteFireStationNumberMappingUnknownTest() throws Exception {
-        mockMvc.perform(delete("/firestation"))
+        int station = 5;
+        when(fireStationService.deleteFireStationbyNumber(any(Integer.class))).thenReturn(false);
+        mockMvc.perform(delete("/firestation/station/{station}", station))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void deleteFireStationAddressMappingExistingTest() throws Exception {
-        mockMvc.perform(delete("/firestation"))
+        String address = "address";
+        when(fireStationService.deleteFireStationbyAddress(any(String.class))).thenReturn(true);
+        mockMvc.perform(delete("/firestation/address/{address}", address))
                 .andExpect(status().isOk());
     }
 
     @Test
     void deleteFireStationAddressMappingUnknownTest() throws Exception {
-        mockMvc.perform(delete("/firestation"))
+        String address = "test";
+        when(fireStationService.deleteFireStationbyAddress(any(String.class))).thenReturn(false);
+        mockMvc.perform(delete("/firestation/address/{address}", address))
                 .andExpect(status().isNotFound());
     }
 }

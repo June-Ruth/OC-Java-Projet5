@@ -1,12 +1,15 @@
-package com.safetynet.safetynetalerts.controller;
+package com.safetynet.safetynetalerts.web.controller;
 
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.service.PersonService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.List;
+import java.net.URI;
 import java.util.Objects;
 import java.util.Set;
 
@@ -35,11 +38,26 @@ public class PersonController {
      * @param person full filled
      */
     @PostMapping(value = "/person")
-    public void createPerson(Person person) {
+    public ResponseEntity<String> createPerson(@RequestBody Person person) {
         //POST mapping, HTTP status si réussi : 201 created
         //409 Conflict si crée un mapping déjà existant
         //400 Bad Resquest si param invalide
-        personService.savePerson(person);
+        if (person.getFirstName() == null || person.getLastName() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        boolean isCreated = personService.savePerson(person);
+
+        if (!isCreated) {
+            return ResponseEntity.status(409).body("Person Already Exists");
+        } else {
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{firstName}{lastName}")
+                    .buildAndExpand(person.getFirstName(), person.getLastName())
+                    .toUri();
+            return ResponseEntity.created(location).build();
+        }
     }
 
     /**
@@ -55,6 +73,7 @@ public class PersonController {
         //PUT mapping, HTTP status si réussi : 200 OK
         //404 Not Found si n'existe pas
         //400 Bad Resquest si param invalide
+
         return null;
     }
 
