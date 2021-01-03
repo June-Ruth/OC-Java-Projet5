@@ -45,7 +45,7 @@ public class FireStationController {
     public ResponseEntity<Void> createFireStation(@RequestBody FireStation fireStation) {
         //TODO : voir comment compléter pour que vérifie tous les champs et pas juste les champs servant à l'identification (sans Hibernate Validator)
         if (fireStation.getAddress() == null) {
-            throw new InvalidArgumentsException("Address is null.");
+            throw new InvalidArgumentsException("Address is null. Cannot add it.");
         }
 
         if (fireStationService.saveFireStation(fireStation)) {
@@ -77,7 +77,9 @@ public class FireStationController {
         if (fireStationService.updateFireStation(fireStation)) {
             return ResponseEntity.ok().build();
         } else {
-            throw new NotFoundException("The fire station mapping at the address : " + fireStation.getAddress() + ", is not existing. Cannot update it.");
+            throw new NotFoundException("The fire station mapping at the address : "
+                    + fireStation.getAddress()
+                    + ", is not existing. Cannot update it.");
         }
     }
 
@@ -107,7 +109,8 @@ public class FireStationController {
         if (fireStationService.deleteFireStationbyAddress(address)) {
             return ResponseEntity.ok().build();
         } else {
-            throw new NotFoundException("The fire station address : " + address + ", is not existing. Cannot delete it.");
+            throw new NotFoundException("The fire station address : "
+                    + address + ", is not existing. Cannot delete it.");
         }
 
     }

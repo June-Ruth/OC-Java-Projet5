@@ -2,11 +2,11 @@ package com.safetynet.safetynetalerts.web.controller;
 
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.service.PersonService;
+import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
+import com.safetynet.safetynetalerts.web.exceptions.InvalidArgumentsException;
+import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -24,68 +24,85 @@ public class PersonController {
     }
 
     /**
-     * Read - Get all entities for Person
-     * @return List of all persons
+     * Get all entities for Person
+     * Http Status will be 200 - OK if we can access to all entities, even if list is empty.
+     * @return Set of all persons
      */
     @GetMapping(value = "/person")
     public Set<Person> getPersons() {
-        //GET mapping, HTTP status si réussit : 200 OK
-        return null;
+        return personService.getPersons();
     }
 
     /**
-     * Create - save a new Person.
-     * @param person full filled
+     * Save a new Person.
+     * Duplicate are not allowed.
+     * If the arguments fields of the person to add are not correct, then throw InvalidArgumentsException and HTTP Status will be 400 - Bad Request.
+     * If Person first name and last name are already existing (= duplicate), then throw AlreadyExistingException and HTTP Status will be 409 - Conflict.
+     * @param person full filled to save
+     * @return 201 - Created if the new Person is correctly saved
      */
     @PostMapping(value = "/person")
-    public ResponseEntity<String> createPerson(@RequestBody Person person) {
-        //POST mapping, HTTP status si réussi : 201 created
-        //409 Conflict si crée un mapping déjà existant
-        //400 Bad Resquest si param invalide
-        if (person.getFirstName() == null || person.getLastName() == null) {
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<Void> createPerson(@RequestBody Person person) {
+        //TODO : voir comment compléter pour que vérifie tous les champs et pas juste les champs servant à l'identification (sans Hibernate Validator)
+        if(person.getLastName() == null || person.getFirstName() == null) {
+            throw new InvalidArgumentsException("First name or/and last name is null. Cannot add it.");
         }
 
-        boolean isCreated = personService.savePerson(person);
-
-        if (!isCreated) {
-            return ResponseEntity.status(409).body("Person Already Exists");
-        } else {
+        if (personService.savePerson(person)) {
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{firstName}{lastName}")
                     .buildAndExpand(person.getFirstName(), person.getLastName())
                     .toUri();
             return ResponseEntity.created(location).build();
+        } else {
+            throw new AlreadyExistingException("The following person "
+                    + person.getFirstName() + " " + person.getLastName()
+                    + " is already existing. Cannot add it.");
+
         }
     }
 
     /**
-     * Update an existing Person depending of its name.
+     * Update an existing Person depending on its first name and last name.
      * It's not possible to update first name and last name.
-     * @param firstName of the Person to update
-     * @param lastName of the Person to update
-     * @param person - Person object updated
-     * @return
+     * If the arguments fields of the person to update are not correct, then throw InvalidArgumentsException and HTTP Status will be 400 - Bad Request.
+     * If Person first name and last name is not existing, then throw NotFoundException and HTTP Status will be 404 - Not Found.
+     * @param person to update full filled
+     * @return 200 - OK if the person is correctly updated
      */
-    //TODO : mettre à jour une personne : supposer que le nom et prénom ne change pas
-    public Person updatePerson(String firstName, String lastName, Person person) {
-        //PUT mapping, HTTP status si réussi : 200 OK
-        //404 Not Found si n'existe pas
-        //400 Bad Resquest si param invalide
+    @PutMapping(value = "/person")
+    public ResponseEntity<Void> updatePerson(@RequestBody Person person) {
+        //TODO : voir comment compléter pour que vérifie tous les champs et pas juste les champs servant à l'identification (sans Hibernate Validator)
+        if(person.getLastName() == null || person.getFirstName() == null) {
+            throw new InvalidArgumentsException("First name or/and last name is null. Cannot update it.");
+        }
 
-        return null;
+        if (personService.updatePerson(person)) {
+            return ResponseEntity.ok().build();
+        } else {
+            throw new NotFoundException("The following person "
+                    + person.getFirstName() + " " + person.getLastName()
+                    + ", is not existing. Cannot update it.");
+        }
     }
 
     /**
      * Delete an existing Person.
-     * @param firstName of Person to delete
-     * @param lastName of Person to delete
+     * If person first name and last name is not existing, then throw NotFoundException and HTTP Status will be 404 - Not Found.
+     * @param firstName of the person to delete
+     * @param lastName of the person to delete
+     * @return 200 - OK if the person is correctly deleted
      */
-    //TODO ; supprimer une personne : utiliser le nom et prénom comme identifiant unique
-    public void deletePerson(String firstName, String lastName) {
-        //DELETE mapping, HTTP status si réussi : 200 OK si action confirmée et que le message de réponse inclut une représentation décrivant le status
-        //404 Not Found si n'existe pas
+    @DeleteMapping(value = "/person/{firstName}{lastName}")
+    public ResponseEntity<Void> deletePerson(@PathVariable String firstName, @PathVariable String lastName) {
+        if (personService.deletePerson(firstName, lastName)) {
+            return ResponseEntity.ok().build();
+        } else {
+            throw new NotFoundException("The following person "
+                    + firstName + " " + lastName
+                    + ", is not existing. Cannot delete it.");
+        }
     }
 
 }

@@ -61,31 +61,48 @@ class PersonControllerTest {
 
     @Test
     void updatePersonExistingTest() throws Exception {
-        mockMvc.perform(put("/person"))
+        Person person = new Person("firstName", "lastName", "address", "city", 123, "test", "test");
+        when(personService.updatePerson(any(Person.class))).thenReturn(true);
+        mockMvc.perform(put("/person")
+                .content(new ObjectMapper().writeValueAsString(person))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     void updatePersonUnknownTest() throws Exception {
-        mockMvc.perform(put("/person"))
+        Person person = new Person("test", "test", "test", "test", 123, "test", "test");
+        when(personService.updatePerson(any(Person.class))).thenReturn(false);
+        mockMvc.perform(put("/person")
+                .content(new ObjectMapper().writeValueAsString(person))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void updatePersonWithInvalidArgumentsTest() throws Exception {
-        mockMvc.perform(put("/person"))
+        Person person = new Person(null, null, null, null, 0, null, null);
+        mockMvc.perform(put("/person")
+                .content(new ObjectMapper().writeValueAsString(person))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void deletePersonExistingTest() throws Exception {
-        mockMvc.perform(delete("/person"))
+        String firstName = "firstName";
+        String lastName = "lastName";
+        when(personService.deletePerson(any(String.class), any(String.class))).thenReturn(true);
+        mockMvc.perform(delete("/person/{firstName}{lastName}", firstName, lastName))
                 .andExpect(status().isOk());
     }
 
     @Test
     void deletePersonUnknownTest() throws Exception {
-        mockMvc.perform(delete("/person"))
+        String firstName = "test";
+        String lastName = "test";
+        when(personService.deletePerson(any(String.class), any(String.class))).thenReturn(false);
+        mockMvc.perform(delete("/person/{firstName}{lastName}", firstName, lastName))
                 .andExpect(status().isNotFound());
     }
 }

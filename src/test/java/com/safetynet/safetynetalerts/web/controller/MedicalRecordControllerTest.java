@@ -63,31 +63,48 @@ class MedicalRecordControllerTest {
 
     @Test
     void updateMedicalRecordExistingTest() throws Exception {
-        mockMvc.perform(put("/medicalrecord"))
+        MedicalRecord medicalRecord = new MedicalRecord("firstName", "lastName", LocalDate.of(1194, 6, 15), null, null);
+        when(medicalRecordService.updateMedicalRecord(any(MedicalRecord.class))).thenReturn(true);
+        mockMvc.perform(put("/medicalrecord")
+                .content(new ObjectMapper().writeValueAsString(medicalRecord))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     void updateMedicalRecordUnknownTest() throws Exception {
-        mockMvc.perform(put("/medicalrecord"))
+        MedicalRecord medicalRecord= new MedicalRecord("test", "test", LocalDate.now(), null, null);
+        when(medicalRecordService.updateMedicalRecord(any(MedicalRecord.class))).thenReturn(false);
+        mockMvc.perform(put("/medicalrecord")
+                .content(new ObjectMapper().writeValueAsString(medicalRecord))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void updateMedicalRecordWithInvalidArgumentsTest() throws Exception {
-        mockMvc.perform(put("/medicalrecord"))
+        MedicalRecord medicalRecord = new MedicalRecord(null, null, LocalDate.now(), null, null);
+        mockMvc.perform(put("/medicalrecord")
+                .content(new ObjectMapper().writeValueAsString(medicalRecord))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void deleteMedicalRecordExistingTest() throws Exception {
-        mockMvc.perform(delete("/medicalrecord"))
+        String firstName = "firstName";
+        String lastName = "lastName";
+        when(medicalRecordService.deleteMedicalRecord(any(String.class), any(String.class))).thenReturn(true);
+        mockMvc.perform(delete("/medicalrecord/{firstName}{lastName}", firstName, lastName))
                 .andExpect(status().isOk());
     }
 
     @Test
     void deleteMedicalRecordUnknownTest() throws Exception {
-        mockMvc.perform(delete("/medicalrecord"))
+        String firstName = "test";
+        String lastName = "test";
+        when(medicalRecordService.deleteMedicalRecord(any(String.class), any(String.class))).thenReturn(false);
+        mockMvc.perform(delete("/medicalrecord/{firstName}{lastName}", firstName, lastName))
                 .andExpect(status().isNotFound());
     }
 }
