@@ -176,8 +176,13 @@ public class Person {
         this.email = pEmail;
     }
 
+    /**
+     * Equality depends on firstName and lastName.
+     * @param o
+     * @return true if it's equal
+     */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
@@ -189,6 +194,10 @@ public class Person {
                 && lastName.equals(person.lastName);
     }
 
+    /**
+     * Hash by firstName and lastName.
+     * @return hash
+     */
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName);

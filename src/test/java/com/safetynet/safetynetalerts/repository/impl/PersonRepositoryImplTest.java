@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.repository.impl.json;
+package com.safetynet.safetynetalerts.repository.impl;
 
 import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 

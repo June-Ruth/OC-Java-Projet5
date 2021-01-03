@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.model.FireStation;
-import com.safetynet.safetynetalerts.repository.impl.json.FireStationRepositoryImpl;
+import com.safetynet.safetynetalerts.repository.impl.FireStationRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

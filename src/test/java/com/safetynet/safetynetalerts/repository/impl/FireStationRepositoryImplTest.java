@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.repository.impl.json;
+package com.safetynet.safetynetalerts.repository.impl;
 
 import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
@@ -7,10 +7,8 @@ import com.safetynet.safetynetalerts.model.FireStation;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;

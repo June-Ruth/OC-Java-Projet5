@@ -63,14 +63,27 @@ public class FireStation {
         this.station = pStation;
     }
 
+    /**
+     * Check equality  by the address.
+     * @param o
+     * @return true if address are equals.
+     */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         FireStation that = (FireStation) o;
         return address.equals(that.address);
     }
 
+    /**
+     * Do hash with the address.
+     * @return hash by address.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(address);

@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.repository.impl.json;
+package com.safetynet.safetynetalerts.repository.impl;
 
 import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;

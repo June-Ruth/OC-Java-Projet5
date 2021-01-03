@@ -157,8 +157,13 @@ public class MedicalRecord {
         this.allergies = pAllergies;
     }
 
+    /**
+     * Equality is checked with firstName and lastName.
+     * @param o as Medical record
+     * @return true if it's equal
+     */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
@@ -170,6 +175,10 @@ public class MedicalRecord {
                 && lastName.equals(that.lastName);
     }
 
+    /**
+     * hash by firstName and lastName.
+     * @return hash
+     */
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName);

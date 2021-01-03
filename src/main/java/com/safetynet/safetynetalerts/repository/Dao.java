@@ -1,12 +1,11 @@
 package com.safetynet.safetynetalerts.repository;
 
-import java.util.Collections;
 import java.util.Set;
 
 public interface Dao<T> {
 
     /**
-     * Find All Object T that Implements Dao
+     * Find All Object T that Implements Dao.
      * @return List of T object
      */
     Set<T> findAll();
@@ -33,7 +32,7 @@ public interface Dao<T> {
     boolean delete(T t);
 
     /**
-     * Delete all object T listed in the set
+     * Delete all object T listed in the set.
      * @param set of all object to delete
      * @return true if deleted
      */
