@@ -6,24 +6,24 @@ import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
 
-import java.util.List;
+import java.util.Set;
 
 public class DataBase {
     /**
      * List to use as a DB Table with all Persons inside.
      * @see Person
      */
-    private List<Person> persons;
+    private Set<Person> persons;
     /**
      * List to use as a DB Table with all medical records inside.
      * @see MedicalRecord
      */
-    private List<MedicalRecord> medicalRecords;
+    private Set<MedicalRecord> medicalRecords;
     /**
      * List to use as a DB Table with all FireStations inside.
      * @see FireStation
      */
-    private List<FireStation> fireStations;
+    private Set<FireStation> fireStations;
 
     /**
      * Constructor with JsonCreator to deserialize Json information.
@@ -33,11 +33,11 @@ public class DataBase {
      */
     @JsonCreator
     DataBase(@JsonProperty("persons")
-             final List<Person> pPersons,
+             final Set<Person> pPersons,
              @JsonProperty("medicalrecords")
-             final List<MedicalRecord> pMedicalRecords,
+             final Set<MedicalRecord> pMedicalRecords,
              @JsonProperty("firestations")
-             final List<FireStation> pFireStations) {
+             final Set<FireStation> pFireStations) {
         persons = pPersons;
         medicalRecords = pMedicalRecords;
         fireStations = pFireStations;
@@ -47,7 +47,7 @@ public class DataBase {
      * Getter.
      * @return persons as List
      */
-    public List<Person> getPersons() {
+    public Set<Person> getPersons() {
         return persons;
     }
 
@@ -55,7 +55,7 @@ public class DataBase {
      * Setter.
      * @param pPersons as List
      */
-    public void setPersons(final List<Person> pPersons) {
+    public void setPersons(final Set<Person> pPersons) {
         persons = pPersons;
     }
 
@@ -63,7 +63,7 @@ public class DataBase {
      * Getter.
      * @return medicalrecords as List.
      */
-    public List<MedicalRecord> getMedicalRecords() {
+    public Set<MedicalRecord> getMedicalRecords() {
         return medicalRecords;
     }
 
@@ -71,7 +71,7 @@ public class DataBase {
      * Setter.
      * @param pMedicalRecords as List
      */
-    public void setMedicalRecords(final List<MedicalRecord> pMedicalRecords) {
+    public void setMedicalRecords(final Set<MedicalRecord> pMedicalRecords) {
         medicalRecords = pMedicalRecords;
     }
 
@@ -79,7 +79,8 @@ public class DataBase {
      * Getter.
      * @return fireStations as List
      */
-    public List<FireStation> getFireStations() {
+    public Set<FireStation> getFireStations() {
+
         return fireStations;
     }
 
@@ -87,7 +88,7 @@ public class DataBase {
      * Setter.
      * @param pFireStations as List
      */
-    public void setFireStations(final List<FireStation> pFireStations) {
+    public void setFireStations(final Set<FireStation> pFireStations) {
         fireStations = pFireStations;
     }
 }

@@ -11,6 +11,8 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -21,26 +23,26 @@ public class MedicalRecord {
     /**
      * First name.
      */
+    @NotBlank(message = "First name is mandatory")
     private String firstName;
     /**
      * Last name.
      */
-
+    @NotBlank(message = "Last name is mandatory")
     private String lastName;
     /**
      * BirthDate.
      */
+    @Past
     private LocalDate birthdate;
     /**
      * List of medications with value of dosage.
      * Medication is the key, dosage is the value in mg.
      */
-    @Nullable
     private List<String> medications;
     /**
      * List of known allergies.
      */
-    @Nullable
     private List<String> allergies;
 
     /**
@@ -65,9 +67,9 @@ public class MedicalRecord {
                          @JsonProperty("birthdate")
                              final LocalDate pBirthdate,
                          @JsonProperty("medications")
-                             @Nullable final List<String> pMedications,
+                             final List<String> pMedications,
                          @JsonProperty("allergies")
-                             @Nullable final List<String> pAllergies) {
+                             final List<String> pAllergies) {
         firstName = pFirstName;
         lastName = pLastName;
         birthdate = pBirthdate;
@@ -157,8 +159,13 @@ public class MedicalRecord {
         this.allergies = pAllergies;
     }
 
+    /**
+     * Equality is checked with firstName and lastName.
+     * @param o as Medical record
+     * @return true if it's equal
+     */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
@@ -170,6 +177,10 @@ public class MedicalRecord {
                 && lastName.equals(that.lastName);
     }
 
+    /**
+     * hash by firstName and lastName.
+     * @return hash
+     */
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName);

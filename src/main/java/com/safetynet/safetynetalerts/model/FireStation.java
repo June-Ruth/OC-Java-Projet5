@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 @JsonTypeName(value = "firestations")
@@ -13,10 +16,12 @@ public class FireStation {
     /**
      * Number and Street information.
      */
+    @NotBlank(message = "Address is mandatory")
     private String address;
     /**
      * Fire station associated to the address.
      */
+    @Positive(message = "Station should be positive")
     private int station;
 
     /**
@@ -63,14 +68,27 @@ public class FireStation {
         this.station = pStation;
     }
 
+    /**
+     * Check equality  by the address.
+     * @param o
+     * @return true if address are equals.
+     */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         FireStation that = (FireStation) o;
         return address.equals(that.address);
     }
 
+    /**
+     * Do hash with the address.
+     * @return hash by address.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(address);

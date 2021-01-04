@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.repository.impl.json;
+package com.safetynet.safetynetalerts.repository.impl;
 
 import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
@@ -8,18 +8,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class MedicalRecordImplTest {
 
     private static DataBase dataBase;
     private static DataBaseTestService dataBaseTestService = new DataBaseTestService();
-    private static List<MedicalRecord> medicalRecords;
+    private static Set<MedicalRecord> medicalRecords;
 
     private MedicalRecordRepositoryImpl medicalRecordRepositoryImpl;
 
@@ -46,10 +49,28 @@ class MedicalRecordImplTest {
     }
 
     @Test
+    void findByFirstNameAndLastNameExistingTest() {
+        LocalDate birthdate = LocalDate.of(2012, 6, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", birthdate, null, null);
+        MedicalRecord toTest = medicalRecordRepositoryImpl.findByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName());
+        assertEquals(medicalRecord.getAllergies(), toTest.getAllergies());
+        assertEquals(medicalRecord.getBirthdate(), toTest.getBirthdate());
+        assertEquals(medicalRecord.getMedications(), toTest.getMedications());
+    }
+
+    @Test
+    void findByFirstNameAndLastNameUnknownTest() {
+        LocalDate birthdate = LocalDate.of(2012, 6, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
+        MedicalRecord toTest = medicalRecordRepositoryImpl.findByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName());
+        assertNull(toTest);
+    }
+
+    @Test
     void saveMedicalRecordNewTest() {
         LocalDate birthdate = LocalDate.of(2010, 5, 12);
         MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
-        medicalRecordRepositoryImpl.save(medicalRecord);
+        assertTrue(medicalRecordRepositoryImpl.save(medicalRecord));
         assertEquals(3, medicalRecords.size());
     }
 
@@ -57,13 +78,7 @@ class MedicalRecordImplTest {
     void saveMedicalRecordAlreadyExisitingTest() {
         LocalDate birthdate = LocalDate.of(2012, 6, 15);
         MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", birthdate, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.save(medicalRecord));
-    }
-
-    @Test
-    void saveMedicalRecordWithInvalidArgumentsTest() {
-        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", null, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.save(medicalRecord));
+        assertFalse(medicalRecordRepositoryImpl.save(medicalRecord));
     }
 
     @Test
@@ -77,15 +92,9 @@ class MedicalRecordImplTest {
     void updateMedicalRecordWithUnknownFirstNameAndLastNameTest() {
         LocalDate newBirthdate = LocalDate.of(2012, 7, 15);
         MedicalRecord medicalRecord = new MedicalRecord("test", "test", newBirthdate, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.update(medicalRecord));
+        assertFalse(medicalRecordRepositoryImpl.update(medicalRecord));
     }
 
-    @Test
-    void updateMedicalRecordWithInvalidArgumentsTest() {
-        LocalDate newBirthdate = null;
-        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", newBirthdate, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.update(medicalRecord));
-    }
 
     @Test
     void deleteMedicalRecordWithExistingFirstNameAndLastNameTest() {
@@ -99,7 +108,26 @@ class MedicalRecordImplTest {
     void deleteMedicalRecordWithUnknownFirstNameAndLastNameTest() {
         LocalDate birthdate = LocalDate.of(2010, 5, 12);
         MedicalRecord medicalRecord = new MedicalRecord("test", "test", birthdate, null, null);
-        assertThrows(Exception.class, () -> medicalRecordRepositoryImpl.delete(medicalRecord));
+        assertFalse(medicalRecordRepositoryImpl.delete(medicalRecord));
+    }
+
+    @Test
+    void deleteAllExistingTest() {
+        Set<MedicalRecord> medicalRecordsToDelete = new HashSet<>();
+        LocalDate birthdate = LocalDate.of(2012, 6, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("firstName2", "lastName2", birthdate, null, null);
+        medicalRecordsToDelete.add(medicalRecord);
+        assertTrue(medicalRecordRepositoryImpl.deleteAll(medicalRecordsToDelete));
+        assertEquals(1, dataBase.getMedicalRecords().size());
+    }
+
+    @Test
+    void deleteAllWithUnknownTest() {
+        Set<MedicalRecord> medicalRecordsToDelete = new HashSet<>();
+        LocalDate newBirthdate = LocalDate.of(2012, 7, 15);
+        MedicalRecord medicalRecord = new MedicalRecord("test", "test", newBirthdate, null, null);
+        medicalRecordsToDelete.add(medicalRecord);
+        assertFalse(medicalRecordRepositoryImpl.deleteAll(medicalRecordsToDelete));
     }
 
 }

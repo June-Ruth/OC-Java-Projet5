@@ -1,69 +1,91 @@
 package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.FireStation;
-import com.safetynet.safetynetalerts.repository.impl.json.FireStationRepositoryImpl;
+import com.safetynet.safetynetalerts.repository.impl.FireStationRepositoryImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class FireStationService {
-
+    /**
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger(FireStationService.class);
+    /**
+     * @see FireStationRepositoryImpl
+     */
     private FireStationRepositoryImpl fireStationRepositoryImpl;
 
-    FireStationService(FireStationRepositoryImpl pFireStationRepositoryImpl) {
-        Objects.requireNonNull( pFireStationRepositoryImpl);
+    /**
+     * Public constructor for FireStationService.
+     * Require non null FireStationRepositoryImpl.
+     * @param pFireStationRepositoryImpl not null
+     */
+    public FireStationService(
+            final FireStationRepositoryImpl pFireStationRepositoryImpl) {
+        Objects.requireNonNull(pFireStationRepositoryImpl);
         fireStationRepositoryImpl =  pFireStationRepositoryImpl;
     }
 
     /**
-     * Get all entities for FireStation
-     * @return //TODO
+     * Get all entities for FireStation.
+     * @return list of all FireStation
      */
-    //TODO
-    public List<FireStation> getFireStations() {
+    public Set<FireStation> getFireStations() {
+        LOGGER.debug("Process to get all fire stations.");
         return fireStationRepositoryImpl.findAll();
     }
 
     /**
-     * Save a new FireStation mapping
+     * Save a new FireStation mapping.
      * @param fireStation to create
-     * @return //TODO
+     * @return true if it's saved
      */
-    //TODO
-    public FireStation saveFireStation(FireStation fireStation) {
+    public boolean saveFireStation(final FireStation fireStation) {
+        LOGGER.debug("Process to save fire station.");
         return fireStationRepositoryImpl.save(fireStation);
     }
 
     /**
      * Update an existing fire station.
      * @param fireStation - FireStation Object updated
-     * @return //TODO
+     * @return true if it's updated
      */
-    //TODO
-    public boolean updateFireStation(FireStation fireStation) {
+    public boolean updateFireStation(final FireStation fireStation) {
+        LOGGER.debug("Process to  update fire station.");
         return fireStationRepositoryImpl.update(fireStation);
     }
 
     /**
-     * Delete an existing FireStation by its address
+     * Delete an existing FireStation by its address.
      * @param address to delete
+     * @return true if it's deleted
      */
-    //TODO
-    public boolean deleteFireStationbyAddress(String address) {
-        FireStation fireStation = null;
+    public boolean deleteFireStationbyAddress(final String address) {
+        LOGGER.debug("Process to find and delete fire station at the address : "
+                + address);
+        FireStation fireStation =
+                fireStationRepositoryImpl.findByAddress(address);
         return fireStationRepositoryImpl.delete(fireStation);
     }
 
     /**
      * Delete an existing FireStation by its number and all address associated.
      * @param stationNumber to delete
+     * @return true if it's deleted
      */
-    //TODO
-    public boolean deleteFireStationbyNumber(int stationNumber) {
-        FireStation fireStation = null;
-        return  fireStationRepositoryImpl.delete(fireStation);
+    public boolean deleteFireStationbyNumber(final int stationNumber) {
+        LOGGER.debug("Process to find addresses for fire station number "
+                + stationNumber);
+        Set<FireStation> fireStationsToDelete =
+                fireStationRepositoryImpl.findAllByStationNumber(stationNumber);
+        LOGGER.debug("Addresses for fire station number "
+                + stationNumber + " find. Process to delete them.");
+        return fireStationRepositoryImpl.deleteAll(fireStationsToDelete);
     }
 
 }

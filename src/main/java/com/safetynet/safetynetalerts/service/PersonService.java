@@ -1,56 +1,78 @@
 package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.repository.impl.json.PersonRepositoryImpl;
+import com.safetynet.safetynetalerts.repository.impl.PersonRepositoryImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class PersonService {
-
+    /**
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger(PersonService.class);
+    /**
+     * @see PersonRepositoryImpl
+     */
     private PersonRepositoryImpl personRepositoryImpl;
 
-    PersonService(PersonRepositoryImpl pPersonRepositoryImpl) {
+    /**
+     * constructor for personService.
+     * Requires non null personRepositoryImpl.
+     * @param pPersonRepositoryImpl not null
+     */
+    PersonService(final PersonRepositoryImpl pPersonRepositoryImpl) {
         Objects.requireNonNull(pPersonRepositoryImpl);
         personRepositoryImpl = pPersonRepositoryImpl;
     }
 
     /**
-     * Get all entities for Person
-     * @return //TODO
+     * Get all entities for Person.
+     * @return list of all persons
      */
-    //TODO
-    public List<Person> getPersons() {
+    public Set<Person> getPersons() {
+        LOGGER.debug("Process to get all persons.");
         return personRepositoryImpl.findAll();
     }
 
     /**
-     * Save a new Person
-     * @return //TODO
+     * Save a new Person.
+     * Return false if the person already exists
+     * @param person to save full filled
+     * @return true if it's correctly saved
      */
-    //TODO
-    public Person savePerson(Person person) {
+    public boolean savePerson(final Person person) {
+        LOGGER.debug("Process to save person.");
         return personRepositoryImpl.save(person);
     }
 
     /**
      * Update an existing person.
+     * Return false if the person doesn't exist.
      * @param person - Person Object updated
-     * @return //TODO
+     * @return true is it's correctly updated
      */
-    //TODO
-    public boolean updatePerson(Person person) {
+    public boolean updatePerson(final Person person) {
+        LOGGER.debug("Process to  update person.");
         return personRepositoryImpl.update(person);
     }
 
     /**
      * Delete an existing person.
-     * @param person to delete
+     * Return false if the person doesn't exist.
+     * @param firstName to delete
+     * @param lastName to delete
+     * @return true if it's correctly deleted
      */
-    //TODO
-    public boolean deletePerson(Person person) {
+    public boolean deletePerson(final String firstName, final String lastName) {
+        LOGGER.debug("Process to find and delete person named "
+                + firstName + lastName);
+        Person person = personRepositoryImpl
+                .findByFirstNameAndLastName(firstName, lastName);
         return personRepositoryImpl.delete(person);
     }
 

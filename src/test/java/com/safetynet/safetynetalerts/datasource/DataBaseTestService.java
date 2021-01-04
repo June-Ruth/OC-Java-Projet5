@@ -5,8 +5,7 @@ import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class DataBaseTestService {
 
@@ -22,9 +21,9 @@ public class DataBaseTestService {
     public void restoreDBTest() {
         dataBase = DataBaseManager.INSTANCE.getDataBase();
 
-        List<Person> persons = dataBase.getPersons();
-        List<FireStation> fireStations = dataBase.getFireStations();
-        List<MedicalRecord> medicalRecords = dataBase.getMedicalRecords();
+        Set<Person> persons = dataBase.getPersons();
+        Set<FireStation> fireStations = dataBase.getFireStations();
+        Set<MedicalRecord> medicalRecords = dataBase.getMedicalRecords();
 
         Person person1 = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", "mail@email.com");
         Person person2 = new Person("firstName2", "lastName2", "address2", "city", 123, "123-456-7890", "mail@email.com");
