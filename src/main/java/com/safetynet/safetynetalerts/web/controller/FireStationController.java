@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Objects;
 import java.util.Set;
@@ -72,9 +73,6 @@ public class FireStationController {
     @PostMapping(value = "/firestation")
     public ResponseEntity<Void> createFireStation(
             @RequestBody final FireStation fireStation) {
-        //TODO : voir comment compléter pour que
-        // vérifie tous les champs et pas juste les champs servant
-        // à l'identification (sans Hibernate Validator)
         if (fireStation.getAddress() == null) {
             throw new InvalidArgumentsException(
                     "Address is null. Cannot add it.");
@@ -108,15 +106,8 @@ public class FireStationController {
      * @return 200 - OK if the fire station is correctly updated
      */
     @PutMapping(value = "/firestation")
-    public ResponseEntity<Void> updateFireStation(
+    public ResponseEntity<Void> updateFireStation(@Valid
             @RequestBody final FireStation fireStation) {
-        //TODO : voir comment compléter pour que vérifie
-        // tous les champs et pas juste les champs servant
-        // à l'identification (sans Hibernate Validator)
-        if (fireStation.getAddress() == null) {
-            throw new InvalidArgumentsException("Address is null.");
-        }
-
         if (fireStationService.updateFireStation(fireStation)) {
             LOGGER.info("Fire station was updated.");
             return ResponseEntity.ok().build();

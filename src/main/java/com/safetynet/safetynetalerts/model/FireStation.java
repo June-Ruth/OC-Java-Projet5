@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 @JsonTypeName(value = "firestations")
@@ -13,10 +16,12 @@ public class FireStation {
     /**
      * Number and Street information.
      */
+    @NotBlank(message = "Address is mandatory")
     private String address;
     /**
      * Fire station associated to the address.
      */
+    @Positive(message = "Station should be positive")
     private int station;
 
     /**

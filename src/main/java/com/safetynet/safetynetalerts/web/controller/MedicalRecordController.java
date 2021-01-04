@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Objects;
 import java.util.Set;
@@ -69,17 +70,8 @@ public class MedicalRecordController {
      * @return 201 - Created if the new medical record is correctly saved
      */
     @PostMapping(value = "/medicalrecord")
-    public ResponseEntity<Void> createMedicalRecord(
+    public ResponseEntity<Void> createMedicalRecord(@Valid
             @RequestBody final MedicalRecord medicalRecord) {
-        //TODO : voir comment compléter pour que vérifie tous les champs
-        // et pas juste les champs servant à l'identification
-        // (sans Hibernate Validator)
-        if (medicalRecord.getLastName() == null
-                || medicalRecord.getFirstName() == null) {
-            throw new InvalidArgumentsException(
-                    "First name or/and last name is null. Cannot add it.");
-        }
-
         if (medicalRecordService.saveMedicalRecord(medicalRecord)) {
             LOGGER.info("Medical Record was saved.");
             URI location = ServletUriComponentsBuilder
@@ -114,7 +106,7 @@ public class MedicalRecordController {
      * @return 200 - OK if the medical record is correctly updated
      */
     @PutMapping(value = "/medicalrecord")
-    public ResponseEntity<Void> updateMedicalRecord(
+    public ResponseEntity<Void> updateMedicalRecord(@Valid
             @RequestBody final MedicalRecord medicalRecord) {
         //TODO : voir comment compléter pour
         // que vérifie tous les champs et pas juste les champs

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Objects;
 import java.util.Set;
@@ -68,15 +69,8 @@ public class PersonController {
      * @return 201 - Created if the new Person is correctly saved
      */
     @PostMapping(value = "/person")
-    public ResponseEntity<Void> createPerson(@RequestBody final Person person) {
-        //TODO : voir comment compléter pour que vérifie
-        // tous les champs et pas juste les champs servant
-        // à l'identification (sans Hibernate Validator)
-        if (person.getLastName() == null || person.getFirstName() == null) {
-            throw new InvalidArgumentsException(
-                    "First name or/and last name is null. Cannot add it.");
-        }
-
+    public ResponseEntity<Void> createPerson(@Valid
+            @RequestBody final Person person) {
         if (personService.savePerson(person)) {
             LOGGER.info("New person was saved.");
             URI location = ServletUriComponentsBuilder
@@ -108,15 +102,8 @@ public class PersonController {
      * @return 200 - OK if the person is correctly updated
      */
     @PutMapping(value = "/person")
-    public ResponseEntity<Void> updatePerson(@RequestBody final Person person) {
-        //TODO : voir comment compléter pour que vérifie tous les
-        // champs et pas juste les champs servant
-        // à l'identification (sans Hibernate Validator)
-        if (person.getLastName() == null || person.getFirstName() == null) {
-            throw new InvalidArgumentsException(
-                    "First name or/and last name is null. Cannot update it.");
-        }
-
+    public ResponseEntity<Void> updatePerson(@Valid
+            @RequestBody final Person person) {
         if (personService.updatePerson(person)) {
             LOGGER.info("New person was saved.");
             return ResponseEntity.ok().build();

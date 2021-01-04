@@ -73,7 +73,7 @@ class MedicalRecordControllerTest {
 
     @Test
     void updateMedicalRecordUnknownTest() throws Exception {
-        MedicalRecord medicalRecord= new MedicalRecord("test", "test", LocalDate.now(), null, null);
+        MedicalRecord medicalRecord= new MedicalRecord("test", "test", LocalDate.of(1194, 6, 15), null, null);
         when(medicalRecordService.updateMedicalRecord(any(MedicalRecord.class))).thenReturn(false);
         mockMvc.perform(put("/medicalrecord")
                 .content(new ObjectMapper().writeValueAsString(medicalRecord))

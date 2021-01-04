@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -11,30 +14,37 @@ public class Person {
     /**
      * First name.
      */
+    @NotBlank(message = "First name is mandatory")
     private String firstName;
     /**
      * Last name.
      */
+    @NotBlank(message = "Last name is mandatory")
     private String lastName;
     /**
      * Number and Street information.
      */
+    @NotBlank(message = "Address is mandatory")
     private String address;
     /**
      * City information.
      */
+    @NotBlank(message = "City is mandatory")
     private String city;
     /**
      * Zip information.
      */
+    @Positive(message = "Zip should be positive")
     private int zip;
     /**
      * Phone number.
      */
+    @NotBlank(message = "Phone is mandatory")
     private String phone;
     /**
      * E-mail address.
      */
+    @NotBlank(message = "Email is mandatory")
     private String email;
 
     /**
