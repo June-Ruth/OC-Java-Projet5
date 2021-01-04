@@ -2,6 +2,8 @@ package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.impl.PersonRepositoryImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -9,7 +11,10 @@ import java.util.Set;
 
 @Service
 public class PersonService {
-
+    /**
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger(PersonService.class);
     /**
      * @see PersonRepositoryImpl
      */
@@ -30,6 +35,7 @@ public class PersonService {
      * @return list of all persons
      */
     public Set<Person> getPersons() {
+        LOGGER.debug("Process to get all persons.");
         return personRepositoryImpl.findAll();
     }
 
@@ -40,6 +46,7 @@ public class PersonService {
      * @return true if it's correctly saved
      */
     public boolean savePerson(final Person person) {
+        LOGGER.debug("Process to save person.");
         return personRepositoryImpl.save(person);
     }
 
@@ -50,6 +57,7 @@ public class PersonService {
      * @return true is it's correctly updated
      */
     public boolean updatePerson(final Person person) {
+        LOGGER.debug("Process to  update person.");
         return personRepositoryImpl.update(person);
     }
 
@@ -61,6 +69,8 @@ public class PersonService {
      * @return true if it's correctly deleted
      */
     public boolean deletePerson(final String firstName, final String lastName) {
+        LOGGER.debug("Process to find and delete person named "
+                + firstName + lastName);
         Person person = personRepositoryImpl
                 .findByFirstNameAndLastName(firstName, lastName);
         return personRepositoryImpl.delete(person);

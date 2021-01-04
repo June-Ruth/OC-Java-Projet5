@@ -2,6 +2,8 @@ package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.repository.impl.FireStationRepositoryImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -9,9 +11,12 @@ import java.util.Set;
 
 @Service
 public class FireStationService {
-
     /**
-     * @See FireStationRepositoryImpl
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger(FireStationService.class);
+    /**
+     * @see FireStationRepositoryImpl
      */
     private FireStationRepositoryImpl fireStationRepositoryImpl;
 
@@ -31,6 +36,7 @@ public class FireStationService {
      * @return list of all FireStation
      */
     public Set<FireStation> getFireStations() {
+        LOGGER.debug("Process to get all fire stations.");
         return fireStationRepositoryImpl.findAll();
     }
 
@@ -40,6 +46,7 @@ public class FireStationService {
      * @return true if it's saved
      */
     public boolean saveFireStation(final FireStation fireStation) {
+        LOGGER.debug("Process to save fire station.");
         return fireStationRepositoryImpl.save(fireStation);
     }
 
@@ -49,6 +56,7 @@ public class FireStationService {
      * @return true if it's updated
      */
     public boolean updateFireStation(final FireStation fireStation) {
+        LOGGER.debug("Process to  update fire station.");
         return fireStationRepositoryImpl.update(fireStation);
     }
 
@@ -58,6 +66,8 @@ public class FireStationService {
      * @return true if it's deleted
      */
     public boolean deleteFireStationbyAddress(final String address) {
+        LOGGER.debug("Process to find and delete fire station at the address : "
+                + address);
         FireStation fireStation =
                 fireStationRepositoryImpl.findByAddress(address);
         return fireStationRepositoryImpl.delete(fireStation);
@@ -69,8 +79,12 @@ public class FireStationService {
      * @return true if it's deleted
      */
     public boolean deleteFireStationbyNumber(final int stationNumber) {
+        LOGGER.debug("Process to find addresses for fire station number "
+                + stationNumber);
         Set<FireStation> fireStationsToDelete =
                 fireStationRepositoryImpl.findAllByStationNumber(stationNumber);
+        LOGGER.debug("Addresses for fire station number "
+                + stationNumber + " find. Process to delete them.");
         return fireStationRepositoryImpl.deleteAll(fireStationsToDelete);
     }
 

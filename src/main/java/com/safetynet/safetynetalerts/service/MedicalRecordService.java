@@ -2,6 +2,8 @@ package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.repository.impl.MedicalRecordRepositoryImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -9,7 +11,10 @@ import java.util.Set;
 
 @Service
 public class MedicalRecordService {
-
+    /**
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger(MedicalRecordService.class);
     /**
      * @see MedicalRecordRepositoryImpl
      */
@@ -31,6 +36,7 @@ public class MedicalRecordService {
      * @return list of all medical records
      */
     public Set<MedicalRecord> getMedicalsRecords() {
+        LOGGER.debug("Process to get all medical records.");
         return medicalRecordRepositoryImpl.findAll();
     }
 
@@ -41,6 +47,7 @@ public class MedicalRecordService {
      * @return true if it's correctly saved.
      */
     public boolean saveMedicalRecord(final MedicalRecord medicalRecord) {
+        LOGGER.debug("Process to save medical record.");
         return medicalRecordRepositoryImpl.save(medicalRecord);
     }
 
@@ -51,6 +58,7 @@ public class MedicalRecordService {
      * @return true if it's correctly updated
      */
     public boolean updateMedicalRecord(final MedicalRecord medicalRecord) {
+        LOGGER.debug("Process to  update medical record.");
         return medicalRecordRepositoryImpl.update(medicalRecord);
     }
 
@@ -63,6 +71,8 @@ public class MedicalRecordService {
      */
     public boolean deleteMedicalRecord(
             final String firstName, final String lastName) {
+        LOGGER.debug("Process to find and delete medical record for "
+            + firstName + lastName);
         MedicalRecord medicalRecord = medicalRecordRepositoryImpl
                 .findByFirstNameAndLastName(firstName, lastName);
         return medicalRecordRepositoryImpl.delete(medicalRecord);

@@ -4,6 +4,8 @@ import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.repository.MedicalRecordRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
@@ -11,7 +13,10 @@ import java.util.Set;
 
 @Repository
 public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
-
+    /**
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger(MedicalRecordRepositoryImpl.class);
     /**
      * @see DataBase
      */
@@ -27,6 +32,7 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
      */
     @Override
     public Set<MedicalRecord> findAll() {
+        LOGGER.debug("Process to get all.");
         return medicalRecords;
     }
 
@@ -48,8 +54,12 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
             }
         });
         if (result.iterator().hasNext()) {
+            LOGGER.debug("Medical record find for "
+                + firstName + lastName);
             return result.iterator().next();
         } else {
+            LOGGER.debug("No medical record find for "
+                + firstName + lastName);
             return null;
         }
     }
@@ -63,6 +73,7 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
      */
     @Override
     public boolean save(final MedicalRecord medicalRecord) {
+        LOGGER.debug("Process to save medical record.");
         return medicalRecords.add(medicalRecord);
     }
 
@@ -75,8 +86,11 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
     @Override
     public boolean update(final MedicalRecord medicalRecord) {
         if (medicalRecords.remove(medicalRecord)) {
+            LOGGER.debug("Medical Record to update exists."
+                    + "Process to update.");
             return medicalRecords.add(medicalRecord);
         } else {
+            LOGGER.debug("Medical Record to update doesn't exist.");
             return false;
         }
     }
@@ -89,6 +103,7 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
      */
     @Override
     public boolean delete(final MedicalRecord medicalRecord) {
+        LOGGER.debug("Process to delete.");
         return medicalRecords.remove(medicalRecord);
     }
 
@@ -100,6 +115,7 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
      */
     @Override
     public boolean deleteAll(final Set<MedicalRecord> medicalRecordsToDelete) {
+        LOGGER.debug("Process to delete all the defined set.");
         return medicalRecords.removeAll(medicalRecordsToDelete);
     }
 }

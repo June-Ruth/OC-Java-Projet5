@@ -4,6 +4,8 @@ import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.PersonRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
@@ -11,6 +13,10 @@ import java.util.Set;
 
 @Repository
 public class PersonRepositoryImpl implements PersonRepository {
+    /**
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger(PersonRepositoryImpl.class);
     /**
      * @see DataBase
      */
@@ -26,6 +32,7 @@ public class PersonRepositoryImpl implements PersonRepository {
      */
     @Override
     public Set<Person> findAll() {
+        LOGGER.debug("Process to get all.");
         return persons;
     }
 
@@ -46,8 +53,12 @@ public class PersonRepositoryImpl implements PersonRepository {
             }
         });
         if (result.iterator().hasNext()) {
+            LOGGER.debug("Person find for "
+                    + firstName + lastName);
             return result.iterator().next();
         } else {
+            LOGGER.debug("No person find for "
+                    + firstName + lastName);
             return null;
         }
     }
@@ -60,6 +71,7 @@ public class PersonRepositoryImpl implements PersonRepository {
      */
     @Override
     public boolean save(final Person person) {
+        LOGGER.debug("Process to save person.");
         return persons.add(person);
     }
 
@@ -72,8 +84,11 @@ public class PersonRepositoryImpl implements PersonRepository {
     @Override
     public boolean update(final Person person) {
         if (persons.remove(person)) {
+            LOGGER.debug("Person to update exists."
+                    + "Process to update.");
             return persons.add(person);
         } else {
+            LOGGER.debug("Person to update doesn't exist.");
             return false;
         }
     }
@@ -86,6 +101,7 @@ public class PersonRepositoryImpl implements PersonRepository {
      */
     @Override
     public boolean delete(final Person person) {
+        LOGGER.debug("Process to delete.");
         return persons.remove(person);
     }
 
@@ -97,6 +113,7 @@ public class PersonRepositoryImpl implements PersonRepository {
      */
     @Override
     public boolean deleteAll(final Set<Person> personsToDelete) {
+        LOGGER.debug("Process to delete all the defined set.");
         return persons.removeAll(personsToDelete);
     }
 }

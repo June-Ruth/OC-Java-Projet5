@@ -4,6 +4,8 @@ import com.safetynet.safetynetalerts.datasource.DataBase;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.repository.FireStationRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
@@ -11,7 +13,10 @@ import java.util.Set;
 
 @Repository
 public class FireStationRepositoryImpl implements FireStationRepository {
-
+    /**
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger(FireStationRepositoryImpl.class);
     /**
      * @see DataBase
      */
@@ -27,6 +32,7 @@ public class FireStationRepositoryImpl implements FireStationRepository {
      */
     @Override
     public Set<FireStation> findAll() {
+        LOGGER.debug("Process to get all.");
         return fireStations;
     }
 
@@ -45,8 +51,10 @@ public class FireStationRepositoryImpl implements FireStationRepository {
             }
         });
         if (result.iterator().hasNext()) {
+            LOGGER.debug("Fire Station find for " + address);
             return result.iterator().next();
         } else {
+            LOGGER.debug("No fire station find for " + address);
             return null;
         }
     }
@@ -64,6 +72,8 @@ public class FireStationRepositoryImpl implements FireStationRepository {
                 result.add(fireStation);
             }
         });
+        LOGGER.debug("All fire station associated to station number "
+            + stationNumber + "have been found if exist.");
         return result;
     }
 
@@ -76,6 +86,7 @@ public class FireStationRepositoryImpl implements FireStationRepository {
      */
     @Override
     public boolean save(final FireStation fireStation) {
+        LOGGER.debug("Process to save medical record.");
         return fireStations.add(fireStation);
     }
 
@@ -88,8 +99,11 @@ public class FireStationRepositoryImpl implements FireStationRepository {
     @Override
     public boolean update(final FireStation fireStation) {
         if (fireStations.remove(fireStation)) {
+            LOGGER.debug("Fire station to update exists."
+                    + "Process to update.");
             return fireStations.add(fireStation);
         } else {
+            LOGGER.debug("Fire station to update doesn't exist.");
             return false;
         }
     }
@@ -102,6 +116,7 @@ public class FireStationRepositoryImpl implements FireStationRepository {
      */
     @Override
     public boolean delete(final FireStation fireStation) {
+        LOGGER.debug("Process to delete.");
         return fireStations.remove(fireStation);
     }
 
@@ -113,6 +128,7 @@ public class FireStationRepositoryImpl implements FireStationRepository {
      */
     @Override
     public boolean deleteAll(final Set<FireStation> fireStationsToDelete) {
+        LOGGER.debug("Process to delete all the defined set.");
         return fireStations.removeAll(fireStationsToDelete);
     }
 }
