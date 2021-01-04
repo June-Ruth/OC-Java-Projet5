@@ -5,6 +5,8 @@ import com.safetynet.safetynetalerts.service.FireStationService;
 import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
 import com.safetynet.safetynetalerts.web.exceptions.InvalidArgumentsException;
 import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,14 +24,18 @@ import java.util.Set;
 @RestController
 public class FireStationController {
     /**
-     * @See FireStationService
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger(FireStationController.class);
+    /**
+     * @see FireStationService
      */
     private FireStationService fireStationService;
 
     /**
      * public constructor for FireStation Controller.
      * The controller requires a non null FireStationService.
-     * @param pFireStationService
+     * @param pFireStationService not null
      */
     public  FireStationController(
             final FireStationService pFireStationService) {
@@ -45,7 +51,9 @@ public class FireStationController {
      */
     @GetMapping(value = "/firestation")
     public Set<FireStation> getFireStations() {
-        return fireStationService.getFireStations();
+        Set<FireStation> result = fireStationService.getFireStations();
+        LOGGER.info("Get all fire stations : {}", result);
+        return result;
     }
 
     /**
@@ -71,8 +79,8 @@ public class FireStationController {
             throw new InvalidArgumentsException(
                     "Address is null. Cannot add it.");
         }
-
         if (fireStationService.saveFireStation(fireStation)) {
+            LOGGER.info("New fire station was saved.");
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{address}")
@@ -80,9 +88,11 @@ public class FireStationController {
                     .toUri();
             return ResponseEntity.created(location).build();
         } else {
-            throw new AlreadyExistingException("The fire station address : "
+            RuntimeException e = new AlreadyExistingException("The fire station address : "
                     + fireStation.getAddress()
                     + ", is already existing. Cannot add it.");
+            LOGGER.error(e);
+            throw e;
         }
     }
 
@@ -108,12 +118,15 @@ public class FireStationController {
         }
 
         if (fireStationService.updateFireStation(fireStation)) {
+            LOGGER.info("Fire station was updated.");
             return ResponseEntity.ok().build();
         } else {
-            throw new NotFoundException(
+            RuntimeException e = new NotFoundException(
                     "The fire station mapping at the address : "
                     + fireStation.getAddress()
                     + ", is not existing. Cannot update it.");
+            LOGGER.error(e);
+            throw e;
         }
     }
 
@@ -130,10 +143,15 @@ public class FireStationController {
     public ResponseEntity<Void> deleteFireStationNumberMapping(
             @PathVariable final int station) {
         if (fireStationService.deleteFireStationbyNumber(station)) {
+            LOGGER.info("All fire station associated to number "
+                    + station + " were deleted.");
             return ResponseEntity.ok().build();
         } else {
-            throw new NotFoundException("The fire station number : "
-                    + station + ", is not existing. Cannot delete it.");
+            RuntimeException e =  new NotFoundException(
+                    "The fire station number : " + station
+                            + ", is not existing. Cannot delete it.");
+            LOGGER.error(e);
+            throw e;
         }
     }
 
@@ -150,10 +168,14 @@ public class FireStationController {
     public ResponseEntity<String> deleteFireStationAddressMapping(
             @PathVariable final String address) {
         if (fireStationService.deleteFireStationbyAddress(address)) {
+            LOGGER.info("Fire station at the address : "
+                    + address + "was deleted.");
             return ResponseEntity.ok().build();
         } else {
-            throw new NotFoundException("The fire station address : "
+            RuntimeException e = new NotFoundException("The fire station address : "
                     + address + ", is not existing. Cannot delete it.");
+            LOGGER.error(e);
+            throw e;
         }
 
     }

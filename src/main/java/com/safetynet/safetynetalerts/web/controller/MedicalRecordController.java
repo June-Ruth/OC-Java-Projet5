@@ -5,6 +5,8 @@ import com.safetynet.safetynetalerts.service.MedicalRecordService;
 import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
 import com.safetynet.safetynetalerts.web.exceptions.InvalidArgumentsException;
 import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,16 +23,19 @@ import java.util.Set;
 
 @RestController
 public class MedicalRecordController {
-
     /**
-     * @See MedicalRecordService
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger(MedicalRecordController.class);
+    /**
+     * @see MedicalRecordService
      */
     private MedicalRecordService medicalRecordService;
 
     /**
      * Public constructor for MedicalRecordController.
      * Requires non null MedicalRecordService.
-     * @param pMedicalRecordService
+     * @param pMedicalRecordService not null
      */
     public MedicalRecordController(
             final MedicalRecordService pMedicalRecordService) {
@@ -46,7 +51,9 @@ public class MedicalRecordController {
      */
     @GetMapping(value = "/medicalrecord")
     public Set<MedicalRecord> getMedicalRecords() {
-        return medicalRecordService.getMedicalsRecords();
+        Set<MedicalRecord> result = medicalRecordService.getMedicalsRecords();
+        LOGGER.info("Get all medical records : {}", result);
+        return result;
     }
 
     /**
@@ -74,6 +81,7 @@ public class MedicalRecordController {
         }
 
         if (medicalRecordService.saveMedicalRecord(medicalRecord)) {
+            LOGGER.info("Medical Record was saved.");
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{firstName}{lastName}")
@@ -82,10 +90,12 @@ public class MedicalRecordController {
                     .toUri();
             return ResponseEntity.created(location).build();
         } else {
-            throw new AlreadyExistingException("The medical record for "
+            RuntimeException e = new AlreadyExistingException("The medical record for "
                     + medicalRecord.getFirstName()
                     + " " + medicalRecord.getLastName()
                     + " is already existing. Cannot add it.");
+            LOGGER.error(e);
+            throw e;
 
         }
     }
@@ -116,12 +126,15 @@ public class MedicalRecordController {
         }
 
         if (medicalRecordService.updateMedicalRecord(medicalRecord)) {
+            LOGGER.info("Medical Record was updated.");
             return ResponseEntity.ok().build();
         } else {
-            throw new NotFoundException("The medical record of "
+            RuntimeException e = new NotFoundException("The medical record of "
                     + medicalRecord.getFirstName()
                     + " " + medicalRecord.getLastName()
                     + ", is not existing. Cannot update it.");
+            LOGGER.error(e);
+            throw e;
         }
     }
 
@@ -138,11 +151,14 @@ public class MedicalRecordController {
             @PathVariable final String firstName,
             @PathVariable final String lastName) {
         if (medicalRecordService.deleteMedicalRecord(firstName, lastName)) {
+            LOGGER.info("Medical Record was deleted.");
             return ResponseEntity.ok().build();
         } else {
-            throw new NotFoundException("The medical record of "
+            RuntimeException e = new NotFoundException("The medical record of "
                     + firstName + " " + lastName
                     + ", is not existing. Cannot delete it.");
+            LOGGER.error(e);
+            throw e;
         }
     }
 }
