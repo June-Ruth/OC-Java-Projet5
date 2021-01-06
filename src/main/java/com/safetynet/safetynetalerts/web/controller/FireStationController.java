@@ -166,6 +166,18 @@ public class FireStationController {
     }
 
     /**
+     * Get all phone number of inhabitant associated to the given station number.
+     * @param stationNumber concerned
+     * @return set of all phone number
+     */
+    @GetMapping(value = "/phoneAlert?firestation={stationNumber}")
+    public Set<String> getAllPhoneByStationNumber(@PathVariable final int stationNumber) {
+        //TODO : service OK
+        fireStationService.getAllPhoneByStationNumber(stationNumber);
+        return null;
+    }
+
+    /**
      * Get all persons inhabitant near a specific station number and the countdown of adult and child.
      * @param stationNumber specific
      * @return Set of person info
@@ -173,26 +185,32 @@ public class FireStationController {
     @GetMapping(value = "/firestation?stationNumber={stationNumber}")
     public Set<PersonContactInfoDTO> getAllPersonsAndCountdownByStationNumber(@PathVariable final int stationNumber) {
         //TODO
+        fireStationService.getAllPersonsAndCountdownByStationNumber(stationNumber);
         return null;
     }
 
     /**
      * Get list of inhabitant at the specified address and the station number concerned.
+     * @param address .
+     * @return List of inhabitant
      */
     @GetMapping(value = "/fire?address={address}")
     public Set<PersonHealthInfoDTO> getAllPersonsAndStationByAddress(@PathVariable final String address) {
         //TODO
+        fireStationService.getAllPersonsAndStationByAddress(address);
         return null;
     }
 
     /**
      * Get all flood by station number.
      * Each flood has a list with Person.
-     *
+     * @param stationNumber .
+     * @return List of inhabitant
      */
     @GetMapping(value = "stations?station={stationNumber}")
     public Set<PersonHealthInfoDTO> getAllFloodsByStationNumber(@PathVariable final int stationNumber) {
         //TODO
+        fireStationService.getAllFloodsByStationNumber(stationNumber);
         return null;
     }
 }

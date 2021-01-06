@@ -121,6 +121,25 @@ class FireStationControllerTest {
     }
 
     @Test
+    void getAllPhoneByStationNumberExistingTest() throws Exception {
+        //TODO
+        int stationNumber = 1;
+        //when().thenReturn();
+        mockMvc.perform(get("/phoneAlert?firestation={stationNumber}", stationNumber))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void getAllPhoneByStationNumberUnknownTest() throws Exception {
+        //TODO
+        int stationNumber = 6;
+        //when().thenReturn();
+        mockMvc.perform(get("/phoneAlert?firestation={stationNumber}", stationNumber))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void getAllPersonsAndCountdownByStationNumberExistingTest() throws Exception {
         //TODO
         int stationNumber = 1;

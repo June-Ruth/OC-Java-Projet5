@@ -102,4 +102,53 @@ class FireStationServiceTest {
         verify(fireStationRepositoryImpl, times(0)).deleteAll(fireStations);
     }
 
+    @Test
+    void getAllPhoneByStationNumberExistingTest() {
+        //TODO
+    }
+
+    @Test
+    void getAllPhoneByStationNumberUnknownTest() {
+        //TODO
+    }
+
+    @Test
+    void getAllChildrenByAddressExistingTest() {
+        //TODO
+    }
+
+    @Test
+    void getAllChildrenByAddressUnknownTest() {
+        //TODO
+    }
+
+    @Test
+    void getAllPersonsAndCountdownByStationNumberExistingTest()  {
+        //TODO
+    }
+
+    @Test
+    void getAllPersonsAndCountdownByStationNumberUnknownTest()  {
+        //TODO
+    }
+
+    @Test
+    void getAllPersonsAndStationByAddressExistingTest()  {
+        //TODO
+    }
+
+    @Test
+    void getAllPersonsAndStationByAddressUnknownTest()  {
+        //TODO
+    }
+
+    @Test
+    void getAllFloodsByStationNumberExistingTest() {
+        //TODO
+    }
+
+    @Test
+    void getAllFloodsByStationNumberUnknownTest() {
+        //TODO
+    }
 }

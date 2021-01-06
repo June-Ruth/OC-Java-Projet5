@@ -148,39 +148,35 @@ public class PersonController {
      */
     @GetMapping(value = "/communityEmail?city={city}")
     public Set<String> getAllEmailInCity(@PathVariable final String city) {
-        //TODO
+        //TODO : service OK
+        personService.getAllEmailInCity(city);
         return null;
     }
 
     /**
-     * Get all phone number of inhabitant associated to the given station number.
-     * @param stationNumber concerned
-     * @return set of all phone number
-     */
-    @GetMapping(value = "/phoneAlert?firestation={stationNumber}")
-    public Set<String> getAllPhoneByStationNumber(@PathVariable final int stationNumber) {
-        //TODO
-        return null;
-    }
-
-    /**
-     * Get all children at the specified with other inhabitant.
+     * Get all children at the specified address with other inhabitant.
      * @param address .
+     * @return list of children
      */
     @GetMapping(value = "/childAlert?address={address}")
     public Set<ChildInfoDTO> getAllChildrenByAddress(@PathVariable final String address) {
         //TODO
+        personService.getAllChildrenByAddress(address);
         return null;
     }
 
     /**
      * Get all information about a person.
+     * @param firstName .
+     * @param lastName .
+     * @return person's info
      */
     @GetMapping(value = "personInfo?firstName={firstName}&lastName={lastName}")
     public PersonFullInfoDTO getAllInfoByFirstNameAndLastName(
             @PathVariable final String firstName,
             @PathVariable final String lastName) {
         //TODO
+        personService.getAllInfoByFirstNameAndLastName(firstName, lastName);
         return null;
     }
 }

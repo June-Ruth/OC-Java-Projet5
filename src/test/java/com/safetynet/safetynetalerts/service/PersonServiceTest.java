@@ -93,14 +93,4 @@ class PersonServiceTest {
     void getAllEmailInCityUnknownTest() {
         //TODO
     }
-
-    @Test
-    void getAllPhoneByStationNumberExistingTest() {
-        //TODO
-    }
-
-    @Test
-    void getAllPhoneByStationNumberUnknownTest() {
-        //TODO
-    }
 }

@@ -1,6 +1,8 @@
 package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.FireStation;
+import com.safetynet.safetynetalerts.model.dto.PersonContactInfoDTO;
+import com.safetynet.safetynetalerts.model.dto.PersonHealthInfoDTO;
 import com.safetynet.safetynetalerts.repository.impl.FireStationRepositoryImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -87,5 +89,47 @@ public class FireStationService {
                 + stationNumber + " find. Process to delete them.");
         return fireStationRepositoryImpl.deleteAll(fireStationsToDelete);
     }
+
+    /**
+     * Get all phone number of inhabitant associated to the given station number.
+     * @param stationNumber concerned
+     * @return set of all phone number.
+     */
+    public Set<String> getAllPhoneByStationNumber(final int stationNumber) {
+        //TODO
+        return null;
+    }
+
+    /**
+     * Get all persons inhabitant near a specific station number and the countdown of adult and child.
+     * @param stationNumber specific
+     * @return Set of person info
+     */
+    public Set<PersonContactInfoDTO> getAllPersonsAndCountdownByStationNumber(final int stationNumber) {
+        //TODO
+        return null;
+    }
+
+    /**
+     * Get list of inhabitant at the specified address and the station number concerned.
+     * @param address .
+     * @return List of inhabitant
+     */
+    public Set<PersonHealthInfoDTO> getAllPersonsAndStationByAddress(final String address) {
+        //TODO
+        return null;
+    }
+
+    /**
+     * Get all flood by station number.
+     * Each flood has a list with Person.
+     * @param stationNumber .
+     * @return List of inhabitant
+     */
+    public Set<PersonHealthInfoDTO> getAllFloodsByStationNumber(final int stationNumber) {
+        //TODO
+        return null;
+    }
+
 
 }
