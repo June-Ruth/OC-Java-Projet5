@@ -129,7 +129,6 @@ public class MedicalRecord {
      * Getter Nullable.
      * @return medications as List.
      */
-    @Nullable
     public List<String> getMedications() {
         return medications;
     }
@@ -138,7 +137,7 @@ public class MedicalRecord {
      * Setter Nullable.
      * @param pMedications as List.
      */
-    public void setMedications(@Nullable final List<String> pMedications) {
+    public void setMedications(final List<String> pMedications) {
         this.medications = pMedications;
     }
 
@@ -146,7 +145,6 @@ public class MedicalRecord {
      * Getter Nullable.
      * @return allergies as List.
      */
-    @Nullable
     public List<String> getAllergies() {
         return allergies;
     }
@@ -155,7 +153,7 @@ public class MedicalRecord {
      * Setter Nullable.
      * @param pAllergies .
      */
-    public void setAllergies(@Nullable final List<String> pAllergies) {
+    public void setAllergies(final List<String> pAllergies) {
         this.allergies = pAllergies;
     }
 
