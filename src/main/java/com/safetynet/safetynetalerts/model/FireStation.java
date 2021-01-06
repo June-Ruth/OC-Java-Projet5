@@ -49,7 +49,7 @@ public class FireStation {
      * @param pAddress .
      */
     public void setAddress(final String pAddress) {
-        this.address = pAddress;
+        address = pAddress;
     }
 
     /**
@@ -65,7 +65,7 @@ public class FireStation {
      * @param pStation .
      */
     public void setStation(final int pStation) {
-        this.station = pStation;
+        station = pStation;
     }
 
     /**

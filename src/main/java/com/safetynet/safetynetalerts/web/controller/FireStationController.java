@@ -1,6 +1,8 @@
 package com.safetynet.safetynetalerts.web.controller;
 
 import com.safetynet.safetynetalerts.model.FireStation;
+import com.safetynet.safetynetalerts.model.dto.PersonContactInfoDTO;
+import com.safetynet.safetynetalerts.model.dto.PersonHealthInfoDTO;
 import com.safetynet.safetynetalerts.service.FireStationService;
 import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
 import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
@@ -161,7 +163,36 @@ public class FireStationController {
             LOGGER.error(e);
             throw e;
         }
-
     }
 
+    /**
+     * Get all persons inhabitant near a specific station number and the countdown of adult and child.
+     * @param stationNumber specific
+     * @return Set of person info
+     */
+    @GetMapping(value = "/firestation?stationNumber={stationNumber}")
+    public Set<PersonContactInfoDTO> getAllPersonsAndCountdownByStationNumber(@PathVariable final int stationNumber) {
+        //TODO
+        return null;
+    }
+
+    /**
+     * Get list of inhabitant at the specified address and the station number concerned.
+     */
+    @GetMapping(value = "/fire?address={address}")
+    public Set<PersonHealthInfoDTO> getAllPersonsAndStationByAddress(@PathVariable final String address) {
+        //TODO
+        return null;
+    }
+
+    /**
+     * Get all flood by station number.
+     * Each flood has a list with Person.
+     *
+     */
+    @GetMapping(value = "stations?station={stationNumber}")
+    public Set<PersonHealthInfoDTO> getAllFloodsByStationNumber(@PathVariable final int stationNumber) {
+        //TODO
+        return null;
+    }
 }

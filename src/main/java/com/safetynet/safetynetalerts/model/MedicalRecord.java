@@ -90,7 +90,7 @@ public class MedicalRecord {
      * @param pFirstName .
      */
     public void setFirstName(final String pFirstName) {
-        this.firstName = pFirstName;
+        firstName = pFirstName;
     }
 
     /**
@@ -106,7 +106,7 @@ public class MedicalRecord {
      * @param pLastName .
      */
     public void setLastName(final String pLastName) {
-        this.lastName = pLastName;
+        lastName = pLastName;
     }
 
     /**
@@ -122,7 +122,7 @@ public class MedicalRecord {
      * @param pBirthdate .
      */
     public void setBirthdate(final LocalDate pBirthdate) {
-        this.birthdate = pBirthdate;
+        birthdate = pBirthdate;
     }
 
     /**
@@ -138,7 +138,7 @@ public class MedicalRecord {
      * @param pMedications as List.
      */
     public void setMedications(final List<String> pMedications) {
-        this.medications = pMedications;
+        medications = pMedications;
     }
 
     /**
@@ -154,7 +154,7 @@ public class MedicalRecord {
      * @param pAllergies .
      */
     public void setAllergies(final List<String> pAllergies) {
-        this.allergies = pAllergies;
+        allergies = pAllergies;
     }
 
     /**

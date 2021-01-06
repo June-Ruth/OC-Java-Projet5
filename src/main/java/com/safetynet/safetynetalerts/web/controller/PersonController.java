@@ -1,6 +1,8 @@
 package com.safetynet.safetynetalerts.web.controller;
 
 import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.model.dto.ChildInfoDTO;
+import com.safetynet.safetynetalerts.model.dto.PersonFullInfoDTO;
 import com.safetynet.safetynetalerts.service.PersonService;
 import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
 import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
@@ -161,6 +163,24 @@ public class PersonController {
         return null;
     }
 
+    /**
+     * Get all children at the specified with other inhabitant.
+     * @param address .
+     */
+    @GetMapping(value = "/childAlert?address={address}")
+    public Set<ChildInfoDTO> getAllChildrenByAddress(@PathVariable final String address) {
+        //TODO
+        return null;
+    }
 
-
+    /**
+     * Get all information about a person.
+     */
+    @GetMapping(value = "personInfo?firstName={firstName}&lastName={lastName}")
+    public PersonFullInfoDTO getAllInfoByFirstNameAndLastName(
+            @PathVariable final String firstName,
+            @PathVariable final String lastName) {
+        //TODO
+        return null;
+    }
 }
