@@ -105,4 +105,61 @@ class PersonControllerTest {
         mockMvc.perform(delete("/person/{firstName}{lastName}", firstName, lastName))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void getAllEmailInCityExistingTest() throws Exception {
+        //TODO
+        String city = "city";
+        //when().thenReturn();
+        mockMvc.perform(get("/phoneAlert?firestation={stationNumber}", city))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void getAllEmailInCityUnknownTest() throws Exception {
+        //TODO
+        String city = "test";
+        //when().thenReturn();
+        mockMvc.perform(get("/phoneAlert?firestation={stationNumber}", city))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getAllChildrenByAddressExistingTest() throws Exception {
+        //TODO
+        String address = "address";
+        //when().thenReturn();
+        mockMvc.perform(get("/childAlert?address={address}", address))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getAllChildrenByAddressUnknownTest() throws Exception {
+        //TODO
+        String address = "test";
+        //when().thenReturn();
+        mockMvc.perform(get("/childAlert?address={address}", address))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getAllInfoByFirstNameAndLastNameExistingTest() throws Exception {
+        //TODO
+        String firstName = "firstName";
+        String lastName = "lastName";
+        //when().thenReturn();
+        mockMvc.perform(get("personInfo?firstName={firstName}&lastName={lastName}", firstName, lastName))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getAllInfoByFirstNameAndLastNameUnknownTest() throws Exception {
+        //TODO
+        String firstName = "test";
+        String lastName = "test";
+        //when().thenReturn();
+        mockMvc.perform(get("personInfo?firstName={firstName}&lastName={lastName}", firstName, lastName))
+                .andExpect(status().isNotFound());
+    }
 }

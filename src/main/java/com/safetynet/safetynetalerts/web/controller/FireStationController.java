@@ -1,9 +1,10 @@
 package com.safetynet.safetynetalerts.web.controller;
 
 import com.safetynet.safetynetalerts.model.FireStation;
+import com.safetynet.safetynetalerts.model.dto.PersonContactInfoDTO;
+import com.safetynet.safetynetalerts.model.dto.PersonHealthInfoDTO;
 import com.safetynet.safetynetalerts.service.FireStationService;
 import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
-import com.safetynet.safetynetalerts.web.exceptions.InvalidArgumentsException;
 import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,8 +63,7 @@ public class FireStationController {
      * (one address and its station number associated).
      * Duplicate are not allowed.
      * If the arguments fields of the fire station to add are not correct,
-     * then throw InvalidArgumentsException
-     * and HTTP Status will be 400 - Bad Request.
+     * HTTP Status will be 400 - Bad Request.
      * If FireStation address is already existing (= duplicate),
      * then throw AlreadyExistingException
      * and HTTP Status will be 409 - Conflict.
@@ -73,11 +73,7 @@ public class FireStationController {
     @PostMapping(value = "/firestation")
     public ResponseEntity<Void> createFireStation(
             @RequestBody final FireStation fireStation) {
-        if (fireStation.getAddress() == null) {
-            throw new InvalidArgumentsException(
-                    "Address is null. Cannot add it.");
-        }
-        if (fireStationService.saveFireStation(fireStation)) {
+      if (fireStationService.saveFireStation(fireStation)) {
             LOGGER.info("New fire station was saved.");
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
@@ -97,8 +93,7 @@ public class FireStationController {
     /**
      * Update an existing FireStation depending on its address.
      * If the arguments fields of the fire station to update are not correct,
-     * then throw InvalidArgumentsException
-     * and HTTP Status will be 400 - Bad Request.
+     * HTTP Status will be 400 - Bad Request.
      * If FireStation address is not existing,
      * then throw NotFoundException
      * and HTTP Status will be 404 - Not Found.
@@ -168,7 +163,54 @@ public class FireStationController {
             LOGGER.error(e);
             throw e;
         }
-
     }
 
+    /**
+     * Get all phone number of inhabitant associated to the given station number.
+     * @param stationNumber concerned
+     * @return set of all phone number
+     */
+    @GetMapping(value = "/phoneAlert?firestation={stationNumber}")
+    public Set<String> getAllPhoneByStationNumber(@PathVariable final int stationNumber) {
+        //TODO : service OK
+        fireStationService.getAllPhoneByStationNumber(stationNumber);
+        return null;
+    }
+
+    /**
+     * Get all persons inhabitant near a specific station number and the countdown of adult and child.
+     * @param stationNumber specific
+     * @return Set of person info
+     */
+    @GetMapping(value = "/firestation?stationNumber={stationNumber}")
+    public Set<PersonContactInfoDTO> getAllPersonsAndCountdownByStationNumber(@PathVariable final int stationNumber) {
+        //TODO
+        fireStationService.getAllPersonsAndCountdownByStationNumber(stationNumber);
+        return null;
+    }
+
+    /**
+     * Get list of inhabitant at the specified address and the station number concerned.
+     * @param address .
+     * @return List of inhabitant
+     */
+    @GetMapping(value = "/fire?address={address}")
+    public Set<PersonHealthInfoDTO> getAllPersonsAndStationByAddress(@PathVariable final String address) {
+        //TODO
+        fireStationService.getAllPersonsAndStationByAddress(address);
+        return null;
+    }
+
+    /**
+     * Get all flood by station number.
+     * Each flood has a list with Person.
+     * @param stationNumber .
+     * @return List of inhabitant
+     */
+    @GetMapping(value = "stations?station={stationNumber}")
+    public Set<PersonHealthInfoDTO> getAllFloodsByStationNumber(@PathVariable final int stationNumber) {
+        //TODO
+        fireStationService.getAllFloodsByStationNumber(stationNumber);
+        return null;
+    }
 }

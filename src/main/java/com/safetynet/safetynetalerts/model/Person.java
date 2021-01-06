@@ -87,7 +87,7 @@ public class Person {
      * @param pFirstName .
      */
     public void setFirstName(final String pFirstName) {
-        this.firstName = pFirstName;
+        firstName = pFirstName;
     }
 
     /**
@@ -103,7 +103,7 @@ public class Person {
      * @param pLastName .
      */
     public void setLastName(final String pLastName) {
-        this.lastName = pLastName;
+        lastName = pLastName;
     }
 
     /**
@@ -119,7 +119,7 @@ public class Person {
      * @param pAdress .
      */
     public void setAddress(final String pAdress) {
-        this.address = pAdress;
+        address = pAdress;
     }
 
     /**
@@ -135,7 +135,7 @@ public class Person {
      * @param pCity .
      */
     public void setCity(final String pCity) {
-        this.city = pCity;
+        city = pCity;
     }
 
     /**
@@ -151,7 +151,7 @@ public class Person {
      * @param pZip .
      */
     public void setZip(final int pZip) {
-        this.zip = pZip;
+        zip = pZip;
     }
 
     /**
@@ -167,7 +167,7 @@ public class Person {
      * @param pPhone .
      */
     public void setPhone(final String pPhone) {
-        this.phone = pPhone;
+        phone = pPhone;
     }
 
     /**
@@ -183,7 +183,7 @@ public class Person {
      * @param pEmail .
      */
     public void setEmail(final String pEmail) {
-        this.email = pEmail;
+        email = pEmail;
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.model.dto.ChildInfoDTO;
+import com.safetynet.safetynetalerts.model.dto.PersonFullInfoDTO;
 import com.safetynet.safetynetalerts.repository.impl.PersonRepositoryImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,5 +78,34 @@ public class PersonService {
         return personRepositoryImpl.delete(person);
     }
 
+    /**
+     * Get all Email of inhabitant in the city.
+     * @param city searched
+     * @return set of email in the city
+     */
+    public Set<String> getAllEmailInCity(final String city) {
+        //TODO
+        return null;
+    }
 
+    /**
+     * Get all children at the specified address with other inhabitant.
+     * @param address .
+     * @return list of children
+     */
+    public Set<ChildInfoDTO> getAllChildrenByAddress(final String address) {
+        //TODO
+        return null;
+    }
+
+    /**
+     * Get all information about a person.
+     * @param firstName .
+     * @param lastName .
+     * @return person's info
+     */
+    public PersonFullInfoDTO getAllInfoByFirstNameAndLastName(final String firstName, final String lastName) {
+        //TODO
+        return null;
+    }
 }
