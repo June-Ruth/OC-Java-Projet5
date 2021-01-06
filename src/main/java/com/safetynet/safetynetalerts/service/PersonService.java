@@ -76,5 +76,23 @@ public class PersonService {
         return personRepositoryImpl.delete(person);
     }
 
+    /**
+     * Get all Email of inhabitant in the city.
+     * @param city searched
+     * @return set of email in the city
+     */
+    public Set<String> getAllEmailInCity(final String city) {
+        //TODO
+        return null;
+    }
 
+    /**
+     * Get all phone number of inhabitant associated to the given station number.
+     * @param stationNumber concerned
+     * @return set of all phone number.
+     */
+    public Set<String> getAllPhoneByStationNumber(final int stationNumber) {
+        //TODO
+        return null;
+    }
 }

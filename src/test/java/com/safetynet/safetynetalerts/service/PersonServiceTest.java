@@ -83,4 +83,24 @@ class PersonServiceTest {
         verify(personRepositoryImpl, times(1)).findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
         verify(personRepositoryImpl, times(0)).delete(person);
     }
+
+    @Test
+    void getAllEmailInCityExistingTest() {
+        //TODO
+    }
+
+    @Test
+    void getAllEmailInCityUnknownTest() {
+        //TODO
+    }
+
+    @Test
+    void getAllPhoneByStationNumberExistingTest() {
+        //TODO
+    }
+
+    @Test
+    void getAllPhoneByStationNumberUnknownTest() {
+        //TODO
+    }
 }

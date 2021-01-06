@@ -3,7 +3,6 @@ package com.safetynet.safetynetalerts.web.controller;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.service.FireStationService;
 import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
-import com.safetynet.safetynetalerts.web.exceptions.InvalidArgumentsException;
 import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,8 +61,7 @@ public class FireStationController {
      * (one address and its station number associated).
      * Duplicate are not allowed.
      * If the arguments fields of the fire station to add are not correct,
-     * then throw InvalidArgumentsException
-     * and HTTP Status will be 400 - Bad Request.
+     * HTTP Status will be 400 - Bad Request.
      * If FireStation address is already existing (= duplicate),
      * then throw AlreadyExistingException
      * and HTTP Status will be 409 - Conflict.
@@ -73,11 +71,7 @@ public class FireStationController {
     @PostMapping(value = "/firestation")
     public ResponseEntity<Void> createFireStation(
             @RequestBody final FireStation fireStation) {
-        if (fireStation.getAddress() == null) {
-            throw new InvalidArgumentsException(
-                    "Address is null. Cannot add it.");
-        }
-        if (fireStationService.saveFireStation(fireStation)) {
+      if (fireStationService.saveFireStation(fireStation)) {
             LOGGER.info("New fire station was saved.");
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
@@ -97,8 +91,7 @@ public class FireStationController {
     /**
      * Update an existing FireStation depending on its address.
      * If the arguments fields of the fire station to update are not correct,
-     * then throw InvalidArgumentsException
-     * and HTTP Status will be 400 - Bad Request.
+     * HTTP Status will be 400 - Bad Request.
      * If FireStation address is not existing,
      * then throw NotFoundException
      * and HTTP Status will be 404 - Not Found.

@@ -3,7 +3,6 @@ package com.safetynet.safetynetalerts.web.controller;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.service.PersonService;
 import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
-import com.safetynet.safetynetalerts.web.exceptions.InvalidArgumentsException;
 import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,8 +59,7 @@ public class PersonController {
      * Save a new Person.
      * Duplicate are not allowed.
      * If the arguments fields of the person to add are not correct,
-     * then throw InvalidArgumentsException
-     * and HTTP Status will be 400 - Bad Request.
+     * HTTP Status will be 400 - Bad Request.
      * If Person first name and last name are already existing (= duplicate),
      * then throw AlreadyExistingException
      * and HTTP Status will be 409 - Conflict.
@@ -93,8 +91,7 @@ public class PersonController {
      * Update an existing Person depending on its first name and last name.
      * It's not possible to update first name and last name.
      * If the arguments fields of the person to update are not correct,
-     * then throw InvalidArgumentsException
-     * and HTTP Status will be 400 - Bad Request.
+     * HTTP Status will be 400 - Bad Request.
      * If Person first name and last name is not existing,
      * then throw NotFoundException
      * and HTTP Status will be 404 - Not Found.
@@ -139,5 +136,31 @@ public class PersonController {
             throw e;
         }
     }
+
+    /**
+     * Get all Email of inhabitants in the city.
+     * If city is not existing,
+     * then throw NotFoundException and HTTP Status will be 404 - Not Found.
+     * @param city searched
+     * @return set of all email in city
+     */
+    @GetMapping(value = "/communityEmail?city={city}")
+    public Set<String> getAllEmailInCity(@PathVariable final String city) {
+        //TODO
+        return null;
+    }
+
+    /**
+     * Get all phone number of inhabitant associated to the given station number.
+     * @param stationNumber concerned
+     * @return set of all phone number
+     */
+    @GetMapping(value = "/phoneAlert?firestation={stationNumber}")
+    public Set<String> getAllPhoneByStationNumber(@PathVariable final int stationNumber) {
+        //TODO
+        return null;
+    }
+
+
 
 }
