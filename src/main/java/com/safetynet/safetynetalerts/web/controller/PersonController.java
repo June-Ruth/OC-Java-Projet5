@@ -44,7 +44,7 @@ public class PersonController {
      * if we can access to all entities, even if list is empty.
      * @return Set of all persons
      */
-    @GetMapping(value = "/person")
+    @GetMapping(value = "/persons")
     public Set<Person> getPersons() {
         Set<Person> result = personService.getPersons();
         LOGGER.info("Get all persons : {}", result);

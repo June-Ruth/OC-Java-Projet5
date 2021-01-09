@@ -45,7 +45,7 @@ public class FireStationController {
      * even if list is empty.
      * @return Set of all entities of FireStation
      */
-    @GetMapping(value = "/firestation")
+    @GetMapping(value = "/firestations")
     public Set<FireStation> getFireStations() {
         Set<FireStation> result = fireStationService.getFireStations();
         LOGGER.info("Get all fire stations : {}", result);
@@ -183,7 +183,7 @@ public class FireStationController {
      * @return Set of person info
      */
     @GetMapping(value = "/firestation")
-    public Set<PersonContactInfoDTO> getAllPersonsAndCountdownByStationNumber(@PathVariable final int stationNumber) {
+    public Set<PersonContactInfoDTO> getAllPersonsAndCountdownByStationNumber(@RequestParam(value = "stationNumber") final int stationNumber) {
         //TODO
         fireStationService.getAllPersonsAndCountdownByStationNumber(stationNumber);
         return null;
@@ -195,7 +195,7 @@ public class FireStationController {
      * @return List of inhabitant
      */
     @GetMapping(value = "/fire")
-    public Set<PersonHealthInfoDTO> getAllPersonsAndStationByAddress(@PathVariable final String address) {
+    public Set<PersonHealthInfoDTO> getAllPersonsAndStationByAddress(@RequestParam(value = "address") final String address) {
         //TODO
         fireStationService.getAllPersonsAndStationByAddress(address);
         return null;
@@ -208,7 +208,7 @@ public class FireStationController {
      * @return List of inhabitant
      */
     @GetMapping(value = "stations")
-    public Set<PersonHealthInfoDTO> getAllFloodsByStationNumber(@PathVariable final int stationNumber) {
+    public Set<PersonHealthInfoDTO> getAllFloodsByStationNumber(@RequestParam(value = "station") final int stationNumber) {
         //TODO
         fireStationService.getAllFloodsByStationNumber(stationNumber);
         return null;

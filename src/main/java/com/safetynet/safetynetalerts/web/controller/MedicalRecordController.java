@@ -49,7 +49,7 @@ public class MedicalRecordController {
      * even if list is empty.
      * @return Set of all the medical Record
      */
-    @GetMapping(value = "/medicalrecord")
+    @GetMapping(value = "/medicalrecords")
     public Set<MedicalRecord> getMedicalRecords() {
         Set<MedicalRecord> result = medicalRecordService.getMedicalsRecords();
         LOGGER.info("Get all medical records : {}", result);
