@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -84,8 +85,15 @@ public class PersonService {
      * @return set of email in the city
      */
     public Set<String> getAllEmailInCity(final String city) {
-        //TODO
-        return null;
+        LOGGER.debug("Process to find all email in city " + city);
+        Set<String> emailSet = personRepositoryImpl.findAllEmailByCity(city);
+        if (emailSet == null) {
+            LOGGER.debug("No Email found in the city " + city);
+            return null;
+        } else {
+            LOGGER.debug("Email found in the city " + city);
+            return emailSet;
+        }
     }
 
     /**

@@ -9,13 +9,7 @@ import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -146,11 +140,18 @@ public class PersonController {
      * @param city searched
      * @return set of all email in city
      */
-    @GetMapping(value = "/communityEmail?city={city}")
-    public Set<String> getAllEmailInCity(@PathVariable final String city) {
-        //TODO : service OK
-        personService.getAllEmailInCity(city);
-        return null;
+    @GetMapping(value = "/communityEmail")
+    public Set<String> getAllEmailInCity(@RequestParam(value = "city") final String city) {
+        Set<String> result = personService.getAllEmailInCity(city);
+        if (result != null) {
+            LOGGER.info("Emails in the city " + city + " were found.");
+            return result;
+        } else {
+            RuntimeException e = new NotFoundException("The following city "
+                    + city + " has not referenced inhabitants.");
+            LOGGER.error(e);
+            throw e;
+        }
     }
 
     /**
@@ -158,8 +159,8 @@ public class PersonController {
      * @param address .
      * @return list of children
      */
-    @GetMapping(value = "/childAlert?address={address}")
-    public Set<ChildInfoDTO> getAllChildrenByAddress(@PathVariable final String address) {
+    @GetMapping(value = "/childAlert")
+    public Set<ChildInfoDTO> getAllChildrenByAddress(@RequestParam(value = "address") final String address) {
         //TODO
         personService.getAllChildrenByAddress(address);
         return null;
@@ -171,10 +172,10 @@ public class PersonController {
      * @param lastName .
      * @return person's info
      */
-    @GetMapping(value = "personInfo?firstName={firstName}&lastName={lastName}")
+    @GetMapping(value = "personInfo")
     public PersonFullInfoDTO getAllInfoByFirstNameAndLastName(
-            @PathVariable final String firstName,
-            @PathVariable final String lastName) {
+            @RequestParam(value = "firstName") final String firstName,
+            @RequestParam(value = "lastName") final String lastName) {
         //TODO
         personService.getAllInfoByFirstNameAndLastName(firstName, lastName);
         return null;

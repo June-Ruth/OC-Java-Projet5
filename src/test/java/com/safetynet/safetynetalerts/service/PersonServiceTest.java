@@ -9,10 +9,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -86,11 +86,18 @@ class PersonServiceTest {
 
     @Test
     void getAllEmailInCityExistingTest() {
-        //TODO
+        Set<String> emailSet = new HashSet<>();
+        emailSet.add("test1");
+        emailSet.add("test2");
+        when(personRepositoryImpl.findAllEmailByCity(person.getCity())).thenReturn(emailSet);
+        assertEquals(2, personService.getAllEmailInCity(person.getCity()).size());
+        verify(personRepositoryImpl, times(1)).findAllEmailByCity(person.getCity());
     }
 
     @Test
     void getAllEmailInCityUnknownTest() {
-        //TODO
+        when(personRepositoryImpl.findAllEmailByCity(person.getCity())).thenReturn(null);
+        assertNull(personService.getAllEmailInCity(person.getCity()));
+        verify(personRepositoryImpl, times(1)).findAllEmailByCity(person.getCity());
     }
 }

@@ -118,4 +118,16 @@ class PersonRepositoryImplTest {
         assertFalse(personRepositoryImpl.deleteAll(personsToDelete));
     }
 
+    @Test
+    void findAllEmailByCityExistingTest() {
+        String city = "city";
+        assertEquals(2, personRepositoryImpl.findAllEmailByCity(city).size());
+    }
+
+    @Test
+    void findAllEmailByCityUnknowmTest() {
+        String city = "test";
+        assertNull(personRepositoryImpl.findAllEmailByCity(city));
+    }
+
 }

@@ -71,7 +71,7 @@ public class FireStationController {
      * @return 201 - Created if the new Fire Station is correctly saved
      */
     @PostMapping(value = "/firestation")
-    public ResponseEntity<Void> createFireStation(
+    public ResponseEntity<Void> createFireStation(@Valid
             @RequestBody final FireStation fireStation) {
       if (fireStationService.saveFireStation(fireStation)) {
             LOGGER.info("New fire station was saved.");

@@ -3,12 +3,16 @@ package com.safetynet.safetynetalerts.web.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.service.PersonService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -108,58 +112,61 @@ class PersonControllerTest {
 
     @Test
     void getAllEmailInCityExistingTest() throws Exception {
-        //TODO
         String city = "city";
-        //when().thenReturn();
-        mockMvc.perform(get("/phoneAlert?firestation={stationNumber}", city))
+        Set<String> result = new HashSet<>();
+        result.add("test@test.com");
+        when(personService.getAllEmailInCity(any(String.class))).thenReturn(result);
+        mockMvc.perform(get("/communityEmail?city=" + city))
                 .andExpect(status().isOk());
-
     }
 
     @Test
     void getAllEmailInCityUnknownTest() throws Exception {
-        //TODO
         String city = "test";
-        //when().thenReturn();
-        mockMvc.perform(get("/phoneAlert?firestation={stationNumber}", city))
+        when(personService.getAllEmailInCity(any(String.class))).thenReturn(null);
+        mockMvc.perform(get("/communityEmail?city=" + city))
                 .andExpect(status().isNotFound());
     }
 
+    @Disabled
     @Test
     void getAllChildrenByAddressExistingTest() throws Exception {
         //TODO
         String address = "address";
         //when().thenReturn();
-        mockMvc.perform(get("/childAlert?address={address}", address))
+        mockMvc.perform(get("/childAlert?address=" + address))
                 .andExpect(status().isOk());
     }
 
+    @Disabled
     @Test
     void getAllChildrenByAddressUnknownTest() throws Exception {
         //TODO
         String address = "test";
         //when().thenReturn();
-        mockMvc.perform(get("/childAlert?address={address}", address))
+        mockMvc.perform(get("/childAlert?address=" + address))
                 .andExpect(status().isNotFound());
     }
 
+    @Disabled
     @Test
     void getAllInfoByFirstNameAndLastNameExistingTest() throws Exception {
         //TODO
         String firstName = "firstName";
         String lastName = "lastName";
         //when().thenReturn();
-        mockMvc.perform(get("personInfo?firstName={firstName}&lastName={lastName}", firstName, lastName))
+        mockMvc.perform(get("personInfo?firstName=" + firstName + "&lastName=" + lastName))
                 .andExpect(status().isOk());
     }
 
+    @Disabled
     @Test
     void getAllInfoByFirstNameAndLastNameUnknownTest() throws Exception {
         //TODO
         String firstName = "test";
         String lastName = "test";
         //when().thenReturn();
-        mockMvc.perform(get("personInfo?firstName={firstName}&lastName={lastName}", firstName, lastName))
+        mockMvc.perform(get("personInfo?firstName=" + firstName + "&lastName=" + lastName))
                 .andExpect(status().isNotFound());
     }
 }

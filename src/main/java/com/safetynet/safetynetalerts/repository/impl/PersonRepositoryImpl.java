@@ -40,7 +40,7 @@ public class PersonRepositoryImpl implements PersonRepository {
      * Find a person by its name.
      * @param firstName searched
      * @param lastName searched
-     * @return person finded
+     * @return person found
      */
     @Override
     public Person findByFirstNameAndLastName(
@@ -62,6 +62,29 @@ public class PersonRepositoryImpl implements PersonRepository {
             return null;
         }
     }
+
+    /**
+     * Find all email by city.
+     * @param city searched
+     * @return emails found
+     */
+    public Set<String> findAllEmailByCity(
+            final String city) {
+        Set<String> result = new HashSet<>();
+        persons.iterator().forEachRemaining((person) -> {
+            if (person.getCity().equals(city)) {
+                result.add(person.getEmail());
+            }
+        });
+        if (result.iterator().hasNext()) {
+            LOGGER.debug("Find Emails in city " + city);
+            return result;
+        } else {
+            LOGGER.debug("No emails found in city " + city);
+            return null;
+        }
+    }
+
 
     /**
      * Save a person.
