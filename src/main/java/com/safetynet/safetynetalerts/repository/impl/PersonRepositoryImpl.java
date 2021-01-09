@@ -64,6 +64,27 @@ public class PersonRepositoryImpl implements PersonRepository {
     }
 
     /**
+     * Find all phone by address.
+     * @param address .
+     * @return list of all phone at the address
+     */
+    public Set<String> findAllPhoneByAddress(final String address) {
+        Set<String> result = new HashSet<>();
+        persons.iterator().forEachRemaining((person -> {
+            if (person.getAddress().equals(address)) {
+                result.add(person.getPhone());
+            }
+        }));
+        if (result.iterator().hasNext()) {
+            LOGGER.debug("Phone find for address " + address);
+            return result;
+        } else {
+            LOGGER.debug("No phone found at address " + address);
+            return null;
+        }
+    }
+
+    /**
      * Find all email by city.
      * @param city searched
      * @return emails found

@@ -3,6 +3,7 @@ package com.safetynet.safetynetalerts.service;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.repository.impl.FireStationRepositoryImpl;
+import com.safetynet.safetynetalerts.repository.impl.PersonRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,10 +11,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
+import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,9 +27,12 @@ class FireStationServiceTest {
     @Mock
     private static FireStationRepositoryImpl fireStationRepositoryImpl;
 
+    @Mock
+    private static PersonRepositoryImpl personRepositoryImpl;
+
     @BeforeEach
     void beforeEach() {
-        fireStationService = new FireStationService(fireStationRepositoryImpl);
+        fireStationService = new FireStationService(fireStationRepositoryImpl, personRepositoryImpl);
         fireStation = new FireStation("address", 1);
         fireStations = DataBaseManager.INSTANCE.getDataBase().getFireStations();
     }
@@ -104,12 +108,23 @@ class FireStationServiceTest {
 
     @Test
     void getAllPhoneByStationNumberExistingTest() {
-        //TODO
+        Set<String> result1 = new HashSet<>();
+        result1.add("address1");
+        result1.add("address2");
+        Set<String> result2 = new HashSet<>();
+        Set<String> result3 = new HashSet<>();
+        result2.add("phone1");
+        result3.add("phone2");
+        when(fireStationRepositoryImpl.findAllAddressByStationNumber(any(Integer.class))).thenReturn(result1);
+        when(personRepositoryImpl.findAllPhoneByAddress("address1")).thenReturn(result2);
+        when(personRepositoryImpl.findAllPhoneByAddress("address2")).thenReturn(result3);
+        assertEquals(2, fireStationService.getAllPhoneByStationNumber(1).size());
     }
 
     @Test
     void getAllPhoneByStationNumberUnknownTest() {
-        //TODO
+        when(fireStationRepositoryImpl.findAllAddressByStationNumber(any(Integer.class))).thenReturn(null);
+        assertNull(fireStationService.getAllPhoneByStationNumber(1));
     }
 
     @Test

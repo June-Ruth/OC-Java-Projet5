@@ -1,13 +1,16 @@
 package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.FireStation;
+import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.model.dto.PersonContactInfoDTO;
 import com.safetynet.safetynetalerts.model.dto.PersonHealthInfoDTO;
 import com.safetynet.safetynetalerts.repository.impl.FireStationRepositoryImpl;
+import com.safetynet.safetynetalerts.repository.impl.PersonRepositoryImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,6 +24,7 @@ public class FireStationService {
      * @see FireStationRepositoryImpl
      */
     private FireStationRepositoryImpl fireStationRepositoryImpl;
+    private PersonRepositoryImpl personRepositoryImpl;
 
     /**
      * Public constructor for FireStationService.
@@ -28,9 +32,12 @@ public class FireStationService {
      * @param pFireStationRepositoryImpl not null
      */
     public FireStationService(
-            final FireStationRepositoryImpl pFireStationRepositoryImpl) {
+            final FireStationRepositoryImpl pFireStationRepositoryImpl,
+            final PersonRepositoryImpl pPersonRepositoryImpl) {
         Objects.requireNonNull(pFireStationRepositoryImpl);
+        Objects.requireNonNull(pPersonRepositoryImpl);
         fireStationRepositoryImpl =  pFireStationRepositoryImpl;
+        personRepositoryImpl =pPersonRepositoryImpl;
     }
 
     /**
@@ -96,8 +103,18 @@ public class FireStationService {
      * @return set of all phone number.
      */
     public Set<String> getAllPhoneByStationNumber(final int stationNumber) {
-        //TODO
-        return null;
+        Set<String> phoneList = new HashSet<>();
+        Set<String> addressList = fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber);
+        if (addressList != null) {
+            addressList.iterator().forEachRemaining((address) -> {
+                phoneList.addAll(personRepositoryImpl.findAllPhoneByAddress(address));
+            });
+            LOGGER.debug("Find all phone corresponding to station number " + stationNumber);
+            return phoneList;
+        } else {
+            LOGGER.debug("No fireStation at station number " + stationNumber);
+            return null;
+        }
     }
 
     /**

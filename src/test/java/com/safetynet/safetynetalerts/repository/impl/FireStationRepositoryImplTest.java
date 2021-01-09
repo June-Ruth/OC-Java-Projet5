@@ -69,7 +69,7 @@ class FireStationRepositoryImplTest {
 
     @Test
     void findAllByStationNumberUnknownTest() {
-        assertEquals(0, fireStationRepositoryImpl.findAllByStationNumber(3).size());
+        assertNull(fireStationRepositoryImpl.findAllByStationNumber(3));
     }
 
     @Test
@@ -126,5 +126,19 @@ class FireStationRepositoryImplTest {
         Set<FireStation> fireStationsToDelete = new HashSet<>();
         FireStation fireStation = new FireStation("address3", 3);
         fireStationsToDelete.add(fireStation);
-        assertFalse(fireStationRepositoryImpl.deleteAll(fireStationsToDelete));    }
+        assertFalse(fireStationRepositoryImpl.deleteAll(fireStationsToDelete));
+    }
+
+    @Test
+    void findAllAddressByStationNumberExistingTest() {
+        int stationNumber = 1;
+        assertEquals(1, fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber).size());
+    }
+
+    @Test
+    void findAllAddressByStationNumberUnknownTest() {
+        int stationNumber = 6;
+        assertNull(fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber));
+    }
+
 }

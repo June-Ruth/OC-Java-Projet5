@@ -130,4 +130,16 @@ class PersonRepositoryImplTest {
         assertNull(personRepositoryImpl.findAllEmailByCity(city));
     }
 
+    @Test
+    void findAllPhoneByAddressExistingTest() {
+        String address = "address";
+        assertEquals(1, personRepositoryImpl.findAllPhoneByAddress(address).size());
+    }
+
+    @Test
+    void findAllPhoneByAddressUnknownTest() {
+        String address = "test";
+        assertNull(personRepositoryImpl.findAllPhoneByAddress(address));
+    }
+
 }

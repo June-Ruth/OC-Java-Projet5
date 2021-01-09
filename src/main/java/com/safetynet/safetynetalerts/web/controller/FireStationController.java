@@ -9,13 +9,7 @@ import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -170,11 +164,17 @@ public class FireStationController {
      * @param stationNumber concerned
      * @return set of all phone number
      */
-    @GetMapping(value = "/phoneAlert?firestation={stationNumber}")
-    public Set<String> getAllPhoneByStationNumber(@PathVariable final int stationNumber) {
-        //TODO : service OK
-        fireStationService.getAllPhoneByStationNumber(stationNumber);
-        return null;
+    @GetMapping(value = "/phoneAlert")
+    public Set<String> getAllPhoneByStationNumber(@RequestParam(value = "firestation") final int stationNumber) {
+        Set<String> phoneList = fireStationService.getAllPhoneByStationNumber(stationNumber);
+        if (phoneList != null) {
+            LOGGER.info("Phone at station number " + stationNumber + " were found");
+            return phoneList;
+        } else {
+            RuntimeException e = new NotFoundException("Station number " + stationNumber + " has no referenced phone.");
+            LOGGER.error(e);
+            throw e;
+        }
     }
 
     /**
@@ -182,7 +182,7 @@ public class FireStationController {
      * @param stationNumber specific
      * @return Set of person info
      */
-    @GetMapping(value = "/firestation?stationNumber={stationNumber}")
+    @GetMapping(value = "/firestation")
     public Set<PersonContactInfoDTO> getAllPersonsAndCountdownByStationNumber(@PathVariable final int stationNumber) {
         //TODO
         fireStationService.getAllPersonsAndCountdownByStationNumber(stationNumber);
@@ -194,7 +194,7 @@ public class FireStationController {
      * @param address .
      * @return List of inhabitant
      */
-    @GetMapping(value = "/fire?address={address}")
+    @GetMapping(value = "/fire")
     public Set<PersonHealthInfoDTO> getAllPersonsAndStationByAddress(@PathVariable final String address) {
         //TODO
         fireStationService.getAllPersonsAndStationByAddress(address);
@@ -207,7 +207,7 @@ public class FireStationController {
      * @param stationNumber .
      * @return List of inhabitant
      */
-    @GetMapping(value = "stations?station={stationNumber}")
+    @GetMapping(value = "stations")
     public Set<PersonHealthInfoDTO> getAllFloodsByStationNumber(@PathVariable final int stationNumber) {
         //TODO
         fireStationService.getAllFloodsByStationNumber(stationNumber);

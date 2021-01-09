@@ -12,6 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -122,24 +125,21 @@ class FireStationControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Disabled
     @Test
     void getAllPhoneByStationNumberExistingTest() throws Exception {
-        //TODO
         int stationNumber = 1;
-        //when().thenReturn();
-        mockMvc.perform(get("/phoneAlert?firestation={stationNumber}", stationNumber))
+        Set<String> result = new HashSet<>();
+        result.add("123-456-789");
+        when(fireStationService.getAllPhoneByStationNumber(stationNumber)).thenReturn(result);
+        mockMvc.perform(get("/phoneAlert?firestation=" + stationNumber))
                 .andExpect(status().isOk());
-
     }
 
-    @Disabled
     @Test
     void getAllPhoneByStationNumberUnknownTest() throws Exception {
-        //TODO
         int stationNumber = 6;
-        //when().thenReturn();
-        mockMvc.perform(get("/phoneAlert?firestation={stationNumber}", stationNumber))
+        when(fireStationService.getAllPhoneByStationNumber(stationNumber)).thenReturn(null);
+        mockMvc.perform(get("/phoneAlert?firestation=" + stationNumber))
                 .andExpect(status().isNotFound());
     }
 
@@ -149,7 +149,7 @@ class FireStationControllerTest {
         //TODO
         int stationNumber = 1;
         //when().thenReturn();
-        mockMvc.perform(get("/firestation?stationNumber={stationNumber}", stationNumber))
+        mockMvc.perform(get("/firestation?stationNumber=" + stationNumber))
                 .andExpect(status().isOk());
     }
 
@@ -159,7 +159,7 @@ class FireStationControllerTest {
         //TODO
         int stationNumber = 1;
         //when().thenReturn();
-        mockMvc.perform(get("/firestation?stationNumber={stationNumber}", stationNumber))
+        mockMvc.perform(get("/firestation?stationNumber=" + stationNumber))
                 .andExpect(status().isNotFound());
     }
 
@@ -169,7 +169,7 @@ class FireStationControllerTest {
         //TODO
         String address = "address";
         //when().thenReturn();
-        mockMvc.perform(get("/fire?address={address}", address))
+        mockMvc.perform(get("/fire?address=" + address))
                 .andExpect(status().isOk());
     }
 
@@ -179,7 +179,7 @@ class FireStationControllerTest {
         //TODO
         String address = "address";
         //when().thenReturn();
-        mockMvc.perform(get("/fire?address={address}", address))
+        mockMvc.perform(get("/fire?address=" + address))
                 .andExpect(status().isNotFound());
     }
 
@@ -189,7 +189,7 @@ class FireStationControllerTest {
         //TODO
         int stationNumber = 1;
         //when().thenReturn();
-        mockMvc.perform(get("stations?station={stationNumber}", stationNumber))
+        mockMvc.perform(get("stations?station=" + stationNumber))
                 .andExpect(status().isOk());
     }
 
@@ -199,7 +199,7 @@ class FireStationControllerTest {
         //TODO
         int stationNumber = 5;
         //when().thenReturn();
-        mockMvc.perform(get("stations?station={stationNumber}", stationNumber))
+        mockMvc.perform(get("stations?station=" +stationNumber))
                 .andExpect(status().isNotFound());
     }
 }

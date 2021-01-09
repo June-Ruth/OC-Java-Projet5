@@ -72,9 +72,37 @@ public class FireStationRepositoryImpl implements FireStationRepository {
                 result.add(fireStation);
             }
         });
-        LOGGER.debug("All fire station associated to station number "
-            + stationNumber + "have been found if exist.");
-        return result;
+        if (result.iterator().hasNext()) {
+            LOGGER.debug("All fire station associated to station number "
+                    + stationNumber + "have been found if exist.");
+            return result;
+        } else {
+            LOGGER.debug("No firestation found at station " + stationNumber);
+            return null;
+        }
+    }
+
+    /**
+     * Find all address associated to a station number.
+     * @param stationNumber searched
+     * @return set of all address corresponding
+     */
+    public Set<String> findAllAddressByStationNumber(final int stationNumber) {
+        Set<String> result = new HashSet<>();
+        fireStations.iterator().forEachRemaining((fireStation) -> {
+            if (fireStation.getStation() == stationNumber) {
+                result.add(fireStation.getAddress());
+            }
+        });
+        if (result.iterator().hasNext()) {
+            LOGGER.debug("All addresses associated to station number "
+                    + stationNumber + "have been found if exist.");
+            return result;
+        } else {
+            LOGGER.debug("No addresses found at station " + stationNumber);
+            return null;
+        }
+
     }
 
     /**
