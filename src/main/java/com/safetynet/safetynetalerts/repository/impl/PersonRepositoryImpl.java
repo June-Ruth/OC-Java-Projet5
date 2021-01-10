@@ -106,6 +106,27 @@ public class PersonRepositoryImpl implements PersonRepository {
         }
     }
 
+    /**
+     * find all persons by address.
+     * @param address .
+     * @return set of inhabitant at the address
+     */
+    public Set<Person> findAllByAddress(final String address) {
+        Set<Person> result = new HashSet<>();
+        persons.iterator().forEachRemaining((person -> {
+            if (person.getAddress().equals(address)) {
+                result.add(person);
+            }
+        }));
+        if (result.iterator().hasNext()) {
+            LOGGER.debug("Find people at the address " + address);
+            return result;
+        } else {
+            LOGGER.debug("Find no person at the address " + address);
+            return null;
+        }
+    }
+
 
     /**
      * Save a person.

@@ -21,17 +21,6 @@ public class ChildInfoDTO {
     */
     private Set<PersonNameDTO> otherPersons;
 
-
-    public ChildInfoDTO(final String pFirstName,
-                        final String pLastName,
-                        final LocalDate pBirthdate,
-                        final Set<PersonNameDTO> pOtherPersons) {
-        firstName = pFirstName;
-        lastName = pLastName;
-        birthdate = pBirthdate;
-        otherPersons = pOtherPersons;
-    }
-
     /**
      * Getter.
      * @return firstname
@@ -95,4 +84,6 @@ public class ChildInfoDTO {
     public void setOtherPersons(final Set<PersonNameDTO> pOtherPersons) {
         otherPersons = pOtherPersons;
     }
+
+
 }

@@ -161,9 +161,9 @@ public class PersonController {
      */
     @GetMapping(value = "/childAlert")
     public Set<ChildInfoDTO> getAllChildrenByAddress(@RequestParam(value = "address") final String address) {
-        //TODO
-        personService.getAllChildrenByAddress(address);
-        return null;
+        Set<ChildInfoDTO> childInfoList = personService.getAllChildrenByAddress(address);
+        LOGGER.info("Children at the address " + address + " were found if exist");
+        return childInfoList ;
     }
 
     /**

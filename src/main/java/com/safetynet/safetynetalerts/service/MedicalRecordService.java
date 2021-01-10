@@ -77,4 +77,9 @@ public class MedicalRecordService {
                 .findByFirstNameAndLastName(firstName, lastName);
         return medicalRecordRepositoryImpl.delete(medicalRecord);
     }
+
+    //TODO ; test, logger, javadoc
+    public MedicalRecord getByFirstNameAndLastName(final String firstName, final String lastName) {
+        return medicalRecordRepositoryImpl.findByFirstNameAndLastName(firstName, lastName);
+    }
 }

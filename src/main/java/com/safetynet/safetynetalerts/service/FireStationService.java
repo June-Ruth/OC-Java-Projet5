@@ -24,7 +24,7 @@ public class FireStationService {
      * @see FireStationRepositoryImpl
      */
     private FireStationRepositoryImpl fireStationRepositoryImpl;
-    private PersonRepositoryImpl personRepositoryImpl;
+    private PersonService personService;
 
     /**
      * Public constructor for FireStationService.
@@ -33,11 +33,11 @@ public class FireStationService {
      */
     public FireStationService(
             final FireStationRepositoryImpl pFireStationRepositoryImpl,
-            final PersonRepositoryImpl pPersonRepositoryImpl) {
+            final PersonService pPersonService) {
         Objects.requireNonNull(pFireStationRepositoryImpl);
-        Objects.requireNonNull(pPersonRepositoryImpl);
+        Objects.requireNonNull(pPersonService);
         fireStationRepositoryImpl =  pFireStationRepositoryImpl;
-        personRepositoryImpl =pPersonRepositoryImpl;
+        personService = pPersonService;
     }
 
     /**
@@ -107,7 +107,7 @@ public class FireStationService {
         Set<String> addressList = fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber);
         if (addressList != null) {
             addressList.iterator().forEachRemaining((address) -> {
-                phoneList.addAll(personRepositoryImpl.findAllPhoneByAddress(address));
+                phoneList.addAll(personService.findAllPhoneByAddress(address));
             });
             LOGGER.debug("Find all phone corresponding to station number " + stationNumber);
             return phoneList;

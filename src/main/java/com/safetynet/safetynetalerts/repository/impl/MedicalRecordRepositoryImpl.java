@@ -64,7 +64,6 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
         }
     }
 
-
     /**
      * Save a medical record.
      * Return false if the medical record is already existing.
@@ -118,4 +117,6 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
         LOGGER.debug("Process to delete all the defined set.");
         return medicalRecords.removeAll(medicalRecordsToDelete);
     }
+
+
 }

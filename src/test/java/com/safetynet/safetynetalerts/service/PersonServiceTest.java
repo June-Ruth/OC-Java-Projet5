@@ -1,6 +1,7 @@
 package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
+import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.impl.PersonRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,9 +27,12 @@ class PersonServiceTest {
     @Mock
     private PersonRepositoryImpl personRepositoryImpl;
 
+    @Mock
+    private MedicalRecordService medicalRecordService;
+
     @BeforeEach
     void beforeEach() {
-        personService = new PersonService(personRepositoryImpl);
+        personService = new PersonService(personRepositoryImpl, medicalRecordService);
         person = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", "mail@email.com");
         persons = DataBaseManager.INSTANCE.getDataBase().getPersons();
     }
@@ -99,5 +104,26 @@ class PersonServiceTest {
         when(personRepositoryImpl.findAllEmailByCity(person.getCity())).thenReturn(null);
         assertNull(personService.getAllEmailInCity(person.getCity()));
         verify(personRepositoryImpl, times(1)).findAllEmailByCity(person.getCity());
+    }
+
+    @Test
+    void getAllChildrenByAddressExistingTest() {
+        Set<Person>  personsAtAddress= new HashSet<>();
+        Person person2 = new Person("firstName2", "lastName2", "address2", "city", 123, "123-456-7890", "mail2@email.com");
+        Person person3 = new Person("firstName3", "lastName3", "address2", "city", 123, "123-456-7830", "mail3@email.com");
+        personsAtAddress.add(person2);
+        personsAtAddress.add(person3);
+        when(personRepositoryImpl.findAllByAddress("address2")).thenReturn(personsAtAddress);
+        MedicalRecord medicalRecord2 = new MedicalRecord("firstName2", "lastName2", LocalDate.of(2012, 5, 14), null, null);
+        MedicalRecord medicalRecord3 = new MedicalRecord("firstName3", "lastName3", LocalDate.of(1994, 5, 14), null, null);
+        when(medicalRecordService.getByFirstNameAndLastName(person2.getFirstName(), person2.getLastName())).thenReturn(medicalRecord2);
+        when(medicalRecordService.getByFirstNameAndLastName(person3.getFirstName(), person3.getLastName())).thenReturn(medicalRecord3);
+        assertEquals(1, personService.getAllChildrenByAddress("address2").size());
+    }
+
+    @Test
+    void getAllChildrenByAddressUnknownTest() {
+        when(personRepositoryImpl.findAllByAddress("address")).thenReturn(null);
+        assertEquals(0, personService.getAllChildrenByAddress("address").size());
     }
 }

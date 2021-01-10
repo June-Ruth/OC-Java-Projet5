@@ -3,7 +3,6 @@ package com.safetynet.safetynetalerts.service;
 import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.repository.impl.FireStationRepositoryImpl;
-import com.safetynet.safetynetalerts.repository.impl.PersonRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,11 +27,11 @@ class FireStationServiceTest {
     private static FireStationRepositoryImpl fireStationRepositoryImpl;
 
     @Mock
-    private static PersonRepositoryImpl personRepositoryImpl;
+    private static PersonService personService;
 
     @BeforeEach
     void beforeEach() {
-        fireStationService = new FireStationService(fireStationRepositoryImpl, personRepositoryImpl);
+        fireStationService = new FireStationService(fireStationRepositoryImpl, personService);
         fireStation = new FireStation("address", 1);
         fireStations = DataBaseManager.INSTANCE.getDataBase().getFireStations();
     }
@@ -116,8 +115,8 @@ class FireStationServiceTest {
         result2.add("phone1");
         result3.add("phone2");
         when(fireStationRepositoryImpl.findAllAddressByStationNumber(any(Integer.class))).thenReturn(result1);
-        when(personRepositoryImpl.findAllPhoneByAddress("address1")).thenReturn(result2);
-        when(personRepositoryImpl.findAllPhoneByAddress("address2")).thenReturn(result3);
+        when(personService.findAllPhoneByAddress("address1")).thenReturn(result2);
+        when(personService.findAllPhoneByAddress("address2")).thenReturn(result3);
         assertEquals(2, fireStationService.getAllPhoneByStationNumber(1).size());
     }
 

@@ -1,14 +1,20 @@
 package com.safetynet.safetynetalerts.service;
 
+import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.model.dto.ChildInfoDTO;
 import com.safetynet.safetynetalerts.model.dto.PersonFullInfoDTO;
+import com.safetynet.safetynetalerts.model.dto.PersonNameDTO;
+import com.safetynet.safetynetalerts.repository.impl.MedicalRecordRepositoryImpl;
 import com.safetynet.safetynetalerts.repository.impl.PersonRepositoryImpl;
+import com.safetynet.safetynetalerts.util.DtoConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
@@ -23,14 +29,19 @@ public class PersonService {
      */
     private PersonRepositoryImpl personRepositoryImpl;
 
+    private MedicalRecordService medicalRecordService;
+
     /**
      * constructor for personService.
      * Requires non null personRepositoryImpl.
      * @param pPersonRepositoryImpl not null
      */
-    PersonService(final PersonRepositoryImpl pPersonRepositoryImpl) {
+    PersonService(final PersonRepositoryImpl pPersonRepositoryImpl,
+                  final MedicalRecordService pMedicalRecordService) {
         Objects.requireNonNull(pPersonRepositoryImpl);
+        Objects.requireNonNull(pMedicalRecordService);
         personRepositoryImpl = pPersonRepositoryImpl;
+        medicalRecordService = pMedicalRecordService;
     }
 
     /**
@@ -102,8 +113,31 @@ public class PersonService {
      * @return list of children
      */
     public Set<ChildInfoDTO> getAllChildrenByAddress(final String address) {
-        //TODO
-        return null;
+        Set<ChildInfoDTO> childrenAtAddress = new HashSet<>();
+        Set<Person> personsAtAddress = personRepositoryImpl.findAllByAddress(address);
+        if (personsAtAddress != null) {
+            int limitChildAge = 18;
+            personsAtAddress.iterator().forEachRemaining((person -> {
+                MedicalRecord medicalRecord = medicalRecordService.getByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+                int age = LocalDate.now().compareTo(medicalRecord.getBirthdate());
+                if (age <= limitChildAge) {
+                    Set<Person> personsAtAddressNew = new HashSet<>(personsAtAddress);
+                    personsAtAddressNew.remove(person);
+                    Set<PersonNameDTO> otherPersonsAtAddress = new HashSet<>();
+                    personsAtAddressNew.iterator().forEachRemaining(personAtAddress -> {
+                        PersonNameDTO personNameDTO = DtoConverter.convertToPersonNameDTO(personAtAddress);
+                        otherPersonsAtAddress.add(personNameDTO);
+                    });
+                    ChildInfoDTO childInfoDTO = DtoConverter.convertToChildInfoDTO(person, medicalRecord, otherPersonsAtAddress);
+                    childrenAtAddress.add(childInfoDTO);
+                }
+            }));
+            LOGGER.debug("Find children at the address " + address);
+            return childrenAtAddress;
+        } else {
+            LOGGER.debug("No child found at the address " + address);
+            return childrenAtAddress;
+        }
     }
 
     /**
@@ -115,5 +149,10 @@ public class PersonService {
     public PersonFullInfoDTO getAllInfoByFirstNameAndLastName(final String firstName, final String lastName) {
         //TODO
         return null;
+    }
+
+    //TODO : logger, test javadoc
+    public Set<String> findAllPhoneByAddress (final String address) {
+        return personRepositoryImpl.findAllPhoneByAddress(address);
     }
 }

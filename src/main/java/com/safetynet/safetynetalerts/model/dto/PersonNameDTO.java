@@ -12,19 +12,8 @@ public class PersonNameDTO {
     private String lastName;
 
     /**
-     * Constructor.
-     * @param pFirstName .
-     * @param pLastName .
-     */
-    public PersonNameDTO(final String pFirstName,
-                        final String pLastName) {
-        firstName = pFirstName;
-        lastName = pLastName;
-    }
-
-    /**
      * Getter.
-     * @return firstname
+     * @return firstName
      */
     public String getFirstName() {
         return firstName;
@@ -53,5 +42,4 @@ public class PersonNameDTO {
     public void setLastName(final String pLastName) {
         lastName = pLastName;
     }
-
 }
