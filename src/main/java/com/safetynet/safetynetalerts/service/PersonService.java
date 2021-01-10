@@ -4,6 +4,7 @@ import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.model.dto.ChildInfoDTO;
 import com.safetynet.safetynetalerts.model.dto.PersonFullInfoDTO;
+import com.safetynet.safetynetalerts.model.dto.PersonHealthInfoDTO;
 import com.safetynet.safetynetalerts.model.dto.PersonNameDTO;
 import com.safetynet.safetynetalerts.repository.impl.MedicalRecordRepositoryImpl;
 import com.safetynet.safetynetalerts.repository.impl.PersonRepositoryImpl;
@@ -146,13 +147,34 @@ public class PersonService {
      * @param lastName .
      * @return person's info
      */
+    //TODO : test, loggers
     public PersonFullInfoDTO getAllInfoByFirstNameAndLastName(final String firstName, final String lastName) {
-        //TODO
-        return null;
+        Person person = personRepositoryImpl.findByFirstNameAndLastName(firstName, lastName);
+        MedicalRecord medicalRecord = medicalRecordService.getByFirstNameAndLastName(firstName, lastName);
+        PersonFullInfoDTO personFullInfoDTO = DtoConverter.convertToPersonFullInfoSTO(person, medicalRecord);
+        return personFullInfoDTO;
     }
 
     //TODO : logger, test javadoc
     public Set<String> findAllPhoneByAddress (final String address) {
         return personRepositoryImpl.findAllPhoneByAddress(address);
     }
+
+    //TODO : logger, test javadoc
+    public Set<Person> findAllByAddress(final String address) {
+        return personRepositoryImpl.findAllByAddress(address);
+    }
+
+    //TODO : logger, test javadoc
+    public Set<PersonHealthInfoDTO> getAllPersonHealthInfoByAddress(final String address) {
+        Set<Person> personsListAtAddress = findAllByAddress(address);
+        Set<PersonHealthInfoDTO> personHealthInfoDTOSet = new HashSet<>();
+        personsListAtAddress.iterator().forEachRemaining(person -> {
+            MedicalRecord medicalRecord = medicalRecordService.getByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+            PersonHealthInfoDTO personHealthInfoDTO = DtoConverter.convertToPersonHealthInfoDTO(medicalRecord);
+            personHealthInfoDTOSet.add(personHealthInfoDTO);
+        });
+        return personHealthInfoDTOSet;
+    }
+
 }

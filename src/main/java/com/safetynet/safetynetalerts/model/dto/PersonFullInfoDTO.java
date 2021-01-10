@@ -34,22 +34,6 @@ public class PersonFullInfoDTO {
      */
     private List<String> allergies;
 
-    public PersonFullInfoDTO(final String pFirstName,
-                             final String pLastName,
-                             final String pAddress,
-                             final String pEmail,
-                             final int pAge,
-                             final List<String> pMedications,
-                             final List<String> pAllergies) {
-        firstName = pFirstName;
-        lastName = pLastName;
-        address = pAddress;
-        email = pEmail;
-        age = pAge;
-        medications = pMedications;
-        allergies = pAllergies;
-    }
-
     /**
      * Getter.
      * @return firstname

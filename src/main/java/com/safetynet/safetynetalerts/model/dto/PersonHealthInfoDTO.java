@@ -26,18 +26,6 @@ public class PersonHealthInfoDTO {
      */
     private List<String> allergies;
 
-    public PersonHealthInfoDTO(final String pFirstName,
-                               final String pLastName,
-                               final int pAge,
-                               final List<String> pMedications,
-                               final List<String> pAllergies) {
-        firstName = pFirstName;
-        lastName = pLastName;
-        age = pAge;
-        medications = pMedications;
-        allergies = pAllergies;
-    }
-
     /**
      * Getter.
      * @return firstname
