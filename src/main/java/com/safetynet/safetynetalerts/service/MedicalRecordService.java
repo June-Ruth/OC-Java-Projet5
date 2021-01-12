@@ -5,6 +5,7 @@ import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.model.dto.CountdownDTO;
 import com.safetynet.safetynetalerts.repository.impl.MedicalRecordRepositoryImpl;
+import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -85,20 +86,30 @@ public class MedicalRecordService {
     }
 
     public MedicalRecord getMedicalRecord(final Person person) {
+        LOGGER.debug("Process to find medical record of " + person.getFirstName() + " " + person.getLastName());
         return medicalRecordRepositoryImpl.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
     }
 
     public int getAge(final Person person) {
         MedicalRecord medicalRecord = medicalRecordRepositoryImpl.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-        return LocalDate.now().compareTo(medicalRecord.getBirthdate());
+        if(medicalRecord != null) {
+            LOGGER.debug("Find medical record for " + person.getFirstName() + " " +person.getLastName() + " . Return age.");
+            return LocalDate.now().compareTo(medicalRecord.getBirthdate());
+        } else {
+            RuntimeException e = new NotFoundException("Medical Record for "
+                    + person.getFirstName() + " " + person.getLastName() + " was not found. Cannot calculate age");
+            LOGGER.error(e);
+            throw e;
+        }
     }
 
     public Set<MedicalRecord> getAllMedicalRecordsByPersonList(Set<Person> persons) {
         Set<MedicalRecord> medicalRecordSet = new HashSet<>();
         persons.iterator().forEachRemaining(person -> {
             MedicalRecord medicalRecord = medicalRecordRepositoryImpl.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-            medicalRecordSet.add(medicalRecord);
+            if(medicalRecord != null) medicalRecordSet.add(medicalRecord);
         });
+        LOGGER.debug("End of process to find all medical records");
         return medicalRecordSet;
     }
 }

@@ -4,7 +4,6 @@ import com.safetynet.safetynetalerts.datasource.DataBaseManager;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.repository.impl.FireStationRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -26,9 +25,6 @@ class FireStationServiceTest {
 
     @Mock
     private static FireStationRepositoryImpl fireStationRepositoryImpl;
-
-    @Mock
-    private static PersonService personService;
 
     @BeforeEach
     void beforeEach() {
@@ -106,66 +102,42 @@ class FireStationServiceTest {
         verify(fireStationRepositoryImpl, times(0)).deleteAll(fireStations);
     }
 
-    @Disabled
-    @Test
-    void getAllPhoneByStationNumberExistingTest() {
-        Set<String> result1 = new HashSet<>();
-        result1.add("address1");
-        result1.add("address2");
-        Set<String> result2 = new HashSet<>();
-        Set<String> result3 = new HashSet<>();
-        result2.add("phone1");
-        result3.add("phone2");
-        when(fireStationRepositoryImpl.findAllAddressByStationNumber(any(Integer.class))).thenReturn(result1);
-        when(personService.findAllPhoneByAddress("address1")).thenReturn(result2);
-        when(personService.findAllPhoneByAddress("address2")).thenReturn(result3);
-        //assertEquals(2, fireStationService.getAllPhoneByStationNumber(1).size());
-    }
 
-    @Disabled
     @Test
-    void getAllPhoneByStationNumberUnknownTest() {
-        when(fireStationRepositoryImpl.findAllAddressByStationNumber(any(Integer.class))).thenReturn(null);
-        //assertNull(fireStationService.getAllPhoneByStationNumber(1));
+    void getAllAddressByStationNumberExistingTest() {
+        int stationNumber = 1;
+        Set<String> address = new HashSet<>();
+        address.add("address");
+        when(fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber)).thenReturn(address);
+        assertEquals(1, fireStationService.getAllAddressByStationNumber(stationNumber).size());
+        verify(fireStationRepositoryImpl, times(1)).findAllAddressByStationNumber(stationNumber);
     }
 
     @Test
-    void getAllChildrenByAddressExistingTest() {
-        //TODO
+    void getAllAddressByStationNumberUnknownTest() {
+        int stationNumber = 1;
+        Set<String> address = new HashSet<>();
+        address.add("address");
+        when(fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber)).thenReturn(null);
+        assertNull(fireStationService.getAllAddressByStationNumber(stationNumber));
+        verify(fireStationRepositoryImpl, times(1)).findAllAddressByStationNumber(stationNumber);
     }
 
     @Test
-    void getAllChildrenByAddressUnknownTest() {
-        //TODO
+    void getByAddressExistingTest() {
+        String address = "address";
+        when(fireStationRepositoryImpl.findByAddress(address)).thenReturn(fireStation);
+        fireStationService.getByAddress(address);
+        assertEquals(address, fireStation.getAddress());
+        assertEquals(1, fireStation.getStation());
+        verify(fireStationRepositoryImpl, times(1)).findByAddress(address);
     }
 
     @Test
-    void getAllPersonsAndCountdownByStationNumberExistingTest()  {
-        //TODO
-    }
-
-    @Test
-    void getAllPersonsAndCountdownByStationNumberUnknownTest()  {
-        //TODO
-    }
-
-    @Test
-    void getAllPersonsAndStationByAddressExistingTest()  {
-        //TODO
-    }
-
-    @Test
-    void getAllPersonsAndStationByAddressUnknownTest()  {
-        //TODO
-    }
-
-    @Test
-    void getAllFloodsByStationNumberExistingTest() {
-        //TODO
-    }
-
-    @Test
-    void getAllFloodsByStationNumberUnknownTest() {
-        //TODO
+    void getByAddressUnknownTest() {
+        String address = "address";
+        when(fireStationRepositoryImpl.findByAddress(address)).thenReturn(null);
+        assertNull(fireStationService.getByAddress(address));
+        verify(fireStationRepositoryImpl, times(1)).findByAddress(address);
     }
 }

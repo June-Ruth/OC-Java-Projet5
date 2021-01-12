@@ -20,7 +20,6 @@ public class PersonService {
      */
     private PersonRepositoryImpl personRepositoryImpl;
 
-
     /**
      * constructor for personService.
      * Requires non null personRepositoryImpl.
@@ -100,6 +99,7 @@ public class PersonService {
 
     //TODO : logger, test javadoc
     public Set<String> findAllPhoneByAddress (final String address) {
+        LOGGER.debug("Process to find all phone at address " + address);
         return personRepositoryImpl.findAllPhoneByAddress(address);
     }
 }

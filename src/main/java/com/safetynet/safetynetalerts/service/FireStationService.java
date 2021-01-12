@@ -96,10 +96,12 @@ public class FireStationService {
     }
 
     public Set<String> getAllAddressByStationNumber(final int stationNumber) {
+        LOGGER.debug("Process to find all address cover by station number " + stationNumber);
         return fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber);
     }
 
     public FireStation getByAddress(final String address) {
+        LOGGER.debug("Process to find fire station at address " + address);
         return fireStationRepositoryImpl.findByAddress(address);
     }
 
