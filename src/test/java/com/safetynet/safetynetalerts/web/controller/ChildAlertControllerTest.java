@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = ChildAlertController.class)
-public class ChildAlertControllerTest {
+class ChildAlertControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

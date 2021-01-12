@@ -6,6 +6,7 @@ import com.safetynet.safetynetalerts.model.dto.PersonInfoDTO;
 import com.safetynet.safetynetalerts.service.MedicalRecordService;
 import com.safetynet.safetynetalerts.service.PersonService;
 import com.safetynet.safetynetalerts.util.DtoConverter;
+import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,9 +54,16 @@ public class PersonInfoController {
             @RequestParam(value = "firstName") final String firstName,
             @RequestParam(value = "lastName") final String lastName) {
         Person person = personService.getByFirstNameAndLastName(firstName, lastName);
-        MedicalRecord medicalRecord = medicalRecordService.getMedicalRecord(person);
-        LOGGER.info("Find all info for " + firstName + " " + lastName);
-        return DtoConverter.convertToPersonFullInfoSTO(person, medicalRecord);
+        if(person != null) {
+            MedicalRecord medicalRecord = medicalRecordService.getMedicalRecord(person);
+            LOGGER.info("Find all info for " + firstName + " " + lastName);
+            return DtoConverter.convertToPersonFullInfoSTO(person, medicalRecord);
+        } else {
+            RuntimeException e = new NotFoundException("Person named " + firstName + " " + lastName + "was not found");
+            LOGGER.error(e);
+            throw e;
+        }
+
     }
 
 }

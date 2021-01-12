@@ -203,7 +203,7 @@ public class FireStationController {
             LOGGER.info("All persons cover by station number " + stationNumber + " were found");
             return DtoConverter.convertToPersonsListByStationDTO(personsContactList, countdownDTO);
         } else {
-            RuntimeException e = new NotFoundException("No adress cover by station number " + stationNumber + " was found.");
+            RuntimeException e = new NotFoundException("No address cover by station number " + stationNumber + " was found.");
             LOGGER.error(e);
             throw e;
         }

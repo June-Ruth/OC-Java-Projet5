@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = CommunityEmailController.class)
-public class CommunityEmailControllerTest {
+class CommunityEmailControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

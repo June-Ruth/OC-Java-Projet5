@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = FireController.class)
-public class FireControllerTest {
+class FireControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
