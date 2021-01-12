@@ -1,8 +1,6 @@
 package com.safetynet.safetynetalerts.web.controller;
 
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.model.dto.ChildInfoDTO;
-import com.safetynet.safetynetalerts.model.dto.PersonFullInfoDTO;
 import com.safetynet.safetynetalerts.service.PersonService;
 import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
 import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
@@ -131,53 +129,5 @@ public class PersonController {
             LOGGER.error(e);
             throw e;
         }
-    }
-
-    /**
-     * Get all Email of inhabitants in the city.
-     * If city is not existing,
-     * then throw NotFoundException and HTTP Status will be 404 - Not Found.
-     * @param city searched
-     * @return set of all email in city
-     */
-    @GetMapping(value = "/communityEmail")
-    public Set<String> getAllEmailInCity(@RequestParam(value = "city") final String city) {
-        Set<String> result = personService.getAllEmailInCity(city);
-        if (result != null) {
-            LOGGER.info("Emails in the city " + city + " were found.");
-            return result;
-        } else {
-            RuntimeException e = new NotFoundException("The following city "
-                    + city + " has not referenced inhabitants.");
-            LOGGER.error(e);
-            throw e;
-        }
-    }
-
-    /**
-     * Get all children at the specified address with other inhabitant.
-     * @param address .
-     * @return list of children
-     */
-    @GetMapping(value = "/childAlert")
-    public Set<ChildInfoDTO> getAllChildrenByAddress(@RequestParam(value = "address") final String address) {
-        Set<ChildInfoDTO> childInfoList = personService.getAllChildrenByAddress(address);
-        LOGGER.info("Children at the address " + address + " were found if exist");
-        return childInfoList ;
-    }
-
-    /**
-     * Get all information about a person.
-     * @param firstName .
-     * @param lastName .
-     * @return person's info
-     */
-    @GetMapping(value = "personInfo")
-    public PersonFullInfoDTO getAllInfoByFirstNameAndLastName(
-            @RequestParam(value = "firstName") final String firstName,
-            @RequestParam(value = "lastName") final String lastName) {
-        //TODO
-        personService.getAllInfoByFirstNameAndLastName(firstName, lastName);
-        return null;
     }
 }

@@ -35,7 +35,7 @@ class MedicalRecordServiceTest {
     @Test
     void getMedicalRecordsTest() {
         when(medicalRecordRepositoryImpl.findAll()).thenReturn(medicalRecords);
-        medicalRecordService.getMedicalsRecords();
+        medicalRecordService.getAllMedicalRecords();
         verify(medicalRecordRepositoryImpl, times(1)).findAll();
     }
 

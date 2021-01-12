@@ -1,9 +1,8 @@
 package com.safetynet.safetynetalerts.model.dto;
 
 import java.util.List;
-import java.util.Objects;
 
-public class PersonFullInfoDTO {
+public class PersonInfoDTO {
     /**
      * FirstName
      */
@@ -36,7 +35,7 @@ public class PersonFullInfoDTO {
 
     /**
      * Getter.
-     * @return firstname
+     * @return firstName
      */
     public String getFirstName() {
         return firstName;
@@ -91,7 +90,7 @@ public class PersonFullInfoDTO {
 
     /**
      * Setter Age.
-     * @param pAge
+     * @param pAge .
      */
     public void setAge(final int pAge) {
         age = pAge;

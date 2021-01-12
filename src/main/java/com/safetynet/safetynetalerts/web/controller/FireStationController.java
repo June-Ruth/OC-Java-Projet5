@@ -1,9 +1,15 @@
 package com.safetynet.safetynetalerts.web.controller;
 
 import com.safetynet.safetynetalerts.model.FireStation;
+import com.safetynet.safetynetalerts.model.MedicalRecord;
+import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.model.dto.CountdownDTO;
 import com.safetynet.safetynetalerts.model.dto.PersonContactInfoDTO;
-import com.safetynet.safetynetalerts.model.dto.PersonHealthInfoDTO;
+import com.safetynet.safetynetalerts.model.dto.PersonsListByStationDTO;
 import com.safetynet.safetynetalerts.service.FireStationService;
+import com.safetynet.safetynetalerts.service.MedicalRecordService;
+import com.safetynet.safetynetalerts.service.PersonService;
+import com.safetynet.safetynetalerts.util.DtoConverter;
 import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
 import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,16 +34,32 @@ public class FireStationController {
      * @see FireStationService
      */
     private FireStationService fireStationService;
+    /**
+     * @see PersonService
+     */
+    private PersonService personService;
+    /**
+     * @see MedicalRecordService
+     */
+    private MedicalRecordService medicalRecordService;
 
     /**
      * public constructor for FireStation Controller.
      * The controller requires a non null FireStationService.
      * @param pFireStationService not null
+     * @param pPersonService not null
+     * @param pMedicalRecordService not null
      */
     public  FireStationController(
-            final FireStationService pFireStationService) {
+            final FireStationService pFireStationService,
+            final PersonService pPersonService,
+            final MedicalRecordService pMedicalRecordService) {
         Objects.requireNonNull(pFireStationService);
+        Objects.requireNonNull(pPersonService);
+        Objects.requireNonNull(pMedicalRecordService);
         fireStationService = pFireStationService;
+        personService = pPersonService;
+        medicalRecordService = pMedicalRecordService;
     }
 
     /**
@@ -159,23 +182,6 @@ public class FireStationController {
         }
     }
 
-    /**
-     * Get all phone number of inhabitant associated to the given station number.
-     * @param stationNumber concerned
-     * @return set of all phone number
-     */
-    @GetMapping(value = "/phoneAlert")
-    public Set<String> getAllPhoneByStationNumber(@RequestParam(value = "firestation") final int stationNumber) {
-        Set<String> phoneList = fireStationService.getAllPhoneByStationNumber(stationNumber);
-        if (phoneList != null) {
-            LOGGER.info("Phone at station number " + stationNumber + " were found");
-            return phoneList;
-        } else {
-            RuntimeException e = new NotFoundException("Station number " + stationNumber + " has no referenced phone.");
-            LOGGER.error(e);
-            throw e;
-        }
-    }
 
     /**
      * Get all persons inhabitant near a specific station number and the countdown of adult and child.
@@ -183,34 +189,18 @@ public class FireStationController {
      * @return Set of person info
      */
     @GetMapping(value = "/firestation")
-    public Set<PersonContactInfoDTO> getAllPersonsAndCountdownByStationNumber(@RequestParam(value = "stationNumber") final int stationNumber) {
-        //TODO
-        fireStationService.getAllPersonsAndCountdownByStationNumber(stationNumber);
-        return null;
-    }
-
-    /**
-     * Get list of inhabitant at the specified address and the station number concerned.
-     * @param address .
-     * @return List of inhabitant
-     */
-    @GetMapping(value = "/fire")
-    public Set<PersonHealthInfoDTO> getAllPersonsAndStationByAddress(@RequestParam(value = "address") final String address) {
-        //TODO
-        fireStationService.getAllPersonsAndStationByAddress(address);
-        return null;
-    }
-
-    /**
-     * Get all flood by station number.
-     * Each flood has a list with Person.
-     * @param stationNumber .
-     * @return List of inhabitant
-     */
-    @GetMapping(value = "stations")
-    public Set<PersonHealthInfoDTO> getAllFloodsByStationNumber(@RequestParam(value = "station") final int stationNumber) {
-        //TODO
-        fireStationService.getAllFloodsByStationNumber(stationNumber);
-        return null;
+    public PersonsListByStationDTO getAllPersonsAndCountdownByStationNumber(@RequestParam(value = "stationNumber") final int stationNumber) {
+        Set<String> coveredAddressList = fireStationService.getAllAddressByStationNumber(stationNumber);
+        Set<Person> personsByStation = new HashSet<>();
+        if (coveredAddressList != null) {
+            coveredAddressList.iterator().forEachRemaining(address -> {
+                Set<Person> personsAtAddress = personService.getAllByAddress(address);
+                personsByStation.addAll(personsAtAddress);
+            });
+        }
+        Set<MedicalRecord> medicalRecordsSet = medicalRecordService.getAllMedicalRecordsByPersonList(personsByStation);
+        CountdownDTO countdownDTO = DtoConverter.convertToCountdownDTO(medicalRecordsSet);
+        Set<PersonContactInfoDTO> personsContactList = DtoConverter.convertToPersonContactInfoDTOSet(personsByStation);
+        return DtoConverter.convertToPersonsListByStationDTO(personsContactList, countdownDTO);
     }
 }

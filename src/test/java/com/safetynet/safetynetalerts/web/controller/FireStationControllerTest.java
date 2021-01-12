@@ -125,24 +125,6 @@ class FireStationControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
-    void getAllPhoneByStationNumberExistingTest() throws Exception {
-        int stationNumber = 1;
-        Set<String> result = new HashSet<>();
-        result.add("123-456-789");
-        when(fireStationService.getAllPhoneByStationNumber(stationNumber)).thenReturn(result);
-        mockMvc.perform(get("/phoneAlert?firestation=" + stationNumber))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void getAllPhoneByStationNumberUnknownTest() throws Exception {
-        int stationNumber = 6;
-        when(fireStationService.getAllPhoneByStationNumber(stationNumber)).thenReturn(null);
-        mockMvc.perform(get("/phoneAlert?firestation=" + stationNumber))
-                .andExpect(status().isNotFound());
-    }
-
     @Disabled
     @Test
     void getAllPersonsAndCountdownByStationNumberExistingTest() throws Exception {
@@ -160,46 +142,6 @@ class FireStationControllerTest {
         int stationNumber = 1;
         //when().thenReturn();
         mockMvc.perform(get("/firestation?stationNumber=" + stationNumber))
-                .andExpect(status().isNotFound());
-    }
-
-    @Disabled
-    @Test
-    void getAllPersonsAndStationByAddressExistingTest() throws Exception {
-        //TODO
-        String address = "address";
-        //when().thenReturn();
-        mockMvc.perform(get("/fire?address=" + address))
-                .andExpect(status().isOk());
-    }
-
-    @Disabled
-    @Test
-    void getAllPersonsAndStationByAddressUnknownTest() throws Exception {
-        //TODO
-        String address = "address";
-        //when().thenReturn();
-        mockMvc.perform(get("/fire?address=" + address))
-                .andExpect(status().isNotFound());
-    }
-
-    @Disabled
-    @Test
-    void getAllFloodsByStationNumberExisitngTest() throws Exception {
-        //TODO
-        int stationNumber = 1;
-        //when().thenReturn();
-        mockMvc.perform(get("stations?station=" + stationNumber))
-                .andExpect(status().isOk());
-    }
-
-    @Disabled
-    @Test
-    void getAllFloodsByStationNumberUnknownTest() throws Exception {
-        //TODO
-        int stationNumber = 5;
-        //when().thenReturn();
-        mockMvc.perform(get("stations?station=" +stationNumber))
                 .andExpect(status().isNotFound());
     }
 }

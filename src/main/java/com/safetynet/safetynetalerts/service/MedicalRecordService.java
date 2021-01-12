@@ -1,13 +1,19 @@
 package com.safetynet.safetynetalerts.service;
 
+import com.safetynet.safetynetalerts.constant.BusinessConstants;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
+import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.model.dto.CountdownDTO;
 import com.safetynet.safetynetalerts.repository.impl.MedicalRecordRepositoryImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class MedicalRecordService {
@@ -35,7 +41,7 @@ public class MedicalRecordService {
      * Get all entities for Medical Record.
      * @return list of all medical records
      */
-    public Set<MedicalRecord> getMedicalsRecords() {
+    public Set<MedicalRecord> getAllMedicalRecords() {
         LOGGER.debug("Process to get all medical records.");
         return medicalRecordRepositoryImpl.findAll();
     }
@@ -78,8 +84,21 @@ public class MedicalRecordService {
         return medicalRecordRepositoryImpl.delete(medicalRecord);
     }
 
-    //TODO ; test, logger, javadoc
-    public MedicalRecord getByFirstNameAndLastName(final String firstName, final String lastName) {
-        return medicalRecordRepositoryImpl.findByFirstNameAndLastName(firstName, lastName);
+    public MedicalRecord getMedicalRecord(final Person person) {
+        return medicalRecordRepositoryImpl.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+    }
+
+    public int getAge(final Person person) {
+        MedicalRecord medicalRecord = medicalRecordRepositoryImpl.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+        return LocalDate.now().compareTo(medicalRecord.getBirthdate());
+    }
+
+    public Set<MedicalRecord> getAllMedicalRecordsByPersonList(Set<Person> persons) {
+        Set<MedicalRecord> medicalRecordSet = new HashSet<>();
+        persons.iterator().forEachRemaining(person -> {
+            MedicalRecord medicalRecord = medicalRecordRepositoryImpl.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+            medicalRecordSet.add(medicalRecord);
+        });
+        return medicalRecordSet;
     }
 }

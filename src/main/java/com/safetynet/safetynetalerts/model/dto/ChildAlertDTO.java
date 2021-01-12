@@ -1,9 +1,8 @@
 package com.safetynet.safetynetalerts.model.dto;
 
-import java.time.LocalDate;
 import java.util.Set;
 
-public class ChildInfoDTO {
+public class ChildAlertDTO {
     /**
      * FirstName
      */
@@ -15,7 +14,7 @@ public class ChildInfoDTO {
     /**
      * Birthdate.
      */
-    private LocalDate birthdate;
+    private int age;
     /**
     * Set of the other inhabitant at the same address.
     */
@@ -55,18 +54,18 @@ public class ChildInfoDTO {
 
     /**
      * Getter.
-     * @return birthdate
+     * @return age
      */
-    public LocalDate getBirthdate() {
-        return birthdate;
+    public int getAge() {
+        return age;
     }
 
     /**
      * Setter.
-     * @param pBirthdate .
+     * @param pAge .
      */
-    public void setBirthdate(final LocalDate pBirthdate) {
-        birthdate = pBirthdate;
+    public void setAge(final int pAge) {
+        age = pAge;
     }
 
     /**

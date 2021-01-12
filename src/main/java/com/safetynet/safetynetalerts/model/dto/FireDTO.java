@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.model.dto;
 
 import java.util.Set;
 
-public class FireAddressDTO {
+public class FireDTO {
 
     private int stationNumber;
 

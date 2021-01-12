@@ -51,7 +51,7 @@ public class MedicalRecordController {
      */
     @GetMapping(value = "/medicalrecords")
     public Set<MedicalRecord> getMedicalRecords() {
-        Set<MedicalRecord> result = medicalRecordService.getMedicalsRecords();
+        Set<MedicalRecord> result = medicalRecordService.getAllMedicalRecords();
         LOGGER.info("Get all medical records : {}", result);
         return result;
     }

@@ -23,28 +23,8 @@ public class PersonContactInfoDTO {
     private String email;
 
     /**
-     * Constructor.
-     * @param pFirstName of person concerned
-     * @param pLastName of person concerned
-     * @param pAddress of person concerned
-     * @param pPhone of person concerned
-     * @param pEmail of person concerned
-     */
-    public PersonContactInfoDTO(final String pFirstName,
-                  final String pLastName,
-                  final String pAddress,
-                  final String pPhone,
-                  final String pEmail) {
-        firstName = pFirstName;
-        lastName = pLastName;
-        address = pAddress;
-        phone = pPhone;
-        email = pEmail;
-    }
-
-    /**
      * Getter.
-     * @return firstname
+     * @return firstName
      */
     public String getFirstName() {
         return firstName;

@@ -3,20 +3,18 @@ package com.safetynet.safetynetalerts.service;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.model.dto.FireAddressDTO;
-import com.safetynet.safetynetalerts.model.dto.FloodDTO;
-import com.safetynet.safetynetalerts.model.dto.PersonContactInfoDTO;
-import com.safetynet.safetynetalerts.model.dto.PersonHealthInfoDTO;
+import com.safetynet.safetynetalerts.model.dto.*;
 import com.safetynet.safetynetalerts.repository.impl.FireStationRepositoryImpl;
-import com.safetynet.safetynetalerts.repository.impl.PersonRepositoryImpl;
 import com.safetynet.safetynetalerts.util.DtoConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class FireStationService {
@@ -28,8 +26,6 @@ public class FireStationService {
      * @see FireStationRepositoryImpl
      */
     private FireStationRepositoryImpl fireStationRepositoryImpl;
-    private PersonService personService;
-    private MedicalRecordService medicalRecordService;
 
     /**
      * Public constructor for FireStationService.
@@ -37,12 +33,9 @@ public class FireStationService {
      * @param pFireStationRepositoryImpl not null
      */
     public FireStationService(
-            final FireStationRepositoryImpl pFireStationRepositoryImpl,
-            final PersonService pPersonService) {
+            final FireStationRepositoryImpl pFireStationRepositoryImpl) {
         Objects.requireNonNull(pFireStationRepositoryImpl);
-        Objects.requireNonNull(pPersonService);
         fireStationRepositoryImpl =  pFireStationRepositoryImpl;
-        personService = pPersonService;
     }
 
     /**
@@ -102,66 +95,15 @@ public class FireStationService {
         return fireStationRepositoryImpl.deleteAll(fireStationsToDelete);
     }
 
-    /**
-     * Get all phone number of inhabitant associated to the given station number.
-     * @param stationNumber concerned
-     * @return set of all phone number.
-     */
-    public Set<String> getAllPhoneByStationNumber(final int stationNumber) {
-        Set<String> phoneList = new HashSet<>();
-        Set<String> addressList = fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber);
-        if (addressList != null) {
-            addressList.iterator().forEachRemaining((address) -> {
-                phoneList.addAll(personService.findAllPhoneByAddress(address));
-            });
-            LOGGER.debug("Find all phone corresponding to station number " + stationNumber);
-            return phoneList;
-        } else {
-            LOGGER.debug("No fireStation at station number " + stationNumber);
-            return null;
-        }
+    public Set<String> getAllAddressByStationNumber(final int stationNumber) {
+        return fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber);
     }
 
-    /**
-     * Get all persons inhabitant near a specific station number and the countdown of adult and child.
-     * @param stationNumber specific
-     * @return Set of person info
-     */
-    public Set<PersonContactInfoDTO> getAllPersonsAndCountdownByStationNumber(final int stationNumber) {
-        //TODO
-        return null;
+    public FireStation getByAddress(final String address) {
+        return fireStationRepositoryImpl.findByAddress(address);
     }
 
-    /**
-     * Get list of inhabitant at the specified address and the station number concerned.
-     * @param address .
-     * @return List of inhabitant
-     */
-    public FireAddressDTO getAllPersonsAndStationByAddress(final String address) {
-        //TODO : test, logger.
-        FireStation fireStation = fireStationRepositoryImpl.findByAddress(address);
-        Set<PersonHealthInfoDTO> personHealthInfoDTOSet = personService.getAllPersonHealthInfoByAddress(address);
-        FireAddressDTO fireAddressDTO = DtoConverter.convertToFireAddressDTO(fireStation, personHealthInfoDTOSet);
-        return fireAddressDTO;
-    }
 
-    /**
-     * Get all flood by station number.
-     * Each flood has a list with Person.
-     * @param stationNumber .
-     * @return List of inhabitant
-     */
-    public Set<FloodDTO> getAllFloodsByStationNumber(final int stationNumber) {
-        //TODO :test, logger
-        Set<String> addressList = fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber);
-        Set<FloodDTO> floodDTOSet = new HashSet<>();
-        addressList.iterator().forEachRemaining(address -> {
-            Set<PersonHealthInfoDTO> personHealthInfoDTOSet = personService.getAllPersonHealthInfoByAddress(address);
-            FloodDTO floodDTO = DtoConverter.convertToFloodDTO(address, personHealthInfoDTOSet);
-            floodDTOSet.add(floodDTO);
-        });
-        return floodDTOSet;
-    }
 
 
 
