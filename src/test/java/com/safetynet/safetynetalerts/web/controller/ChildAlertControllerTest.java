@@ -1,16 +1,22 @@
 package com.safetynet.safetynetalerts.web.controller;
 
+import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.service.MedicalRecordService;
 import com.safetynet.safetynetalerts.service.PersonService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = ChildAlertController.class)
 public class ChildAlertControllerTest {
@@ -19,30 +25,33 @@ public class ChildAlertControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    MedicalRecordService medicalRecordService;
+    private MedicalRecordService medicalRecordService;
 
     @MockBean
-    PersonService personService;
+    private PersonService personService;
 
-
-    @Disabled
     @Test
     void getAllChildrenByAddressExistingTest() throws Exception {
-        //TODO
         String address = "address";
-        //when().thenReturn();
+        Set<Person> persons = new HashSet<>();
+        persons.add(new Person("expected", "test", "address", "test" , 123, "test", "test"));
+        persons.add(new Person("test1", "test", "address", "test" , 123, "test", "test"));
+        when(personService.getAllByAddress(address)).thenReturn(persons);
+        when(medicalRecordService.getAge(any(Person.class))).thenReturn(14).thenReturn(22);
         mockMvc.perform(get("/childAlert?address=" + address))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("14")));
     }
 
-    @Disabled
     @Test
     void getAllChildrenByAddressUnknownTest() throws Exception {
-        //TODO
         String address = "test";
-        //when().thenReturn();
+        Set<Person> persons = new HashSet<>();
+        persons.add(new Person("expected", "test", "address", "test" , 123, "test", "test"));
+        persons.add(new Person("test1", "test", "address", "test" , 123, "test", "test"));
+        when(personService.getAllByAddress(address)).thenReturn(null);
         mockMvc.perform(get("/childAlert?address=" + address))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("[]")));
     }
-
 }

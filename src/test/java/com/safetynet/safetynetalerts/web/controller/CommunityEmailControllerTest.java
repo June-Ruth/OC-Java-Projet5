@@ -10,9 +10,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = CommunityEmailController.class)
@@ -22,7 +24,7 @@ public class CommunityEmailControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    PersonService personService;
+    private PersonService personService;
 
     @Test
     void getAllEmailInCityExistingTest() throws Exception {
@@ -31,7 +33,8 @@ public class CommunityEmailControllerTest {
         result.add("test@test.com");
         when(personService.getAllEmailInCity(any(String.class))).thenReturn(result);
         mockMvc.perform(get("/communityEmail?city=" + city))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("test@test")));
     }
 
     @Test

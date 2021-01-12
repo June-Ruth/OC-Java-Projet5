@@ -197,10 +197,16 @@ public class FireStationController {
                 Set<Person> personsAtAddress = personService.getAllByAddress(address);
                 personsByStation.addAll(personsAtAddress);
             });
+            Set<MedicalRecord> medicalRecordsSet = medicalRecordService.getAllMedicalRecordsByPersonList(personsByStation);
+            CountdownDTO countdownDTO = DtoConverter.convertToCountdownDTO(medicalRecordsSet);
+            Set<PersonContactInfoDTO> personsContactList = DtoConverter.convertToPersonContactInfoDTOSet(personsByStation);
+            LOGGER.info("All persons cover by station number " + stationNumber + " were found");
+            return DtoConverter.convertToPersonsListByStationDTO(personsContactList, countdownDTO);
+        } else {
+            RuntimeException e = new NotFoundException("No adress cover by station number " + stationNumber + " was found.");
+            LOGGER.error(e);
+            throw e;
         }
-        Set<MedicalRecord> medicalRecordsSet = medicalRecordService.getAllMedicalRecordsByPersonList(personsByStation);
-        CountdownDTO countdownDTO = DtoConverter.convertToCountdownDTO(medicalRecordsSet);
-        Set<PersonContactInfoDTO> personsContactList = DtoConverter.convertToPersonContactInfoDTOSet(personsByStation);
-        return DtoConverter.convertToPersonsListByStationDTO(personsContactList, countdownDTO);
+
     }
 }

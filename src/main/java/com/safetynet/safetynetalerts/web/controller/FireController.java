@@ -9,14 +9,17 @@ import com.safetynet.safetynetalerts.service.FireStationService;
 import com.safetynet.safetynetalerts.service.MedicalRecordService;
 import com.safetynet.safetynetalerts.service.PersonService;
 import com.safetynet.safetynetalerts.util.DtoConverter;
+import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 import java.util.Set;
 
+@RestController
 public class FireController {
     /**
      * @see Logger
@@ -61,9 +64,15 @@ public class FireController {
     public FireDTO getAllPersonsAndStationByAddress(@RequestParam(value = "address") final String address) {
         FireStation fireStation = fireStationService.getByAddress(address);
         Set<Person> personsListAtAddress = personService.getAllByAddress(address);
-        Set<MedicalRecord> medicalRecordSet = medicalRecordService.getAllMedicalRecordsByPersonList(personsListAtAddress);
-        Set<PersonHealthInfoDTO> personHealthInfoDTOSet = DtoConverter.convertToPersonHealthInfoDTOSet(medicalRecordSet);
-        LOGGER.info("Find all persons and the station at address " + address);
-        return DtoConverter.convertToFireAddressDTO(fireStation, personHealthInfoDTOSet);
+        if(fireStation != null && personsListAtAddress != null) {
+            Set<MedicalRecord> medicalRecordSet = medicalRecordService.getAllMedicalRecordsByPersonList(personsListAtAddress);
+            Set<PersonHealthInfoDTO> personHealthInfoDTOSet = DtoConverter.convertToPersonHealthInfoDTOSet(medicalRecordSet);
+            LOGGER.info("Find all persons and the station at address " + address);
+            return DtoConverter.convertToFireAddressDTO(fireStation, personHealthInfoDTOSet);
+        } else {
+            RuntimeException e = new NotFoundException("No fire station or no person found at address " + address);
+            LOGGER.error(e);
+            throw e;
+        }
     }
 }
