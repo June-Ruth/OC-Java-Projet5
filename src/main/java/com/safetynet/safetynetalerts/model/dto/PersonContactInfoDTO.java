@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.model.dto;
 
 public class PersonContactInfoDTO {
     /**
-     * FirstName
+     * FirstName.
      */
     private String firstName;
     /**
@@ -18,7 +18,7 @@ public class PersonContactInfoDTO {
      */
     private String phone;
     /**
-     * Email
+     * Email.
      */
     private String email;
 

@@ -7,7 +7,13 @@ import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -20,7 +26,8 @@ public class PersonController {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(PersonController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(PersonController.class);
     /**
      * @see PersonService
      */
@@ -46,7 +53,7 @@ public class PersonController {
     public Set<Person> getPersons() {
         Set<Person> result = personService.getPersons();
         LOGGER.info("Get all persons : {}", result);
-        return result ;
+        return result;
     }
 
     /**
@@ -72,7 +79,8 @@ public class PersonController {
                     .toUri();
             return ResponseEntity.created(location).build();
         } else {
-            RuntimeException e = new AlreadyExistingException("The following person "
+            RuntimeException e = new AlreadyExistingException(
+                    "The following person "
                     + person.getFirstName() + " " + person.getLastName()
                     + " is already existing. Cannot add it.");
             LOGGER.error(e);

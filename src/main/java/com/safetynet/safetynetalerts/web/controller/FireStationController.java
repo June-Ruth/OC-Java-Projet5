@@ -15,7 +15,14 @@ import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -29,7 +36,8 @@ public class FireStationController {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(FireStationController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(FireStationController.class);
     /**
      * @see FireStationService
      */
@@ -99,7 +107,8 @@ public class FireStationController {
                     .toUri();
             return ResponseEntity.created(location).build();
         } else {
-            RuntimeException e = new AlreadyExistingException("The fire station address : "
+            RuntimeException e = new AlreadyExistingException(
+                    "The fire station address : "
                     + fireStation.getAddress()
                     + ", is already existing. Cannot add it.");
             LOGGER.error(e);
@@ -175,8 +184,9 @@ public class FireStationController {
                     + address + "was deleted.");
             return ResponseEntity.ok().build();
         } else {
-            RuntimeException e = new NotFoundException("The fire station address : "
-                    + address + ", is not existing. Cannot delete it.");
+            RuntimeException e = new NotFoundException(
+                    "The fire station address : " + address
+                    + ", is not existing. Cannot delete it.");
             LOGGER.error(e);
             throw e;
         }
@@ -184,26 +194,40 @@ public class FireStationController {
 
 
     /**
-     * Get all persons inhabitant near a specific station number and the countdown of adult and child.
+     * Get all persons inhabitant near a specific
+     * station number and the countdown of adult and child.
      * @param stationNumber specific
      * @return Set of person info
      */
     @GetMapping(value = "/firestation")
-    public PersonsListByStationDTO getAllPersonsAndCountdownByStationNumber(@RequestParam(value = "stationNumber") final int stationNumber) {
-        Set<String> coveredAddressList = fireStationService.getAllAddressByStationNumber(stationNumber);
+    public PersonsListByStationDTO getAllPersonsAndCountdownByStationNumber(
+            @RequestParam(value = "stationNumber") final int stationNumber) {
+        Set<String> coveredAddressList =
+                fireStationService.getAllAddressByStationNumber(stationNumber);
         Set<Person> personsByStation = new HashSet<>();
         if (coveredAddressList != null) {
             coveredAddressList.iterator().forEachRemaining(address -> {
-                Set<Person> personsAtAddress = personService.getAllByAddress(address);
+                Set<Person> personsAtAddress =
+                        personService.getAllByAddress(address);
                 personsByStation.addAll(personsAtAddress);
             });
-            Set<MedicalRecord> medicalRecordsSet = medicalRecordService.getAllMedicalRecordsByPersonList(personsByStation);
-            CountdownDTO countdownDTO = DtoConverter.convertToCountdownDTO(medicalRecordsSet);
-            Set<PersonContactInfoDTO> personsContactList = DtoConverter.convertToPersonContactInfoDTOSet(personsByStation);
-            LOGGER.info("All persons cover by station number " + stationNumber + " were found");
-            return DtoConverter.convertToPersonsListByStationDTO(personsContactList, countdownDTO);
+            Set<MedicalRecord> medicalRecordsSet =
+                    medicalRecordService.getAllMedicalRecordsByPersonList(
+                            personsByStation);
+            CountdownDTO countdownDTO =
+                    DtoConverter.convertToCountdownDTO(
+                            medicalRecordsSet);
+            Set<PersonContactInfoDTO> personsContactList =
+                    DtoConverter.convertToPersonContactInfoDTOSet(
+                            personsByStation);
+            LOGGER.info("All persons cover by station number "
+                    + stationNumber + " were found");
+            return DtoConverter.convertToPersonsListByStationDTO(
+                    personsContactList, countdownDTO);
         } else {
-            RuntimeException e = new NotFoundException("No address cover by station number " + stationNumber + " was found.");
+            RuntimeException e = new NotFoundException(
+                    "No address cover by station number "
+                            + stationNumber + " was found.");
             LOGGER.error(e);
             throw e;
         }

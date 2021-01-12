@@ -16,7 +16,8 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(MedicalRecordRepositoryImpl.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(MedicalRecordRepositoryImpl.class);
     /**
      * @see DataBase
      */

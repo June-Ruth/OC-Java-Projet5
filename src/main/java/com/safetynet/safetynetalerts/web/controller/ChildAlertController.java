@@ -22,7 +22,8 @@ public class ChildAlertController {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(ChildAlertController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(ChildAlertController.class);
     /**
      * @see MedicalRecordService
      */
@@ -38,7 +39,8 @@ public class ChildAlertController {
      * @param pMedicalRecordService not null
      */
     public ChildAlertController(final PersonService pPersonService,
-                                final MedicalRecordService pMedicalRecordService) {
+                                final MedicalRecordService
+                                        pMedicalRecordService) {
         Objects.requireNonNull(pPersonService);
         Objects.requireNonNull(pMedicalRecordService);
         personService = pPersonService;
@@ -52,17 +54,22 @@ public class ChildAlertController {
      * @return set of children
      */
     @GetMapping(value = "/childAlert")
-    public Set<ChildAlertDTO> getAllChildrenByAddress(@RequestParam(value = "address") final String address) {
+    public Set<ChildAlertDTO> getAllChildrenByAddress(
+            @RequestParam(value = "address") final String address) {
         Set<ChildAlertDTO> childrenAtAddress = new HashSet<>();
         Set<Person> personsAtAddress = personService.getAllByAddress(address);
         if (personsAtAddress != null) {
             personsAtAddress.iterator().forEachRemaining((person -> {
                 int age = medicalRecordService.getAge(person);
                 if (age <= BusinessConstants.LIMIT_CHILD_AGE) {
-                    Set<Person> personsAtAddressNew = new HashSet<>(personsAtAddress);
+                    Set<Person> personsAtAddressNew =
+                            new HashSet<>(personsAtAddress);
                     personsAtAddressNew.remove(person);
-                    Set<PersonNameDTO> otherPersonsAtAddress = DtoConverter.convertToPersonNameDTOSet(personsAtAddressNew);
-                    ChildAlertDTO childAlertDTO = DtoConverter.convertToChildInfoDTO(person, age, otherPersonsAtAddress);
+                    Set<PersonNameDTO> otherPersonsAtAddress = DtoConverter
+                            .convertToPersonNameDTOSet(personsAtAddressNew);
+                    ChildAlertDTO childAlertDTO = DtoConverter
+                            .convertToChildInfoDTO(
+                                    person, age, otherPersonsAtAddress);
                     childrenAtAddress.add(childAlertDTO);
                 }
             }));

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PersonInfoDTO {
     /**
-     * FirstName
+     * FirstName.
      */
     private String firstName;
     /**
@@ -16,7 +16,7 @@ public class PersonInfoDTO {
      */
     private String address;
     /**
-     * Email
+     * Email.
      */
     private String email;
     /**
@@ -45,7 +45,8 @@ public class PersonInfoDTO {
      * Setter.
      * @param pFirstName .
      */
-    public void setFirstName(final String pFirstName) { firstName = pFirstName;
+    public void setFirstName(final String pFirstName) {
+        firstName = pFirstName;
     }
 
     /**
@@ -64,20 +65,36 @@ public class PersonInfoDTO {
         lastName = pLastName;
     }
 
+    /**
+     * Getter.
+     * @return address.
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * Setter.
+     * @param pAddress .
+     */
     public void setAddress(final String pAddress) {
         address = pAddress;
     }
 
+    /**
+     * Getter.
+     * @return email.
+     */
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    /**
+     * Setter.
+     * @param pEmail .
+     */
+    public void setEmail(final String pEmail) {
+        email = pEmail;
     }
 
     /**

@@ -16,7 +16,8 @@ public class FireStationRepositoryImpl implements FireStationRepository {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(FireStationRepositoryImpl.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(FireStationRepositoryImpl.class);
     /**
      * @see DataBase
      */

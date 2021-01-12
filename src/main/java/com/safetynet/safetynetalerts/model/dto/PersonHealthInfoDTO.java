@@ -1,11 +1,10 @@
 package com.safetynet.safetynetalerts.model.dto;
 
 import java.util.List;
-import java.util.Objects;
 
 public class PersonHealthInfoDTO {
     /**
-     * FirstName
+     * FirstName.
      */
     private String firstName;
     /**

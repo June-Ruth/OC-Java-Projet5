@@ -1,27 +1,21 @@
 package com.safetynet.safetynetalerts.service;
 
 import com.safetynet.safetynetalerts.model.FireStation;
-import com.safetynet.safetynetalerts.model.MedicalRecord;
-import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.model.dto.*;
 import com.safetynet.safetynetalerts.repository.impl.FireStationRepositoryImpl;
-import com.safetynet.safetynetalerts.util.DtoConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class FireStationService {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(FireStationService.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(FireStationService.class);
     /**
      * @see FireStationRepositoryImpl
      */
@@ -95,11 +89,23 @@ public class FireStationService {
         return fireStationRepositoryImpl.deleteAll(fireStationsToDelete);
     }
 
+    /**
+     * Get all address covered by station number.
+     * @param stationNumber .
+     * @return set of address.
+     */
     public Set<String> getAllAddressByStationNumber(final int stationNumber) {
-        LOGGER.debug("Process to find all address cover by station number " + stationNumber);
-        return fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber);
+        LOGGER.debug("Process to find all address"
+                + "cover by station number " + stationNumber);
+        return fireStationRepositoryImpl
+                .findAllAddressByStationNumber(stationNumber);
     }
 
+    /**
+     * Get fire station by address.
+     * @param address to find.
+     * @return fire station.
+     */
     public FireStation getByAddress(final String address) {
         LOGGER.debug("Process to find fire station at address " + address);
         return fireStationRepositoryImpl.findByAddress(address);

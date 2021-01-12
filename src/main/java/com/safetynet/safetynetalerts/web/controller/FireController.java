@@ -24,7 +24,8 @@ public class FireController {
     /**
      * @see Logger
      */
-    private static Logger LOGGER = LogManager.getLogger(FireController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(FireController.class);
     /**
      * @see MedicalRecordService
      */
@@ -56,21 +57,29 @@ public class FireController {
     }
 
     /**
-     * Get list of inhabitant at the specified address and the station number concerned.
+     * Get list of inhabitant at the specified address
+     * and the station number concerned.
      * @param address .
      * @return List of inhabitant
      */
     @GetMapping(value = "/fire")
-    public FireDTO getAllPersonsAndStationByAddress(@RequestParam(value = "address") final String address) {
+    public FireDTO getAllPersonsAndStationByAddress(
+            @RequestParam(value = "address") final String address) {
         FireStation fireStation = fireStationService.getByAddress(address);
-        Set<Person> personsListAtAddress = personService.getAllByAddress(address);
-        if(fireStation != null && personsListAtAddress != null) {
-            Set<MedicalRecord> medicalRecordSet = medicalRecordService.getAllMedicalRecordsByPersonList(personsListAtAddress);
-            Set<PersonHealthInfoDTO> personHealthInfoDTOSet = DtoConverter.convertToPersonHealthInfoDTOSet(medicalRecordSet);
-            LOGGER.info("Find all persons and the station at address " + address);
-            return DtoConverter.convertToFireAddressDTO(fireStation, personHealthInfoDTOSet);
+        Set<Person> personsAtAddress =
+                personService.getAllByAddress(address);
+        if (fireStation != null && personsAtAddress != null) {
+            Set<MedicalRecord> medicalRecordSet = medicalRecordService
+                            .getAllMedicalRecordsByPersonList(personsAtAddress);
+            Set<PersonHealthInfoDTO> personHealthInfoDTOSet = DtoConverter
+                    .convertToPersonHealthInfoDTOSet(medicalRecordSet);
+            LOGGER.info("Find all persons and the "
+                    + "station at address " + address);
+            return DtoConverter.convertToFireAddressDTO(
+                    fireStation, personHealthInfoDTOSet);
         } else {
-            RuntimeException e = new NotFoundException("No fire station or no person found at address " + address);
+            RuntimeException e = new NotFoundException(
+                    "No fire station or no person found at address " + address);
             LOGGER.error(e);
             throw e;
         }

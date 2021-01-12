@@ -18,7 +18,8 @@ public class PhoneAlertController {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(PhoneAlertController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(PhoneAlertController.class);
     /**
      * @see FireStationService
      */
@@ -42,22 +43,26 @@ public class PhoneAlertController {
     }
 
     /**
-     * Get all phone number of inhabitant associated to the given station number.
+     * Get all phone number of inhabitant associated to given station number.
      * @param stationNumber concerned
      * @return set of all phone number
      */
     @GetMapping(value = "/phoneAlert")
-    public Set<String> getAllPhoneByStationNumber(@RequestParam(value = "firestation") final int stationNumber) {
+    public Set<String> getAllPhoneByStationNumber(
+            @RequestParam(value = "firestation") final int stationNumber) {
         Set<String> phoneList = new HashSet<>();
-        Set<String> addressList = fireStationService.getAllAddressByStationNumber(stationNumber);
+        Set<String> addressList = fireStationService
+                .getAllAddressByStationNumber(stationNumber);
         if (addressList != null) {
             addressList.iterator().forEachRemaining((address) -> {
                 phoneList.addAll(personService.findAllPhoneByAddress(address));
             });
-            LOGGER.info("Phone at station number " + stationNumber + " were found");
+            LOGGER.info("Phone at station number "
+                    + stationNumber + " were found");
             return phoneList;
         } else {
-            RuntimeException e = new NotFoundException("Station number " + stationNumber + " not found.");
+            RuntimeException e = new NotFoundException(
+                    "Station number " + stationNumber + " not found.");
             LOGGER.error(e);
             throw e;
         }

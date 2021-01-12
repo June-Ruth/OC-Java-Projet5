@@ -16,13 +16,18 @@ public class CommunityEmailController {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(CommunityEmailController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(CommunityEmailController.class);
 
     /**
      * @see PersonService
      */
     private PersonService personService;
 
+    /**
+     * Public constructor.
+     * @param pPersonService not null
+     */
     public CommunityEmailController(final PersonService pPersonService) {
         Objects.requireNonNull(pPersonService);
         personService = pPersonService;
@@ -36,7 +41,8 @@ public class CommunityEmailController {
      * @return set of all email in city
      */
     @GetMapping(value = "/communityEmail")
-    public Set<String> getAllEmailInCity(@RequestParam(value = "city") final String city) {
+    public Set<String> getAllEmailInCity(
+            @RequestParam(value = "city") final String city) {
         Set<String> result = personService.getAllEmailInCity(city);
         if (result != null) {
             LOGGER.info("Emails in the city " + city + " were found.");

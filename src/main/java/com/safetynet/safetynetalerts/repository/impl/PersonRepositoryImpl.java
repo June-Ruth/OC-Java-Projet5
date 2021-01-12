@@ -16,7 +16,8 @@ public class PersonRepositoryImpl implements PersonRepository {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(PersonRepositoryImpl.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(PersonRepositoryImpl.class);
     /**
      * @see DataBase
      */

@@ -24,7 +24,8 @@ public class FloodController {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(FloodController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(FloodController.class);
     /**
      * @see FireStationService
      */
@@ -38,6 +39,12 @@ public class FloodController {
      */
     private MedicalRecordService medicalRecordService;
 
+    /**
+     * Public constructor.
+     * @param pFireStationService not null.
+     * @param pPersonService not null.
+     * @param pMedicalRecordService not null.
+     */
     public FloodController(final FireStationService pFireStationService,
                            final PersonService pPersonService,
                            final MedicalRecordService pMedicalRecordService) {
@@ -56,21 +63,31 @@ public class FloodController {
      * @return List of inhabitant
      */
     @GetMapping(value = "/flood/stations")
-    public Set<FloodDTO> getAllFloodsByStationNumber(@RequestParam(value = "station") final int stationNumber) {
-        Set<String> addressList = fireStationService.getAllAddressByStationNumber(stationNumber);
+    public Set<FloodDTO> getAllFloodsByStationNumber(
+            @RequestParam(value = "station") final int stationNumber) {
+        Set<String> addressList = fireStationService
+                .getAllAddressByStationNumber(stationNumber);
         Set<FloodDTO> floodDTOSet = new HashSet<>();
-       if(addressList != null) {
+       if (addressList != null) {
            addressList.iterator().forEachRemaining(address -> {
-               Set<Person> personsAtAddress = personService.getAllByAddress(address);
-               Set<MedicalRecord> medicalRecordsAtAddress = medicalRecordService.getAllMedicalRecordsByPersonList(personsAtAddress);
-               Set<PersonHealthInfoDTO> personHealthInfoDTOSet = DtoConverter.convertToPersonHealthInfoDTOSet(medicalRecordsAtAddress);
-               FloodDTO floodDTO = DtoConverter.convertToFloodDTO(address, personHealthInfoDTOSet);
+               Set<Person> personsAtAddress =
+                       personService.getAllByAddress(address);
+               Set<MedicalRecord> medicalRecordsAtAddress = medicalRecordService
+                       .getAllMedicalRecordsByPersonList(personsAtAddress);
+               Set<PersonHealthInfoDTO> personHealthInfoDTOSet = DtoConverter
+                       .convertToPersonHealthInfoDTOSet(
+                               medicalRecordsAtAddress);
+               FloodDTO floodDTO = DtoConverter
+                       .convertToFloodDTO(address, personHealthInfoDTOSet);
                floodDTOSet.add(floodDTO);
            });
-           LOGGER.info("Find all flood cover by station number " + stationNumber);
+           LOGGER.info("Find all flood cover by station number "
+                   + stationNumber);
            return floodDTOSet;
        } else {
-           RuntimeException e = new NotFoundException("No address cover by station number " + stationNumber + " was found.");
+           RuntimeException e = new NotFoundException(
+                   "No address cover by station number "
+                           + stationNumber + " was found.");
            LOGGER.error(e);
            throw e;
        }

@@ -3,7 +3,7 @@ package com.safetynet.safetynetalerts.model.dto;
 
 public class PersonNameDTO {
     /**
-     * FirstName
+     * FirstName.
      */
     private String firstName;
     /**

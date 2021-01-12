@@ -14,7 +14,8 @@ public class PersonService {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(PersonService.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(PersonService.class);
     /**
      * @see PersonRepositoryImpl
      */
@@ -76,9 +77,17 @@ public class PersonService {
         return personRepositoryImpl.delete(person);
     }
 
-    public Person getByFirstNameAndLastName(final String firstName, final String lastName) {
+    /**
+     * Get Person by first name and last name.
+     * @param firstName .
+     * @param lastName .
+     * @return person.
+     */
+    public Person getByFirstNameAndLastName(
+            final String firstName, final String lastName) {
         LOGGER.debug("Process to find person " + firstName + " " + lastName);
-        return personRepositoryImpl.findByFirstNameAndLastName(firstName, lastName);
+        return personRepositoryImpl.findByFirstNameAndLastName(
+                firstName, lastName);
     }
 
     /**
@@ -91,14 +100,22 @@ public class PersonService {
         return personRepositoryImpl.findAllEmailByCity(city);
     }
 
-    //TODO : logger, test javadoc
+    /**
+     * Get all inhabitant of an address.
+     * @param address .
+     * @return set of person.
+     */
     public Set<Person> getAllByAddress(final String address) {
         LOGGER.debug("Process to find all persons at address " + address);
         return personRepositoryImpl.findAllByAddress(address);
     }
 
-    //TODO : logger, test javadoc
-    public Set<String> findAllPhoneByAddress (final String address) {
+    /**
+     * Get all phone by address.
+     * @param address .
+     * @return set of string phone.
+     */
+    public Set<String> findAllPhoneByAddress(final String address) {
         LOGGER.debug("Process to find all phone at address " + address);
         return personRepositoryImpl.findAllPhoneByAddress(address);
     }

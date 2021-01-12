@@ -20,7 +20,8 @@ public class PersonInfoController {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(PersonInfoController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(PersonInfoController.class);
     /**
      * @see PersonService
      */
@@ -36,7 +37,8 @@ public class PersonInfoController {
      * @param pMedicalRecordService not null
      */
     public PersonInfoController(final PersonService pPersonService,
-                                final MedicalRecordService pMedicalRecordService) {
+                                final MedicalRecordService
+                                        pMedicalRecordService) {
         Objects.requireNonNull(pPersonService);
         Objects.requireNonNull(pMedicalRecordService);
         personService = pPersonService;
@@ -53,13 +55,17 @@ public class PersonInfoController {
     public PersonInfoDTO getAllInfoByFirstNameAndLastName(
             @RequestParam(value = "firstName") final String firstName,
             @RequestParam(value = "lastName") final String lastName) {
-        Person person = personService.getByFirstNameAndLastName(firstName, lastName);
-        if(person != null) {
-            MedicalRecord medicalRecord = medicalRecordService.getMedicalRecord(person);
+        Person person = personService.getByFirstNameAndLastName(
+                firstName, lastName);
+        if (person != null) {
+            MedicalRecord medicalRecord =
+                    medicalRecordService.getMedicalRecord(person);
             LOGGER.info("Find all info for " + firstName + " " + lastName);
-            return DtoConverter.convertToPersonFullInfoSTO(person, medicalRecord);
+            return DtoConverter.convertToPersonFullInfoDTO(
+                    person, medicalRecord);
         } else {
-            RuntimeException e = new NotFoundException("Person named " + firstName + " " + lastName + "was not found");
+            RuntimeException e = new NotFoundException("Person named "
+                    + firstName + " " + lastName + "was not found");
             LOGGER.error(e);
             throw e;
         }

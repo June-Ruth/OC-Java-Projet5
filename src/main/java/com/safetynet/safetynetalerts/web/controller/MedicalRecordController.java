@@ -26,7 +26,8 @@ public class MedicalRecordController {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(MedicalRecordController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(MedicalRecordController.class);
     /**
      * @see MedicalRecordService
      */
@@ -80,7 +81,8 @@ public class MedicalRecordController {
                     .toUri();
             return ResponseEntity.created(location).build();
         } else {
-            RuntimeException e = new AlreadyExistingException("The medical record for "
+            RuntimeException e =
+                    new AlreadyExistingException("The medical record for "
                     + medicalRecord.getFirstName()
                     + " " + medicalRecord.getLastName()
                     + " is already existing. Cannot add it.");
