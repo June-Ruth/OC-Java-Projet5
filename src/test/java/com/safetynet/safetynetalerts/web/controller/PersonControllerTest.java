@@ -93,7 +93,7 @@ class PersonControllerTest {
         String firstName = "firstName";
         String lastName = "lastName";
         when(personService.deletePerson(any(String.class), any(String.class))).thenReturn(true);
-        mockMvc.perform(delete("/person/{firstName}{lastName}", firstName, lastName))
+        mockMvc.perform(delete("/person/{firstName}_{lastName}", firstName, lastName))
                 .andExpect(status().isOk());
     }
 
@@ -102,7 +102,7 @@ class PersonControllerTest {
         String firstName = "test";
         String lastName = "test";
         when(personService.deletePerson(any(String.class), any(String.class))).thenReturn(false);
-        mockMvc.perform(delete("/person/{firstName}{lastName}", firstName, lastName))
+        mockMvc.perform(delete("/person/{firstName}_{lastName}", firstName, lastName))
                 .andExpect(status().isNotFound());
     }
 }

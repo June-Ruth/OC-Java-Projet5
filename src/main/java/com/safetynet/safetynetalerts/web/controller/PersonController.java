@@ -123,7 +123,7 @@ public class PersonController {
      * @param lastName of the person to delete
      * @return 200 - OK if the person is correctly deleted
      */
-    @DeleteMapping(value = "/person/{firstName}{lastName}")
+    @DeleteMapping(value = "/person/{firstName}_{lastName}")
     public ResponseEntity<Void> deletePerson(
             @PathVariable final String firstName,
             @PathVariable final String lastName) {
