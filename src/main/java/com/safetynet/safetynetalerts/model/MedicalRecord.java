@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
@@ -90,7 +89,7 @@ public class MedicalRecord {
      * @param pFirstName .
      */
     public void setFirstName(final String pFirstName) {
-        this.firstName = pFirstName;
+        firstName = pFirstName;
     }
 
     /**
@@ -106,7 +105,7 @@ public class MedicalRecord {
      * @param pLastName .
      */
     public void setLastName(final String pLastName) {
-        this.lastName = pLastName;
+        lastName = pLastName;
     }
 
     /**
@@ -122,14 +121,13 @@ public class MedicalRecord {
      * @param pBirthdate .
      */
     public void setBirthdate(final LocalDate pBirthdate) {
-        this.birthdate = pBirthdate;
+        birthdate = pBirthdate;
     }
 
     /**
      * Getter Nullable.
      * @return medications as List.
      */
-    @Nullable
     public List<String> getMedications() {
         return medications;
     }
@@ -138,15 +136,14 @@ public class MedicalRecord {
      * Setter Nullable.
      * @param pMedications as List.
      */
-    public void setMedications(@Nullable final List<String> pMedications) {
-        this.medications = pMedications;
+    public void setMedications(final List<String> pMedications) {
+        medications = pMedications;
     }
 
     /**
      * Getter Nullable.
      * @return allergies as List.
      */
-    @Nullable
     public List<String> getAllergies() {
         return allergies;
     }
@@ -155,8 +152,8 @@ public class MedicalRecord {
      * Setter Nullable.
      * @param pAllergies .
      */
-    public void setAllergies(@Nullable final List<String> pAllergies) {
-        this.allergies = pAllergies;
+    public void setAllergies(final List<String> pAllergies) {
+        allergies = pAllergies;
     }
 
     /**

@@ -3,7 +3,6 @@ package com.safetynet.safetynetalerts.web.controller;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.service.MedicalRecordService;
 import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
-import com.safetynet.safetynetalerts.web.exceptions.InvalidArgumentsException;
 import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +26,8 @@ public class MedicalRecordController {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(MedicalRecordController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(MedicalRecordController.class);
     /**
      * @see MedicalRecordService
      */
@@ -50,9 +50,9 @@ public class MedicalRecordController {
      * even if list is empty.
      * @return Set of all the medical Record
      */
-    @GetMapping(value = "/medicalrecord")
+    @GetMapping(value = "/medicalrecords")
     public Set<MedicalRecord> getMedicalRecords() {
-        Set<MedicalRecord> result = medicalRecordService.getMedicalsRecords();
+        Set<MedicalRecord> result = medicalRecordService.getAllMedicalRecords();
         LOGGER.info("Get all medical records : {}", result);
         return result;
     }
@@ -61,8 +61,7 @@ public class MedicalRecordController {
      * Save a new Medical Record.
      * Duplicate are not allowed.
      * If the arguments fields of the medical record to add are not correct,
-     * then throw InvalidArgumentsException
-     * and HTTP Status will be 400 - Bad Request.
+     * HTTP Status will be 400 - Bad Request.
      * If Medical Record first name and last name are already existing
      * (= duplicate), then throw AlreadyExistingException
      * and HTTP Status will be 409 - Conflict.
@@ -82,7 +81,8 @@ public class MedicalRecordController {
                     .toUri();
             return ResponseEntity.created(location).build();
         } else {
-            RuntimeException e = new AlreadyExistingException("The medical record for "
+            RuntimeException e =
+                    new AlreadyExistingException("The medical record for "
                     + medicalRecord.getFirstName()
                     + " " + medicalRecord.getLastName()
                     + " is already existing. Cannot add it.");
@@ -97,8 +97,7 @@ public class MedicalRecordController {
      * the first name and last name of the person concerned.
      * It's not possible to update first name and last name.
      * If the arguments fields of the medical record to update are not correct,
-     * then throw InvalidArgumentsException
-     * and HTTP Status will be 400 - Bad Request.
+     * HTTP Status will be 400 - Bad Request.
      * If Medical Record first name and last name is not existing,
      * then throw NotFoundException
      * and HTTP Status will be 404 - Not Found.
@@ -108,15 +107,6 @@ public class MedicalRecordController {
     @PutMapping(value = "/medicalrecord")
     public ResponseEntity<Void> updateMedicalRecord(@Valid
             @RequestBody final MedicalRecord medicalRecord) {
-        //TODO : voir comment compléter pour
-        // que vérifie tous les champs et pas juste les champs
-        // servant à l'identification (sans Hibernate Validator)
-        if (medicalRecord.getLastName() == null
-                || medicalRecord.getFirstName() == null) {
-            throw new InvalidArgumentsException(
-                    "First name or/and last name is null. Cannot update it.");
-        }
-
         if (medicalRecordService.updateMedicalRecord(medicalRecord)) {
             LOGGER.info("Medical Record was updated.");
             return ResponseEntity.ok().build();

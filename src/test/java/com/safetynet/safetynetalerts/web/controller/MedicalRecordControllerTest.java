@@ -28,7 +28,7 @@ class MedicalRecordControllerTest {
 
     @Test
     void getMedicalRecordsTest() throws Exception {
-        mockMvc.perform(get("/medicalrecord")).
+        mockMvc.perform(get("/medicalrecords")).
                 andExpect(status().isOk());
     }
 

@@ -3,7 +3,6 @@ package com.safetynet.safetynetalerts.web.controller;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.service.PersonService;
 import com.safetynet.safetynetalerts.web.exceptions.AlreadyExistingException;
-import com.safetynet.safetynetalerts.web.exceptions.InvalidArgumentsException;
 import com.safetynet.safetynetalerts.web.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +26,8 @@ public class PersonController {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(PersonController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(PersonController.class);
     /**
      * @see PersonService
      */
@@ -49,19 +49,18 @@ public class PersonController {
      * if we can access to all entities, even if list is empty.
      * @return Set of all persons
      */
-    @GetMapping(value = "/person")
+    @GetMapping(value = "/persons")
     public Set<Person> getPersons() {
         Set<Person> result = personService.getPersons();
         LOGGER.info("Get all persons : {}", result);
-        return result ;
+        return result;
     }
 
     /**
      * Save a new Person.
      * Duplicate are not allowed.
      * If the arguments fields of the person to add are not correct,
-     * then throw InvalidArgumentsException
-     * and HTTP Status will be 400 - Bad Request.
+     * HTTP Status will be 400 - Bad Request.
      * If Person first name and last name are already existing (= duplicate),
      * then throw AlreadyExistingException
      * and HTTP Status will be 409 - Conflict.
@@ -80,7 +79,8 @@ public class PersonController {
                     .toUri();
             return ResponseEntity.created(location).build();
         } else {
-            RuntimeException e = new AlreadyExistingException("The following person "
+            RuntimeException e = new AlreadyExistingException(
+                    "The following person "
                     + person.getFirstName() + " " + person.getLastName()
                     + " is already existing. Cannot add it.");
             LOGGER.error(e);
@@ -93,8 +93,7 @@ public class PersonController {
      * Update an existing Person depending on its first name and last name.
      * It's not possible to update first name and last name.
      * If the arguments fields of the person to update are not correct,
-     * then throw InvalidArgumentsException
-     * and HTTP Status will be 400 - Bad Request.
+     * HTTP Status will be 400 - Bad Request.
      * If Person first name and last name is not existing,
      * then throw NotFoundException
      * and HTTP Status will be 404 - Not Found.
@@ -139,5 +138,4 @@ public class PersonController {
             throw e;
         }
     }
-
 }

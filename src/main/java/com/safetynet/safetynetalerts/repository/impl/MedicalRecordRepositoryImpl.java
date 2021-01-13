@@ -16,7 +16,8 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(MedicalRecordRepositoryImpl.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(MedicalRecordRepositoryImpl.class);
     /**
      * @see DataBase
      */
@@ -63,7 +64,6 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
             return null;
         }
     }
-
 
     /**
      * Save a medical record.
@@ -118,4 +118,6 @@ public class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
         LOGGER.debug("Process to delete all the defined set.");
         return medicalRecords.removeAll(medicalRecordsToDelete);
     }
+
+
 }

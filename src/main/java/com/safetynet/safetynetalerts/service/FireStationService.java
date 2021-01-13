@@ -14,7 +14,8 @@ public class FireStationService {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(FireStationService.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(FireStationService.class);
     /**
      * @see FireStationRepositoryImpl
      */
@@ -87,5 +88,31 @@ public class FireStationService {
                 + stationNumber + " find. Process to delete them.");
         return fireStationRepositoryImpl.deleteAll(fireStationsToDelete);
     }
+
+    /**
+     * Get all address covered by station number.
+     * @param stationNumber .
+     * @return set of address.
+     */
+    public Set<String> getAllAddressByStationNumber(final int stationNumber) {
+        LOGGER.debug("Process to find all address"
+                + "cover by station number " + stationNumber);
+        return fireStationRepositoryImpl
+                .findAllAddressByStationNumber(stationNumber);
+    }
+
+    /**
+     * Get fire station by address.
+     * @param address to find.
+     * @return fire station.
+     */
+    public FireStation getByAddress(final String address) {
+        LOGGER.debug("Process to find fire station at address " + address);
+        return fireStationRepositoryImpl.findByAddress(address);
+    }
+
+
+
+
 
 }

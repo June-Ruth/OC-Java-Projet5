@@ -9,10 +9,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -83,4 +83,65 @@ class PersonServiceTest {
         verify(personRepositoryImpl, times(1)).findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
         verify(personRepositoryImpl, times(0)).delete(person);
     }
+
+    @Test
+    void getByFirstNameAndLastNameExistingTest() {
+        when(personRepositoryImpl.findByFirstNameAndLastName(anyString(), anyString())).thenReturn(person);
+        assertEquals(person, personService.getByFirstNameAndLastName(person.getFirstName(), person.getLastName()));
+        verify(personRepositoryImpl, times(1)).findByFirstNameAndLastName(anyString(), anyString());
+    }
+
+    @Test
+    void getByFirstNameAndLastNameUnknownTest() {
+        when(personRepositoryImpl.findByFirstNameAndLastName(anyString(), anyString())).thenReturn(null);
+        assertNull(personService.getByFirstNameAndLastName(person.getFirstName(), person.getLastName()));
+        verify(personRepositoryImpl, times(1)).findByFirstNameAndLastName(anyString(), anyString());
+    }
+
+    @Test
+    void getAllEmailInCityExistingTest() {
+        Set<String> mailList = new HashSet<>();
+        mailList.add(person.getEmail());
+        when(personRepositoryImpl.findAllEmailByCity("city")).thenReturn(mailList);
+        assertEquals(1, personService.getAllEmailInCity("city").size());
+        verify(personRepositoryImpl, times(1)).findAllEmailByCity("city");
+    }
+
+    @Test
+    void getAllEmailInCityUnknownTest() {
+        when(personRepositoryImpl.findAllEmailByCity("city")).thenReturn(null);
+        assertNull(personService.getAllEmailInCity("city"));
+        verify(personRepositoryImpl, times(1)).findAllEmailByCity("city");
+    }
+
+    @Test
+    void getAllByAddressExistingTest() {
+        when(personRepositoryImpl.findAllByAddress("address")).thenReturn(persons);
+        assertEquals(2, personService.getAllByAddress("address").size());
+        verify(personRepositoryImpl, times(1)).findAllByAddress("address");
+    }
+
+    @Test
+    void getAllByAddressUnknownTest() {
+        when(personRepositoryImpl.findAllByAddress("address")).thenReturn(null);
+        assertNull(personService.getAllByAddress("address"));
+        verify(personRepositoryImpl, times(1)).findAllByAddress("address");
+    }
+
+    @Test
+    void findAllPhoneByAddressExistingTest() {
+        Set<String> phoneList = new HashSet<>();
+        phoneList.add(person.getPhone());
+        when(personRepositoryImpl.findAllPhoneByAddress("address")).thenReturn(phoneList);
+        assertEquals(1, personService.findAllPhoneByAddress("address").size());
+        verify(personRepositoryImpl, times(1)).findAllPhoneByAddress("address");
+    }
+
+    @Test
+    void findAllPhoneByAddressUnknownTest() {
+        when(personRepositoryImpl.findAllPhoneByAddress("address")).thenReturn(null);
+        assertNull(personService.findAllPhoneByAddress("address"));
+        verify(personRepositoryImpl, times(1)).findAllPhoneByAddress("address");
+    }
+
 }

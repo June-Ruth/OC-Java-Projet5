@@ -16,7 +16,8 @@ public class PersonRepositoryImpl implements PersonRepository {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(PersonRepositoryImpl.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(PersonRepositoryImpl.class);
     /**
      * @see DataBase
      */
@@ -40,7 +41,7 @@ public class PersonRepositoryImpl implements PersonRepository {
      * Find a person by its name.
      * @param firstName searched
      * @param lastName searched
-     * @return person finded
+     * @return person found
      */
     @Override
     public Person findByFirstNameAndLastName(
@@ -62,6 +63,71 @@ public class PersonRepositoryImpl implements PersonRepository {
             return null;
         }
     }
+
+    /**
+     * Find all phone by address.
+     * @param address .
+     * @return list of all phone at the address
+     */
+    public Set<String> findAllPhoneByAddress(final String address) {
+        Set<String> result = new HashSet<>();
+        persons.iterator().forEachRemaining((person -> {
+            if (person.getAddress().equals(address)) {
+                result.add(person.getPhone());
+            }
+        }));
+        if (result.iterator().hasNext()) {
+            LOGGER.debug("Phone find for address " + address);
+            return result;
+        } else {
+            LOGGER.debug("No phone found at address " + address);
+            return null;
+        }
+    }
+
+    /**
+     * Find all email by city.
+     * @param city searched
+     * @return emails found
+     */
+    public Set<String> findAllEmailByCity(
+            final String city) {
+        Set<String> result = new HashSet<>();
+        persons.iterator().forEachRemaining((person) -> {
+            if (person.getCity().equals(city)) {
+                result.add(person.getEmail());
+            }
+        });
+        if (result.iterator().hasNext()) {
+            LOGGER.debug("Find Emails in city " + city);
+            return result;
+        } else {
+            LOGGER.debug("No emails found in city " + city);
+            return null;
+        }
+    }
+
+    /**
+     * find all persons by address.
+     * @param address .
+     * @return set of inhabitant at the address
+     */
+    public Set<Person> findAllByAddress(final String address) {
+        Set<Person> result = new HashSet<>();
+        persons.iterator().forEachRemaining((person -> {
+            if (person.getAddress().equals(address)) {
+                result.add(person);
+            }
+        }));
+        if (result.iterator().hasNext()) {
+            LOGGER.debug("Find people at the address " + address);
+            return result;
+        } else {
+            LOGGER.debug("Find no person at the address " + address);
+            return null;
+        }
+    }
+
 
     /**
      * Save a person.

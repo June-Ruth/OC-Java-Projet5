@@ -26,7 +26,7 @@ public class DataBaseTestService {
         Set<MedicalRecord> medicalRecords = dataBase.getMedicalRecords();
 
         Person person1 = new Person("firstName", "lastName", "address", "city", 123, "123-456-7890", "mail@email.com");
-        Person person2 = new Person("firstName2", "lastName2", "address2", "city", 123, "123-456-7890", "mail@email.com");
+        Person person2 = new Person("firstName2", "lastName2", "address2", "city", 123, "123-456-7890", "mail2@email.com");
 
         FireStation fireStation1 = new FireStation("address", 1);
         FireStation fireStation2 = new FireStation("address2", 2);

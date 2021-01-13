@@ -17,7 +17,8 @@ public enum DataBaseManager {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger(DataBaseManager.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(DataBaseManager.class);
     /**
      * @see DataBase
      */

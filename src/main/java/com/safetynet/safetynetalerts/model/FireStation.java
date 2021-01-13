@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.util.Objects;
@@ -49,7 +48,7 @@ public class FireStation {
      * @param pAddress .
      */
     public void setAddress(final String pAddress) {
-        this.address = pAddress;
+        address = pAddress;
     }
 
     /**
@@ -65,7 +64,7 @@ public class FireStation {
      * @param pStation .
      */
     public void setStation(final int pStation) {
-        this.station = pStation;
+        station = pStation;
     }
 
     /**

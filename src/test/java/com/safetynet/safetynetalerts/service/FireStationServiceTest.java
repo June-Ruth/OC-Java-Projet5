@@ -10,10 +10,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
+import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -102,4 +102,42 @@ class FireStationServiceTest {
         verify(fireStationRepositoryImpl, times(0)).deleteAll(fireStations);
     }
 
+
+    @Test
+    void getAllAddressByStationNumberExistingTest() {
+        int stationNumber = 1;
+        Set<String> address = new HashSet<>();
+        address.add("address");
+        when(fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber)).thenReturn(address);
+        assertEquals(1, fireStationService.getAllAddressByStationNumber(stationNumber).size());
+        verify(fireStationRepositoryImpl, times(1)).findAllAddressByStationNumber(stationNumber);
+    }
+
+    @Test
+    void getAllAddressByStationNumberUnknownTest() {
+        int stationNumber = 1;
+        Set<String> address = new HashSet<>();
+        address.add("address");
+        when(fireStationRepositoryImpl.findAllAddressByStationNumber(stationNumber)).thenReturn(null);
+        assertNull(fireStationService.getAllAddressByStationNumber(stationNumber));
+        verify(fireStationRepositoryImpl, times(1)).findAllAddressByStationNumber(stationNumber);
+    }
+
+    @Test
+    void getByAddressExistingTest() {
+        String address = "address";
+        when(fireStationRepositoryImpl.findByAddress(address)).thenReturn(fireStation);
+        fireStationService.getByAddress(address);
+        assertEquals(address, fireStation.getAddress());
+        assertEquals(1, fireStation.getStation());
+        verify(fireStationRepositoryImpl, times(1)).findByAddress(address);
+    }
+
+    @Test
+    void getByAddressUnknownTest() {
+        String address = "address";
+        when(fireStationRepositoryImpl.findByAddress(address)).thenReturn(null);
+        assertNull(fireStationService.getByAddress(address));
+        verify(fireStationRepositoryImpl, times(1)).findByAddress(address);
+    }
 }
