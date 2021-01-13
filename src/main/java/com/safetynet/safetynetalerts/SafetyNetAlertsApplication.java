@@ -6,11 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EntityScan("com.safetynetalerts.model")
 @SpringBootApplication
-public final class SafetyNetAlertsApplication {
-	/**
-	 * Constructor.
-	 */
-	private SafetyNetAlertsApplication() { }
+public class SafetyNetAlertsApplication {
 	/**
 	 * Main.
 	 * @param args .
