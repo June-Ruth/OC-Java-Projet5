@@ -128,7 +128,7 @@ public class MedicalRecordController {
      * @param lastName of the person's medical record to delete
      * @return 200 - OK if the medical record is correctly deleted
      */
-    @DeleteMapping(value = "/medicalrecord/{firstName}{lastName}")
+    @DeleteMapping(value = "/medicalrecord/{firstName}_{lastName}")
     public ResponseEntity<Void> deleteMedicalRecord(
             @PathVariable final String firstName,
             @PathVariable final String lastName) {

@@ -69,7 +69,7 @@ public class ChildAlertController {
                             .convertToPersonNameDTOSet(personsAtAddressNew);
                     ChildAlertDTO childAlertDTO = DtoConverter
                             .convertToChildInfoDTO(
-                                    person, age, otherPersonsAtAddress);
+                                     person, age, otherPersonsAtAddress);
                     childrenAtAddress.add(childAlertDTO);
                 }
             }));

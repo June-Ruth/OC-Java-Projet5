@@ -95,7 +95,7 @@ class MedicalRecordControllerTest {
         String firstName = "firstName";
         String lastName = "lastName";
         when(medicalRecordService.deleteMedicalRecord(any(String.class), any(String.class))).thenReturn(true);
-        mockMvc.perform(delete("/medicalrecord/{firstName}{lastName}", firstName, lastName))
+        mockMvc.perform(delete("/medicalrecord/{firstName}_{lastName}", firstName, lastName))
                 .andExpect(status().isOk());
     }
 
@@ -104,7 +104,7 @@ class MedicalRecordControllerTest {
         String firstName = "test";
         String lastName = "test";
         when(medicalRecordService.deleteMedicalRecord(any(String.class), any(String.class))).thenReturn(false);
-        mockMvc.perform(delete("/medicalrecord/{firstName}{lastName}", firstName, lastName))
+        mockMvc.perform(delete("/medicalrecord/{firstName}_{lastName}", firstName, lastName))
                 .andExpect(status().isNotFound());
     }
 }
